@@ -22,10 +22,6 @@ public class Controller {
 	// Single navigation instance used by all classes
 	private static Navigation navigation;
 
-	// Set vehicle constants
-	public static final double WHEEL_RAD = 2.1;
-	public static final double TRACK = 11.25;
-	private static int startingCorner = 0;
 
 	// Constants for part 2
 	private static double lowerLeftX = 2 * USLocalizer.TILESIZE;
@@ -47,7 +43,7 @@ public class Controller {
 		ColourCalibration colourCalibration = new ColourCalibration();
 		Thread colourCalibrationThread = new Thread(colourCalibration);
 		// Odometer related objects
-		Odometer odometer = Odometer.getOdometer(leftMotor, rightMotor, TRACK, WHEEL_RAD);
+		Odometer odometer = Odometer.getOdometer(leftMotor, rightMotor, Robot.TRACK, Robot.WHEEL_RAD);
 
 		// usSensor is the instance
 		SensorModes ultrasonicSensor = new EV3UltrasonicSensor(usPort);
@@ -61,7 +57,7 @@ public class Controller {
 		odoThread.start();
 
 		// Create ultrasonic and light localizer objects.
-		USLocalizer USLocalizer = new USLocalizer(odometer, leftMotor, rightMotor, usDistance, startingCorner,
+		USLocalizer USLocalizer = new USLocalizer(odometer, leftMotor, rightMotor, usDistance, 0,
 				navigation);
 		navigation.usLoc = USLocalizer;
 		LightLocalizer lightLocatizer = new LightLocalizer(odometer, leftMotor, rightMotor, navigation);

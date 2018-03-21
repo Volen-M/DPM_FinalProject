@@ -92,8 +92,8 @@ public class LightLocalizer {
 		// if we are not facing 0.0 then turn ourselves so that we are
 		if (odometer.getXYT()[2] <= 357 && odometer.getXYT()[2] >= 3) {
 			Sound.beep();
-			leftMotor.rotate(convertAngle(Controller.WHEEL_RAD, Controller.TRACK, -odometer.getXYT()[2] + 9), true);
-			rightMotor.rotate(-convertAngle(Controller.WHEEL_RAD, Controller.TRACK, -odometer.getXYT()[2] + 9), false);
+			leftMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), true);
+			rightMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), false);
 		}
 
 		leftMotor.stop(true);
@@ -163,8 +163,8 @@ public class LightLocalizer {
 		Sound.beep();
 
 		// Move backwards so our origin is close to origin
-		leftMotor.rotate(convertDistance(Controller.WHEEL_RAD, -10), true);
-		rightMotor.rotate(convertDistance(Controller.WHEEL_RAD, -10), false);
+		leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), true);
+		rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), false);
 
 	}
 }
