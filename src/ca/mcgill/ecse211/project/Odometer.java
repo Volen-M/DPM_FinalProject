@@ -11,8 +11,6 @@ public class Odometer extends OdometerData implements Runnable {
 	private int leftMotorTachoCount;
 	private int rightMotorTachoCount;
 	private int prevlMTC = 0, prevrMTC = 0; // prevlMTC = previousLeftMotorTachoCount, same for right
-	private EV3LargeRegulatedMotor leftMotor;
-	private EV3LargeRegulatedMotor rightMotor;
 
 	private final double TRACK;
 	private final double WHEEL_RAD;
@@ -29,11 +27,7 @@ public class Odometer extends OdometerData implements Runnable {
 	 * @param rightMotor
 	 * @throws OdometerExceptions
 	 */
-	private Odometer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, final double TRACK,
-			final double WHEEL_RAD) throws OdometerExceptions {
-
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
+	private Odometer(final double TRACK, final double WHEEL_RAD) throws OdometerExceptions {
 
 		// Reset the values of x, y and z to 0
 		this.setXYT(0, 0, 0);
@@ -55,12 +49,11 @@ public class Odometer extends OdometerData implements Runnable {
 	 * @return new or existing Odometer Object
 	 * @throws OdometerExceptions
 	 */
-	public synchronized static Odometer getOdometer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
-			final double TRACK, final double WHEEL_RAD) throws OdometerExceptions {
+	public synchronized static Odometer getOrCreateOdometer(final double TRACK, final double WHEEL_RAD) throws OdometerExceptions {
 		if (odo != null) { // Return existing object
 			return odo;
 		} else { // create object and return it
-			odo = new Odometer(leftMotor, rightMotor, TRACK, WHEEL_RAD);
+			odo = new Odometer(TRACK, WHEEL_RAD);
 			return odo;
 		}
 	}
@@ -91,14 +84,14 @@ public class Odometer extends OdometerData implements Runnable {
 
 			updateStart = System.currentTimeMillis();
 
-			leftMotorTachoCount = leftMotor.getTachoCount();
-			rightMotorTachoCount = rightMotor.getTachoCount();
+			leftMotorTachoCount = Robot.leftMotor.getTachoCount();
+			rightMotorTachoCount = Robot.rightMotor.getTachoCount();
 
 			/*
-			 * if the tachometer values don't change, add a true value to the checks list,
-			 * for a max of 100 (to save space) 20 true values or more mean the tachometer
-			 * values aren't changing for 20 iterations, and therefore that the robot is
-			 * stopped. if a different value is found, clear the checks list
+			 * if the tachometer values don't change, add 1 to checks,
+			 * for a max of 100 (to save space). checks > 20 means the tachometer
+			 * values aren't changing for 20 iterations or more, and therefore that the robot is
+			 * stopped. if a different value is found, clear checks
 			 */
 			if (leftMotorTachoCount == prevlMTC && rightMotorTachoCount == prevrMTC) {
 				if (checks < 100) {

@@ -12,7 +12,6 @@ public class USLocalizer {
 
 	private Odometer odometer;
 	private float[] usData;
-	private EV3LargeRegulatedMotor leftMotor, rightMotor;
 	private SampleProvider usDistance;
 	private double[] startingCoordinates = new double[2];
 
@@ -32,19 +31,15 @@ public class USLocalizer {
 	 * @param boolean
 	 * @param SampleProvider
 	 */
-	public USLocalizer(Odometer odo, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
-			SampleProvider usDistance, int corner, Navigation nav) {
+	public USLocalizer(Odometer odo, SampleProvider usDistance, int corner, Navigation nav) {
 		this.odometer = odo;
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
 		this.usDistance = usDistance;
 		this.usData = new float[this.usDistance.sampleSize()];
 		navigation = nav;
 
 		setStartingCoordinates(corner);
 
-		leftMotor.setSpeed(ROTATION_SPEED);
-		rightMotor.setSpeed(ROTATION_SPEED);
+		Robot.setSpeed(Robot.ROTATE_SPEED);
 	}
 
 	public void setStartingCoordinates(int corner) {
@@ -91,33 +86,27 @@ public class USLocalizer {
 
 		// Rotate to the wall
 		while (fetchUS() > d) {
-			leftMotor.backward();
-			rightMotor.forward();
+			Robot.rotateCounterClockWise();
 		}
 		// Rotate until it sees the open space
 		while (fetchUS() < d + k) {
-			leftMotor.backward();
-			rightMotor.forward();
+			Robot.rotateCounterClockWise();
 		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 		Sound.buzz();
 		// record angle
 		angleA = odometer.getXYT()[2];
 
 		// rotate the other way all the way until it sees the wall
 		while (fetchUS() > d) {
-			leftMotor.forward();
-			rightMotor.backward();
+			Robot.rotateClockWise();
 		}
 
 		// rotate until it sees open space
 		while (fetchUS() < d + k) {
-			leftMotor.forward();
-			rightMotor.backward();
+			Robot.rotateClockWise();
 		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 		Sound.buzz();
 		angleB = odometer.getXYT()[2];
 
@@ -132,8 +121,7 @@ public class USLocalizer {
 
 		// rotate robot to the theta = 0.0 using turning angle and we account for small
 		// error
-		leftMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, turningAngle + 5), true);
-		rightMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, turningAngle + 5), false);
+		Robot.rotateByAngle(turningAngle + 5, -1, 1);
 
 		// set theta to coordinate starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
@@ -149,16 +137,13 @@ public class USLocalizer {
 
 		// Rotate to open space
 		while (fetchUS() < d + k) {
-			leftMotor.backward();
-			rightMotor.forward();
+			Robot.rotateCounterClockWise();
 		}
 		// Rotate to the first wall
 		while (fetchUS() > d) {
-			leftMotor.backward();
-			rightMotor.forward();
+			Robot.rotateCounterClockWise();
 		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 
 		Sound.buzz();
 		// record angle
@@ -166,17 +151,14 @@ public class USLocalizer {
 
 		// rotate out of the wall range
 		while (fetchUS() < d + k) {
-			leftMotor.forward();
-			rightMotor.backward();
+			Robot.rotateClockWise();
 		}
 
 		// rotate to the second wall
 		while (fetchUS() > d) {
-			leftMotor.forward();
-			rightMotor.backward();
+			Robot.rotateClockWise();
 		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 		Sound.buzz();
 
 		angleB = odometer.getXYT()[2];
@@ -192,8 +174,7 @@ public class USLocalizer {
 		turningAngle = deltaTheta + odometer.getXYT()[2];
 
 		// rotate robot to the theta = 0.0 and we account for small error
-		leftMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, turningAngle - 3), true);
-		rightMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, turningAngle - 3), false);
+		Robot.rotateByAngle(turningAngle - 3, -1, 1);
 
 		// set odometer to theta to starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
