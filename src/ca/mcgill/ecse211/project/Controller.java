@@ -58,22 +58,14 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.moveBy(45);
+		navigation.moveBy(1*Robot.TILESIZE);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.turnTo(-45);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
-		
-
-		while (Button.waitForAnyPress() != Button.ID_DOWN)
-			;
-
-		navigation.turnTo(90);
+		navigation.moveBy(1*Robot.TILESIZE);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
@@ -81,7 +73,7 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.turnTo(-90);
+		navigation.moveBy(2*Robot.TILESIZE);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
@@ -89,7 +81,7 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.turnTo(270);
+		navigation.moveBy(2*Robot.TILESIZE);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
@@ -97,7 +89,15 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.turnTo(-270);
+		navigation.moveBy(6*Robot.TILESIZE);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.moveBy(6*Robot.TILESIZE);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		

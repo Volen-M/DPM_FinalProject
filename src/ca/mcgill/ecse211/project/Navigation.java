@@ -201,8 +201,8 @@ public class Navigation extends Thread {
 	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
-		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
-		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
+		leftMotor.rotate((int)(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), true);
+		rightMotor.rotate((int)(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), false);
 		stopRobot();
 	}
 	
