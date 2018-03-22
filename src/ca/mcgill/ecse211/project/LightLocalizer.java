@@ -13,7 +13,6 @@ public class LightLocalizer {
 	private double SENSOR_LENGTH = 11.9;
 
 	private Odometer odometer;
-	private EV3LargeRegulatedMotor leftMotor, rightMotor;
 	public Navigation navigation;
 	// Instantiate the EV3 Color Sensor
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
@@ -25,12 +24,9 @@ public class LightLocalizer {
 
 	double[] lineData;
 
-	public LightLocalizer(Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
-			Navigation nav) {
+	public LightLocalizer(Odometer odometer, Navigation nav) {
 
 		this.odometer = odometer;
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
 		prevSample = 0;
 
 		idColour = lightSensor.getRedMode(); // set the sensor light to red
@@ -45,8 +41,7 @@ public class LightLocalizer {
 	public void localize(double finalX, double finalY, double finalTheta) {
 
 		int index = 0;
-		leftMotor.setSpeed(ROTATION_SPEED);
-		rightMotor.setSpeed(ROTATION_SPEED);
+		Robot.setSpeed(ROTATION_SPEED);
 
 		// ensure that we are close to origin before rotating
 		moveToIntersection();
@@ -54,8 +49,7 @@ public class LightLocalizer {
 		// Scan all four lines and record our angle
 		while (index < 4) {
 
-			leftMotor.forward();
-			rightMotor.backward();
+			Robot.rotateClockWise();
 
 			sample = fetchSample();
 
@@ -66,8 +60,7 @@ public class LightLocalizer {
 			}
 		}
 
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 
 		double deltax, deltay, thetax, thetay;
 
@@ -80,24 +73,21 @@ public class LightLocalizer {
 
 		// travel to one-one to correct position
 		odometer.setXYT(deltax, deltay, odometer.getXYT()[2]);
-		if (this.navigation.calculateDistance(odometer.getXYT()[2], odometer.getXYT()[1], 0, 0) > 1.5) {
+		if (Robot.calculateDistance(odometer.getXYT()[2], odometer.getXYT()[1], 0, 0) > 1.5) {
 			this.navigation.travelTo(0, 0, false, null);
 		}
 
 		this.navigation.turnTo(0.0);
 
-		leftMotor.setSpeed(ROTATION_SPEED / 2);
-		rightMotor.setSpeed(ROTATION_SPEED / 2);
+		Robot.setSpeed(ROTATION_SPEED / 2);
 
 		// if we are not facing 0.0 then turn ourselves so that we are
 		if (odometer.getXYT()[2] <= 357 && odometer.getXYT()[2] >= 3) {
 			Sound.beep();
-			leftMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), true);
-			rightMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), false);
+			Robot.rotateByAngle(-odometer.getXYT()[2] + 9, 1, -1);
 		}
 
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 		odometer.setXYT(finalX * USLocalizer.TILESIZE, finalY * USLocalizer.TILESIZE, finalTheta - 5);
 		lightSensor.close();
 
@@ -145,8 +135,7 @@ public class LightLocalizer {
 
 		navigation.turnTo(Math.PI / 4);
 
-		leftMotor.setSpeed(ROTATION_SPEED);
-		rightMotor.setSpeed(ROTATION_SPEED);
+		Robot.setSpeed(ROTATION_SPEED);
 
 		// get sample
 		sample = fetchSample();
@@ -154,17 +143,14 @@ public class LightLocalizer {
 		// move forward past the origin until light sensor sees the line
 		while (sample > 0.38) {
 			sample = fetchSample();
-			leftMotor.forward();
-			rightMotor.forward();
+			Robot.forward();
 
 		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		Robot.stop();
 		Sound.beep();
 
 		// Move backwards so our origin is close to origin
-		leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), true);
-		rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), false);
+		Robot.rotateByDistance(-10, 1, 1);
 
 	}
 }
