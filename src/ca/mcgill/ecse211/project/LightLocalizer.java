@@ -87,7 +87,7 @@ public class LightLocalizer {
 		}
 
 		navigation.stop();
-		odometer.setXYT(finalX * USLocalizer.TILESIZE, finalY * USLocalizer.TILESIZE, finalTheta - 5);
+		odometer.setXYT(finalX * Robot.TILESIZE, finalY * Robot.TILESIZE, finalTheta - 5);
 		lightSensor.close();
 
 	}

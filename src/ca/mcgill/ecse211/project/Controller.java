@@ -18,10 +18,10 @@ public class Controller {
 	private static Navigation navigation;
 
 	// Constants for part 2
-	private static double lowerLeftX = 2 * USLocalizer.TILESIZE;
-	private static double lowerLeftY = 3 * USLocalizer.TILESIZE;
-	private static double upperRightX = 6 * USLocalizer.TILESIZE;
-	private static double upperRightY = 7 * USLocalizer.TILESIZE;
+	private static double lowerLeftX = 2 * Robot.TILESIZE;
+	private static double lowerLeftY = 3 * Robot.TILESIZE;
+	private static double upperRightX = 6 * Robot.TILESIZE;
+	private static double upperRightY = 7 * Robot.TILESIZE;
 	private static int targetBlock = 3;
 
 	
@@ -58,7 +58,7 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.turnTo(45);
+		navigation.moveBy(45);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		

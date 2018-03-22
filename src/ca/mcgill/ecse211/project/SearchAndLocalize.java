@@ -9,7 +9,7 @@ public class SearchAndLocalize {
 	private Navigation navigation;
 	private boolean foundBlock = false;
 	private ColourCalibration colourCalib;
-	private double minCoord = 0.0, maxCoord = 12 * USLocalizer.TILESIZE;
+	private double minCoord = 0.0, maxCoord = 12 * Robot.TILESIZE;
 	private double[][] destinations;
 
 	public SearchAndLocalize(double llx, double lly, double urx, double ury, int tb, Navigation nav,

@@ -11,6 +11,9 @@ public final class Robot {
 	public static final int GEAR_ACCELERATION = 500;
 	public static final double WHEEL_RAD = 2.1;
 	public static final double TRACK = 12.7;
+	public static final double D = 40.0;
+	public static final double K = 2;
+	public static double TILESIZE = 30.48;
 	
 	public Robot() {
 		

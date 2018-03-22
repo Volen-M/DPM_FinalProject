@@ -112,7 +112,7 @@ public class Navigation extends Thread {
 		 */
 		int sideDistance = fetchSideUS();
 		int frontDistance = this.usLoc.fetchUS();
-		if (sideDistance < (searcher.lowerLeftX - searcher.upperRightX) / 2 * USLocalizer.TILESIZE + 5) {
+		if (sideDistance < (searcher.lowerLeftX - searcher.upperRightX) / 2 * Robot.TILESIZE + 5) {
 			return 1;
 		} else if (frontDistance < 5) {
 			return 2;
@@ -147,6 +147,16 @@ public class Navigation extends Thread {
 		}
 		stopRobot();
 		navigating = false;
+	}
+	
+	public static void moveBy(double distance) {
+		if (distance>=0) {
+		rotateByDistance(distance, 1, 1);
+		}
+		else {
+			rotateByDistance(distance, -1, -1);
+			
+		}
 	}
 	
 	
@@ -204,8 +214,8 @@ public class Navigation extends Thread {
 	 */
 	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
 		if (leftWheelDir == 1 && rightWheelDir == -1) {
-			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees)+2, true);
-			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees)+2, false);
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), false);
 
 		}
 		else {

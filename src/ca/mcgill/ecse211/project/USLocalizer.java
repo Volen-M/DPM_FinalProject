@@ -16,10 +16,6 @@ public class USLocalizer {
 	// Create a navigation
 	public Navigation navigation;
 
-	private double d = 40.0;
-	private double k = 2;
-	public static double TILESIZE = 30.48;
-
 	/**
 	 * Constructor to initialize variables
 	 * 
@@ -46,16 +42,16 @@ public class USLocalizer {
 			this.startingCoordinates[1] = 0.0;
 			break;
 		case 1:
-			this.startingCoordinates[0] = 6 * TILESIZE;
+			this.startingCoordinates[0] = 6 * Robot.TILESIZE;
 			this.startingCoordinates[1] = 0.0;
 			break;
 		case 2:
-			this.startingCoordinates[0] = 6 * TILESIZE;
-			this.startingCoordinates[1] = 6 * TILESIZE;
+			this.startingCoordinates[0] = 6 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 6 * Robot.TILESIZE;
 			break;
 		case 3:
 			this.startingCoordinates[0] = 0.0;
-			this.startingCoordinates[1] = 6 * TILESIZE;
+			this.startingCoordinates[1] = 6 * Robot.TILESIZE;
 			break;
 		}
 	}
@@ -82,28 +78,28 @@ public class USLocalizer {
 		double angleA, angleB, turningAngle;
 
 		// Rotate to the wall
-		while (fetchUS() > d) {
+		while (fetchUS() > Robot.D) {
 			navigation.rotateCounterClockWise();
 		}
 		// Rotate until it sees the open space
-		while (fetchUS() < d + k) {
+		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateCounterClockWise();
 		}
-		navigation.stop();
+		navigation.stopRobot();;
 		Sound.buzz();
 		// record angle
 		angleA = odometer.getXYT()[2];
 
 		// rotate the other way all the way until it sees the wall
-		while (fetchUS() > d) {
+		while (fetchUS() > Robot.D) {
 			navigation.rotateClockWise();
 		}
 
 		// rotate until it sees open space
-		while (fetchUS() < d + k) {
+		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateClockWise();
 		}
-		navigation.stop();
+		navigation.stopRobot();;
 		Sound.buzz();
 		angleB = odometer.getXYT()[2];
 
@@ -133,29 +129,29 @@ public class USLocalizer {
 		double angleA, angleB, turningAngle;
 
 		// Rotate to open space
-		while (fetchUS() < d + k) {
+		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateCounterClockWise();
 		}
 		// Rotate to the first wall
-		while (fetchUS() > d) {
+		while (fetchUS() > Robot.D) {
 			navigation.rotateCounterClockWise();
 		}
-		navigation.stop();
+		navigation.stopRobot();;
 
 		Sound.buzz();
 		// record angle
 		angleA = odometer.getXYT()[2];
 
 		// rotate out of the wall range
-		while (fetchUS() < d + k) {
+		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateClockWise();
 		}
 
 		// rotate to the second wall
-		while (fetchUS() > d) {
+		while (fetchUS() > Robot.D) {
 			navigation.rotateClockWise();
 		}
-		navigation.stop();
+		navigation.stopRobot();;
 		Sound.buzz();
 
 		angleB = odometer.getXYT()[2];
