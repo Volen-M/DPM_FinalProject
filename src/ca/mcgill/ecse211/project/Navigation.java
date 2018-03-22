@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.project;
 
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
@@ -23,6 +24,11 @@ public class Navigation extends Thread {
 	public USLocalizer usLoc;
 
 	private static final Port usSidePort = LocalEV3.get().getPort("S4");
+
+	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
+	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
+	
 	private static SensorModes sideUltrasonicSensor;
 	private static SampleProvider sideUsDistance;
 	private float[] sideUsData;
@@ -32,7 +38,7 @@ public class Navigation extends Thread {
 	// constructor for navigation
 	public Navigation(Odometer odo) {
 		this.odometer = odo;
-		Robot.setAcceleration(Robot.ACCELERATION);
+		setAcceleration(Robot.ACCELERATION);
 
 		// usSensor is the instance
 		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
@@ -71,11 +77,11 @@ public class Navigation extends Thread {
 		// Turn to the correct angle towards the endpoint
 		turnTo(mDegrees);
 
-		Robot.setSpeed(Robot.FORWARD_SPEED);
-		Robot.rotateByDistance(hypot, 1, 1);
+		setSpeed(Robot.FORWARD_SPEED);
+		rotateByDistance(hypot, 1, 1);
 
-		// stop vehicle
-		Robot.stop();
+		// stopRobot vehicle
+		stopRobot();
 		navigating = false;
 	}
 
@@ -86,7 +92,7 @@ public class Navigation extends Thread {
 	private void goToBlock(SearchAndLocalize searcher) {
 		int dist = this.usLoc.fetchUS();
 		if (dist > distanceSensorToBlock) {
-			Robot.rotateByDistance(dist - distanceSensorToBlock, 1, 1);
+			rotateByDistance(dist - distanceSensorToBlock, 1, 1);
 		}
 		searcher.getCC().colourDetection();
 		if (searcher.getCC().isBlock()) {
@@ -129,18 +135,110 @@ public class Navigation extends Thread {
 		}
 
 		// set Speed
-		Robot.setSpeed(Robot.ROTATE_SPEED);
+		setSpeed(Robot.ROTATE_SPEED);
 		
 		// if angle is negative, turn to the left
 		if (degrees < 0) {
-			Robot.rotateByAngle(-1 * degrees, -1, 1);
+			rotateByAngle(-1 * degrees, -1, 1);
 
 		} else {
 			// angle is positive, turn to the right
-			Robot.rotateByAngle(degrees, 1, -1);
+			rotateByAngle(degrees, 1, -1);
 		}
-		Robot.stop();
+		stopRobot();
 		navigating = false;
+	}
+	
+	
+	
+	/**
+	 * Freely sets both wheels forward indefinitely.
+	 * 
+	 */
+	public static void forward() {
+		leftMotor.forward();
+		rightMotor.forward();
+	}
+	
+	/**
+	 * Freely rotates the robot clockwise indefinitely.
+	 */
+	public static void rotateClockWise() {
+		leftMotor.forward();
+		rightMotor.backward();
+	}
+	
+	/**
+	 * Freely rotates the robot counter-clockwise indefinitely.
+	 */
+	public static void rotateCounterClockWise() {
+		leftMotor.backward();
+		rightMotor.forward();
+	}
+	
+	/**
+	 * Stop both wheels.
+	 */
+	public static void stopRobot() {
+		leftMotor.stop(true);
+		rightMotor.stop(false);
+	}
+	
+	/**
+	 * Travel distance dist.
+	 * @param dist : distance to travel
+	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 */
+	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
+		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
+		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
+		stopRobot();
+	}
+	
+	/**
+	 * Turn by 'degrees' degrees.
+	 * @param degrees : angle to turn
+	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 */
+	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
+		leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
+		rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+		stopRobot();
+	}
+
+	
+	/**
+	 * Update the robot's acceleration
+	 * @param acc : desired acceleration
+	 */
+	public static void setAcceleration(int acc) {
+		leftMotor.setAcceleration(acc);
+		rightMotor.setAcceleration(acc);
+	}
+	
+	/**
+	 * Update the robot's speed.
+	 * @param sp : desired speed
+	 */
+	public static void setSpeed(int sp) {
+		leftMotor.setSpeed(sp);
+		rightMotor.setSpeed(sp);
+	}
+	
+	public static void landingGearOn() {
+		backMotor.setSpeed(Robot.GEAR_SPEED);
+		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
+		
+		backMotor.rotate(250);
+	}
+	
+	public static void landingGearOff() {
+		backMotor.setSpeed(Robot.GEAR_SPEED);
+		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
+		
+		backMotor.rotate(-250);
 	}
 
 	/**
