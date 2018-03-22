@@ -2,7 +2,6 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
@@ -94,31 +93,6 @@ public class LightLocalizer {
 	}
 
 	/**
-	 * This method allows the conversion of a distance to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @return
-	 */
-	private static int convertDistance(double radius, double distance) {
-		return (int) ((180.0 * distance) / (Math.PI * radius));
-	}
-
-	/**
-	 * This method allows the conversion of a angle to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @param angle
-	 * @return
-	 */
-	private static int convertAngle(double radius, double width, double angle) {
-		return convertDistance(radius, Math.PI * width * angle / 360.0);
-	}
-
-	/**
 	 * This method gets the color value of the light sensor
 	 * 
 	 */
@@ -133,24 +107,26 @@ public class LightLocalizer {
 	 */
 	public void moveToIntersection() {
 
-		navigation.turnTo(Math.PI / 4);
+		navigation.turnTo(-1 * Math.PI / 4);
 
 		Robot.setSpeed(ROTATION_SPEED);
 
 		// get sample
 		sample = fetchSample();
+		
+		Robot.forward();
 
 		// move forward past the origin until light sensor sees the line
-		while (sample > 0.38) {
-			sample = fetchSample();
-			Robot.forward();
-
-		}
+		while ((sample = fetchSample()) > 0.38);
 		Robot.stop();
 		Sound.beep();
 
+		
+		int distance = 10; //generic value
+		// TODO: change distance to distance between light sensor and wheelbase center
+		
 		// Move backwards so our origin is close to origin
-		Robot.rotateByDistance(-10, 1, 1);
+		Robot.rotateByDistance(-1 * distance, 1, 1);
 
 	}
 }

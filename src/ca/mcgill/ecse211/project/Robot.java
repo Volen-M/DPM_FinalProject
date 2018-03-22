@@ -22,7 +22,7 @@ public final class Robot {
 	
 	
 	/**
-	 * Free sets both wheels forward indefinitely.
+	 * Freely sets both wheels forward indefinitely.
 	 * 
 	 */
 	public static void forward() {
@@ -67,10 +67,10 @@ public final class Robot {
 	}
 	
 	/**
-	 * 
-	 * @param degrees
-	 * @param leftWheelDir
-	 * @param rightWheelDir
+	 * Turn by 'degrees' degrees.
+	 * @param degrees : angle to turn
+	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
 		leftMotor.rotate(leftWheelDir * convertAngle(WHEEL_RAD, TRACK, degrees), true);
