@@ -55,12 +55,52 @@ public class Controller {
 		navigation.usLoc = USLocalizer;
 		LightLocalizer lightLocatizer = new LightLocalizer(odometer, navigation);
 
-		navigation.landingGearOn();
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.turnTo(45);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.turnTo(-45);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
 
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
-		navigation.landingGearOff();
 
+		navigation.turnTo(90);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.turnTo(-90);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.turnTo(270);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		navigation.turnTo(-270);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			;
 		System.exit(0);

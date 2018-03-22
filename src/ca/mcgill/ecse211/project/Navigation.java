@@ -231,14 +231,14 @@ public class Navigation extends Thread {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
 		
-		backMotor.rotate(250);
+		backMotor.rotate(195);
 	}
 	
 	public static void landingGearOff() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
 		
-		backMotor.rotate(-250);
+		backMotor.rotate(-195);
 	}
 
 	/**
