@@ -7,6 +7,13 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Class containing all movement related behaviors.
+ * Extends Thread
+ * 
+ * @author Volen, Patrick, Bryan
+ *
+ */
 public class Navigation extends Thread {
 
 	private Odometer odometer;
@@ -35,7 +42,11 @@ public class Navigation extends Thread {
 
 	private static int distanceSensorToBlock = 2;
 
-	// constructor for navigation
+	/**
+	 * Navigation constructor
+	 * 
+	 * @param odo Odometer object to keep track of position for coordinate related movements
+	 */
 	public Navigation(Odometer odo) {
 		this.odometer = odo;
 		setAcceleration(Robot.ACCELERATION);
@@ -148,7 +159,10 @@ public class Navigation extends Thread {
 		stopRobot();
 		navigating = false;
 	}
-	
+	/**
+	 * Moves robot forward or back by certain amount
+	 * @param distance Amount to move by 
+	 */
 	public static void moveBy(double distance) {
 		if (distance>=0) {
 		rotateByDistance(distance, 1, 1);
@@ -243,14 +257,18 @@ public class Navigation extends Thread {
 		leftMotor.setSpeed(sp);
 		rightMotor.setSpeed(sp);
 	}
-	
+	/**
+	 * Lowers back wheels
+	 */
 	public static void landingGearOn() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
 		
 		backMotor.rotate(195);
 	}
-	
+	/**
+	 * Lifts back wheels
+	 */
 	public static void landingGearOff() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);

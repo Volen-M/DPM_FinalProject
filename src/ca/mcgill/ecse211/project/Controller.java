@@ -8,6 +8,12 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Main Class of the Robot; dictates robot behaviour.
+ * Contains Main function
+ * @author Volen, Patrick, Bryan
+ *
+ */
 public class Controller {
 
 	// Motor Objects, and Robot related parameters

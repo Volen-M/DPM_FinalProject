@@ -5,6 +5,12 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
+/**
+ * Class that allows odometer Correction by using tile lines to calculate offset from 
+ * theoretical position.
+ * @author volen
+ *
+ */
 public class LightLocalizer {
 
 	// vehicle constants
@@ -22,7 +28,11 @@ public class LightLocalizer {
 	private SensorMode idColour;
 
 	double[] lineData;
-
+/**
+ * LightLocalizet constructor
+ * @param odometer Odometer object to keep track of position for coordinate related movements
+ * @param nav Navigation object to be able to induce movement into the robot
+ */
 	public LightLocalizer(Odometer odometer, Navigation nav) {
 
 		this.odometer = odometer;
@@ -34,8 +44,13 @@ public class LightLocalizer {
 	}
 
 	/**
+	 * 
 	 * This method localizes the robot using the light sensor to precisely move to
 	 * the right location
+	 * 
+	 * @param finalX Final X coordinate that the robot will set
+	 * @param finalY Final X coordinate that the robot will set
+	 * @param finalTheta Final theta coordinate that the robot will set
 	 */
 	public void localize(double finalX, double finalY, double finalTheta) {
 

@@ -3,6 +3,14 @@ package ca.mcgill.ecse211.project;
 import lejos.hardware.Sound;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Class that utilizes the UltraSonic Sensor to point the robot in the right direction when it is in a corner position next to two walls
+ * Utilizes falling edge and rising edge for proper localization
+ *
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ */
 public class USLocalizer {
 
 	// vehicle constants
@@ -35,6 +43,14 @@ public class USLocalizer {
 
 	}
 
+	/**
+	 * Initializes starting coordinates according to inputed corner.
+	 * corner = 0 is bottom left corner
+	 * corner = 1 is bottom right corner
+	 * corner = 2 is top right corner
+	 * corner = 3 is top left corner
+	 * @param corner 
+	 */
 	public void setStartingCoordinates(int corner) {
 		switch (corner) {
 		case 0:

@@ -1,5 +1,14 @@
 package ca.mcgill.ecse211.project;
 
+/**
+ * 
+ * Class that tracks position of the robot
+ * 
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ *
+ */
 public class Odometer extends OdometerData implements Runnable {
 
 	private static Odometer odo = null; // Returned as singleton

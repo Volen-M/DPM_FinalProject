@@ -3,6 +3,13 @@ package ca.mcgill.ecse211.project;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
+/**
+ * Class that contain robot constants and uses them to convert distance/turn to wheel rotation
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ *
+ */
 public final class Robot {
 	public static final int FORWARD_SPEED = 180;
 	public static final int ROTATE_SPEED = 60;
@@ -15,6 +22,9 @@ public final class Robot {
 	public static final double K = 2;
 	public static double TILESIZE = 30.48;
 	
+	/**
+	 * Constructor that initializes robot object
+	 */
 	public Robot() {
 		
 	}
