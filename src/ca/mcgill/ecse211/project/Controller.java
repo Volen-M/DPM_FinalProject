@@ -58,48 +58,16 @@ public class Controller {
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.moveBy(1*Robot.TILESIZE);
+		odometer.setXYT(0, 0, 0);
+		navigation.travelTo(5, 3, false, null);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
 
-		navigation.moveBy(1*Robot.TILESIZE);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
-		
-
-		while (Button.waitForAnyPress() != Button.ID_DOWN)
-			;
-
-		navigation.moveBy(2*Robot.TILESIZE);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
-		
-
-		while (Button.waitForAnyPress() != Button.ID_DOWN)
-			;
-
-		navigation.moveBy(2*Robot.TILESIZE);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
-		
-
-		while (Button.waitForAnyPress() != Button.ID_DOWN)
-			;
-
-		navigation.moveBy(6*Robot.TILESIZE);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
-		
-
-		while (Button.waitForAnyPress() != Button.ID_DOWN)
-			;
-
-		navigation.moveBy(6*Robot.TILESIZE);
-
-		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		odometer.setXYT(0, 0, 0);
+		navigation.travelTo(5, 3, false, null);
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			;
