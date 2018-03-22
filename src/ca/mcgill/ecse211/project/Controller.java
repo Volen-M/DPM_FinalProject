@@ -59,7 +59,7 @@ public class Controller {
 			;
 
 		odometer.setXYT(0, 0, 0);
-		navigation.travelTo(5, 3, false, null);
+		navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
 
 		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
 		
@@ -67,7 +67,7 @@ public class Controller {
 			;
 
 		odometer.setXYT(0, 0, 0);
-		navigation.travelTo(5, 3, false, null);
+		navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			;
