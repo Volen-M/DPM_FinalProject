@@ -1,8 +1,5 @@
 package ca.mcgill.ecse211.project;
 
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.sensor.EV3ColorSensor;
-
 public class Odometer extends OdometerData implements Runnable {
 
 	private static Odometer odo = null; // Returned as singleton
