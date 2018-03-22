@@ -203,8 +203,15 @@ public class Navigation extends Thread {
 	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
-		leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
-		rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+		if (leftWheelDir == 1 && rightWheelDir == -1) {
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees)+2, true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees)+2, false);
+
+		}
+		else {
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+		}
 		stopRobot();
 	}
 
