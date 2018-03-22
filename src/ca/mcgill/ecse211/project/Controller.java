@@ -55,11 +55,11 @@ public class Controller {
 		navigation.usLoc = USLocalizer;
 		LightLocalizer lightLocatizer = new LightLocalizer(odometer, navigation);
 
-		Robot.landingGearOn();
+		navigation.landingGearOn();
 
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
-		Robot.landingGearOff();
+		navigation.landingGearOff();
 
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			;

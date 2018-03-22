@@ -6,7 +6,6 @@ import lejos.robotics.SampleProvider;
 public class USLocalizer {
 
 	// vehicle constants
-	public static int ROTATION_SPEED = 100;
 	private double deltaTheta;
 
 	private Odometer odometer;
@@ -38,7 +37,6 @@ public class USLocalizer {
 
 		setStartingCoordinates(corner);
 
-		Robot.setSpeed(Robot.ROTATE_SPEED);
 	}
 
 	public void setStartingCoordinates(int corner) {
@@ -85,27 +83,27 @@ public class USLocalizer {
 
 		// Rotate to the wall
 		while (fetchUS() > d) {
-			Robot.rotateCounterClockWise();
+			navigation.rotateCounterClockWise();
 		}
 		// Rotate until it sees the open space
 		while (fetchUS() < d + k) {
-			Robot.rotateCounterClockWise();
+			navigation.rotateCounterClockWise();
 		}
-		Robot.stop();
+		navigation.stop();
 		Sound.buzz();
 		// record angle
 		angleA = odometer.getXYT()[2];
 
 		// rotate the other way all the way until it sees the wall
 		while (fetchUS() > d) {
-			Robot.rotateClockWise();
+			navigation.rotateClockWise();
 		}
 
 		// rotate until it sees open space
 		while (fetchUS() < d + k) {
-			Robot.rotateClockWise();
+			navigation.rotateClockWise();
 		}
-		Robot.stop();
+		navigation.stop();
 		Sound.buzz();
 		angleB = odometer.getXYT()[2];
 
@@ -120,7 +118,7 @@ public class USLocalizer {
 
 		// rotate robot to the theta = 0.0 using turning angle and we account for small
 		// error
-		Robot.rotateByAngle(turningAngle + 5, -1, 1);
+		navigation.rotateByAngle(turningAngle + 5, -1, 1);
 
 		// set theta to coordinate starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
@@ -136,13 +134,13 @@ public class USLocalizer {
 
 		// Rotate to open space
 		while (fetchUS() < d + k) {
-			Robot.rotateCounterClockWise();
+			navigation.rotateCounterClockWise();
 		}
 		// Rotate to the first wall
 		while (fetchUS() > d) {
-			Robot.rotateCounterClockWise();
+			navigation.rotateCounterClockWise();
 		}
-		Robot.stop();
+		navigation.stop();
 
 		Sound.buzz();
 		// record angle
@@ -150,14 +148,14 @@ public class USLocalizer {
 
 		// rotate out of the wall range
 		while (fetchUS() < d + k) {
-			Robot.rotateClockWise();
+			navigation.rotateClockWise();
 		}
 
 		// rotate to the second wall
 		while (fetchUS() > d) {
-			Robot.rotateClockWise();
+			navigation.rotateClockWise();
 		}
-		Robot.stop();
+		navigation.stop();
 		Sound.buzz();
 
 		angleB = odometer.getXYT()[2];
@@ -173,7 +171,7 @@ public class USLocalizer {
 		turningAngle = deltaTheta + odometer.getXYT()[2];
 
 		// rotate robot to the theta = 0.0 and we account for small error
-		Robot.rotateByAngle(turningAngle - 3, -1, 1);
+		navigation.rotateByAngle(turningAngle - 3, -1, 1);
 
 		// set odometer to theta to starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);

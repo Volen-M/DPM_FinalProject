@@ -40,7 +40,7 @@ public class LightLocalizer {
 	public void localize(double finalX, double finalY, double finalTheta) {
 
 		int index = 0;
-		Robot.setSpeed(ROTATION_SPEED);
+		navigation.setSpeed(ROTATION_SPEED);
 
 		// ensure that we are close to origin before rotating
 		moveToIntersection();
@@ -48,7 +48,7 @@ public class LightLocalizer {
 		// Scan all four lines and record our angle
 		while (index < 4) {
 
-			Robot.rotateClockWise();
+			navigation.rotateClockWise();
 
 			sample = fetchSample();
 
@@ -59,7 +59,7 @@ public class LightLocalizer {
 			}
 		}
 
-		Robot.stop();
+		navigation.stop();
 
 		double deltax, deltay, thetax, thetay;
 
@@ -78,15 +78,15 @@ public class LightLocalizer {
 
 		this.navigation.turnTo(0.0);
 
-		Robot.setSpeed(ROTATION_SPEED / 2);
+		navigation.setSpeed(ROTATION_SPEED / 2);
 
 		// if we are not facing 0.0 then turn ourselves so that we are
 		if (odometer.getXYT()[2] <= 357 && odometer.getXYT()[2] >= 3) {
 			Sound.beep();
-			Robot.rotateByAngle(-odometer.getXYT()[2] + 9, 1, -1);
+			navigation.rotateByAngle(-odometer.getXYT()[2] + 9, 1, -1);
 		}
 
-		Robot.stop();
+		navigation.stop();
 		odometer.setXYT(finalX * USLocalizer.TILESIZE, finalY * USLocalizer.TILESIZE, finalTheta - 5);
 		lightSensor.close();
 
@@ -109,16 +109,16 @@ public class LightLocalizer {
 
 		navigation.turnTo(-1 * Math.PI / 4);
 
-		Robot.setSpeed(ROTATION_SPEED);
+		navigation.setSpeed(ROTATION_SPEED);
 
 		// get sample
 		sample = fetchSample();
 		
-		Robot.forward();
+		navigation.forward();
 
 		// move forward past the origin until light sensor sees the line
 		while ((sample = fetchSample()) > 0.38);
-		Robot.stop();
+		navigation.stop();
 		Sound.beep();
 
 		
@@ -126,7 +126,7 @@ public class LightLocalizer {
 		// TODO: change distance to distance between light sensor and wheelbase center
 		
 		// Move backwards so our origin is close to origin
-		Robot.rotateByDistance(-1 * distance, 1, 1);
+		navigation.rotateByDistance(-1 * distance, 1, 1);
 
 	}
 }
