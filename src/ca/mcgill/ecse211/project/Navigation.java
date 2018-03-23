@@ -11,8 +11,9 @@ import lejos.robotics.SampleProvider;
  * Class containing all movement related behaviors.
  * Extends Thread
  * 
- * @author Volen, Patrick, Bryan
- *
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
  */
 public class Navigation extends Thread {
 

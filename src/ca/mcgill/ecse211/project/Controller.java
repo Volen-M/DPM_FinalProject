@@ -11,7 +11,9 @@ import lejos.robotics.SampleProvider;
 /**
  * Main Class of the Robot; dictates robot behaviour.
  * Contains Main function
- * @author Volen, Patrick, Bryan
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
  *
  */
 public class Controller {

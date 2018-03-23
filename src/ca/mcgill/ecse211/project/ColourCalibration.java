@@ -7,7 +7,9 @@ import lejos.robotics.SampleProvider;
 /**
  * Class for EveryThing color detection related. Makes use of the Gaussian distribution to find detected color
  * Extends Thread
- * @author Volen, Bryan, Patrick
+ * @author Volen Mihaylov
+ * @author Bryan Jay
+ * @author Patrick Ghazal
  *
  */
 public class ColourCalibration extends Thread {
