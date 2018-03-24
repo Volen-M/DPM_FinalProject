@@ -2,6 +2,14 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Sound;
 
+/**
+ * Class that finds the needed cube in a certain rectangular area amongst other cubes
+ * 
+ * 
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ */
 public class SearchAndLocalize {
 	public double lowerLeftX, lowerLeftY;
 	public double upperRightX, upperRightY;
@@ -9,7 +17,7 @@ public class SearchAndLocalize {
 	private Navigation navigation;
 	private boolean foundBlock = false;
 	private ColourCalibration colourCalib;
-	private double minCoord = 0.0, maxCoord = 8 * USLocalizer.TILESIZE;
+	private double minCoord = 0.0, maxCoord = 12 * Robot.TILESIZE;
 	private double[][] destinations;
 
 	public SearchAndLocalize(double llx, double lly, double urx, double ury, int tb, Navigation nav,

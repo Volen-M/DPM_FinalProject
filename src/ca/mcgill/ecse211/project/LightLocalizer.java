@@ -2,10 +2,15 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
+/**
+ * Class that allows odometer Correction by using tile lines to calculate offset from 
+ * theoretical position.
+ * @author volen
+ *
+ */
 public class LightLocalizer {
 
 	// vehicle constants
@@ -13,7 +18,6 @@ public class LightLocalizer {
 	private double SENSOR_LENGTH = 11.9;
 
 	private Odometer odometer;
-	private EV3LargeRegulatedMotor leftMotor, rightMotor;
 	public Navigation navigation;
 	// Instantiate the EV3 Color Sensor
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
@@ -24,13 +28,14 @@ public class LightLocalizer {
 	private SensorMode idColour;
 
 	double[] lineData;
-
-	public LightLocalizer(Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
-			Navigation nav) {
+/**
+ * LightLocalizet constructor
+ * @param odometer Odometer object to keep track of position for coordinate related movements
+ * @param nav Navigation object to be able to induce movement into the robot
+ */
+	public LightLocalizer(Odometer odometer, Navigation nav) {
 
 		this.odometer = odometer;
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
 		prevSample = 0;
 
 		idColour = lightSensor.getRedMode(); // set the sensor light to red
@@ -39,14 +44,18 @@ public class LightLocalizer {
 	}
 
 	/**
+	 * 
 	 * This method localizes the robot using the light sensor to precisely move to
 	 * the right location
+	 * 
+	 * @param finalX Final X coordinate that the robot will set
+	 * @param finalY Final X coordinate that the robot will set
+	 * @param finalTheta Final theta coordinate that the robot will set
 	 */
 	public void localize(double finalX, double finalY, double finalTheta) {
 
 		int index = 0;
-		leftMotor.setSpeed(ROTATION_SPEED);
-		rightMotor.setSpeed(ROTATION_SPEED);
+		navigation.setSpeed(ROTATION_SPEED);
 
 		// ensure that we are close to origin before rotating
 		moveToIntersection();
@@ -54,8 +63,7 @@ public class LightLocalizer {
 		// Scan all four lines and record our angle
 		while (index < 4) {
 
-			leftMotor.forward();
-			rightMotor.backward();
+			navigation.rotateClockWise();
 
 			sample = fetchSample();
 
@@ -66,8 +74,7 @@ public class LightLocalizer {
 			}
 		}
 
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		navigation.stop();
 
 		double deltax, deltay, thetax, thetay;
 
@@ -80,52 +87,24 @@ public class LightLocalizer {
 
 		// travel to one-one to correct position
 		odometer.setXYT(deltax, deltay, odometer.getXYT()[2]);
-		if (this.navigation.calculateDistance(odometer.getXYT()[2], odometer.getXYT()[1], 0, 0) > 1.5) {
+		if (Robot.calculateDistance(odometer.getXYT()[2], odometer.getXYT()[1], 0, 0) > 1.5) {
 			this.navigation.travelTo(0, 0, false, null);
 		}
 
 		this.navigation.turnTo(0.0);
 
-		leftMotor.setSpeed(ROTATION_SPEED / 2);
-		rightMotor.setSpeed(ROTATION_SPEED / 2);
+		navigation.setSpeed(ROTATION_SPEED / 2);
 
 		// if we are not facing 0.0 then turn ourselves so that we are
 		if (odometer.getXYT()[2] <= 357 && odometer.getXYT()[2] >= 3) {
 			Sound.beep();
-			leftMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), true);
-			rightMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -odometer.getXYT()[2] + 9), false);
+			navigation.rotateByAngle(-odometer.getXYT()[2] + 9, 1, -1);
 		}
 
-		leftMotor.stop(true);
-		rightMotor.stop(false);
-		odometer.setXYT(finalX * USLocalizer.TILESIZE, finalY * USLocalizer.TILESIZE, finalTheta - 5);
+		navigation.stop();
+		odometer.setXYT(finalX * Robot.TILESIZE, finalY * Robot.TILESIZE, finalTheta - 5);
 		lightSensor.close();
 
-	}
-
-	/**
-	 * This method allows the conversion of a distance to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @return
-	 */
-	private static int convertDistance(double radius, double distance) {
-		return (int) ((180.0 * distance) / (Math.PI * radius));
-	}
-
-	/**
-	 * This method allows the conversion of a angle to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @param angle
-	 * @return
-	 */
-	private static int convertAngle(double radius, double width, double angle) {
-		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
 
 	/**
@@ -143,28 +122,26 @@ public class LightLocalizer {
 	 */
 	public void moveToIntersection() {
 
-		navigation.turnTo(Math.PI / 4);
+		navigation.turnTo(-1 * Math.PI / 4);
 
-		leftMotor.setSpeed(ROTATION_SPEED);
-		rightMotor.setSpeed(ROTATION_SPEED);
+		navigation.setSpeed(ROTATION_SPEED);
 
 		// get sample
 		sample = fetchSample();
+		
+		navigation.forward();
 
 		// move forward past the origin until light sensor sees the line
-		while (sample > 0.38) {
-			sample = fetchSample();
-			leftMotor.forward();
-			rightMotor.forward();
-
-		}
-		leftMotor.stop(true);
-		rightMotor.stop(false);
+		while ((sample = fetchSample()) > 0.38);
+		navigation.stop();
 		Sound.beep();
 
+		
+		int distance = 10; //generic value
+		// TODO: change distance to distance between light sensor and wheelbase center
+		
 		// Move backwards so our origin is close to origin
-		leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), true);
-		rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, -10), false);
+		navigation.rotateByDistance(-1 * distance, 1, 1);
 
 	}
 }

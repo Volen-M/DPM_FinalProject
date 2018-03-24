@@ -1,6 +1,5 @@
 package ca.mcgill.ecse211.project;
 
-import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
@@ -8,12 +7,17 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Class containing all movement related behaviors.
+ * Extends Thread
+ * 
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ */
 public class Navigation extends Thread {
 
 	private Odometer odometer;
-	private EV3LargeRegulatedMotor leftMotor;
-	private EV3LargeRegulatedMotor rightMotor;
-	private EV3LargeRegulatedMotor backMotor;
 	
 	private double deltaX;
 	private double deltaY;
@@ -23,26 +27,30 @@ public class Navigation extends Thread {
 	private double currY;
 	private double currDegrees;
 
-	private boolean navigate = true;
 	private boolean navigating = false;
 
 	public USLocalizer usLoc;
 
 	private static final Port usSidePort = LocalEV3.get().getPort("S4");
+
+	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
+	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
+	
 	private static SensorModes sideUltrasonicSensor;
 	private static SampleProvider sideUsDistance;
 	private float[] sideUsData;
 
 	private static int distanceSensorToBlock = 2;
 
-	// constructor for navigation
-	public Navigation(Odometer odo, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, EV3LargeRegulatedMotor backMotor) {
+	/**
+	 * Navigation constructor
+	 * 
+	 * @param odo Odometer object to keep track of position for coordinate related movements
+	 */
+	public Navigation(Odometer odo) {
 		this.odometer = odo;
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
-		this.backMotor = backMotor;
-		this.leftMotor.setAcceleration(Robot.ACCELERATION);
-		this.rightMotor.setAcceleration(Robot.ACCELERATION);
+		setAcceleration(Robot.ACCELERATION);
 
 		// usSensor is the instance
 		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
@@ -60,7 +68,7 @@ public class Navigation extends Thread {
 	 *            Y-Coordinate
 	 */
 	public void travelTo(double x, double y, boolean lookForBlocks, SearchAndLocalize search) {
-
+		navigating = true;
 		/*
 		 * The search instance of SearchAndLocalize in the parameters is only necessary
 		 * when lookForBlocks is true. Therefore, in calls where lookForBlocks is false,
@@ -81,16 +89,12 @@ public class Navigation extends Thread {
 		// Turn to the correct angle towards the endpoint
 		turnTo(mDegrees);
 
-		leftMotor.setSpeed(Robot.FORWARD_SPEED);
-		rightMotor.setSpeed(Robot.FORWARD_SPEED);
-			// We are going to our destination without bothering to check for blocks
-			leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, hypot), true);
-			rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, hypot), false);
+		setSpeed(Robot.FORWARD_SPEED);
+		rotateByDistance(hypot, 1, 1);
 
-		// stop vehicle
-		leftMotor.stop(true);
-		rightMotor.stop(false);
-
+		// stopRobot vehicle
+		stopRobot();
+		navigating = false;
 	}
 
 	/**
@@ -100,24 +104,12 @@ public class Navigation extends Thread {
 	private void goToBlock(SearchAndLocalize searcher) {
 		int dist = this.usLoc.fetchUS();
 		if (dist > distanceSensorToBlock) {
-			leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, dist - distanceSensorToBlock), true);
-			rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, dist - distanceSensorToBlock), false);
+			rotateByDistance(dist - distanceSensorToBlock, 1, 1);
 		}
 		searcher.getCC().colourDetection();
 		if (searcher.getCC().isBlock()) {
 			searcher.setFoundBlock(true);
 		}
-	}
-
-	/**
-	 * Travel distance dist.
-	 * @param dist
-	 */
-	private void moveDistance(int dist) {
-		leftMotor.rotate(convertDistance(Robot.WHEEL_RAD, dist), true);
-		rightMotor.rotate(convertDistance(Robot.WHEEL_RAD, dist), false);
-		leftMotor.stop(true);
-		rightMotor.stop(false);
 	}
 
 	/**
@@ -130,9 +122,9 @@ public class Navigation extends Thread {
 		/*
 		 * 0: no block 1: side block 2: front block
 		 */
-		int sideDistance = fetchUS();
+		int sideDistance = fetchSideUS();
 		int frontDistance = this.usLoc.fetchUS();
-		if (sideDistance < (searcher.lowerLeftX - searcher.upperRightX) / 2 * USLocalizer.TILESIZE + 5) {
+		if (sideDistance < (searcher.lowerLeftX - searcher.upperRightX) / 2 * Robot.TILESIZE + 5) {
 			return 1;
 		} else if (frontDistance < 5) {
 			return 2;
@@ -146,7 +138,7 @@ public class Navigation extends Thread {
 	 * @param degrees
 	 */
 	public void turnTo(double degrees) {
-
+		navigating = true;
 		// ensures minimum angle for turning
 		if (degrees > 180) {
 			degrees -= 360;
@@ -155,23 +147,134 @@ public class Navigation extends Thread {
 		}
 
 		// set Speed
-		leftMotor.setSpeed(Robot.ROTATE_SPEED);
-		rightMotor.setSpeed(Robot.ROTATE_SPEED);
-
-		// rotate motors at set speed
-
+		setSpeed(Robot.ROTATE_SPEED);
+		
 		// if angle is negative, turn to the left
 		if (degrees < 0) {
-			leftMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -1*degrees), true);
-			rightMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -1*degrees), false);
+			rotateByAngle(-1 * degrees, -1, 1);
 
 		} else {
 			// angle is positive, turn to the right
-			leftMotor.rotate(convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
-			rightMotor.rotate(-convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+			rotateByAngle(degrees, 1, -1);
 		}
+		stopRobot();
+		navigating = false;
+	}
+	/**
+	 * Moves robot forward or back by certain amount
+	 * @param distance Amount to move by 
+	 */
+	public static void moveBy(double distance) {
+		if (distance>=0) {
+		rotateByDistance(distance, 1, 1);
+		}
+		else {
+			rotateByDistance(distance, -1, -1);
+			
+		}
+	}
+	
+	
+	
+	/**
+	 * Freely sets both wheels forward indefinitely.
+	 * 
+	 */
+	public static void forward() {
+		leftMotor.forward();
+		rightMotor.forward();
+	}
+	
+	/**
+	 * Freely rotates the robot clockwise indefinitely.
+	 */
+	public static void rotateClockWise() {
+		leftMotor.forward();
+		rightMotor.backward();
+	}
+	
+	/**
+	 * Freely rotates the robot counter-clockwise indefinitely.
+	 */
+	public static void rotateCounterClockWise() {
+		leftMotor.backward();
+		rightMotor.forward();
+	}
+	
+	/**
+	 * Stop both wheels.
+	 */
+	public static void stopRobot() {
 		leftMotor.stop(true);
 		rightMotor.stop(false);
+	}
+	
+	/**
+	 * Travel distance dist.
+	 * @param dist : distance to travel
+	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 */
+	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
+		leftMotor.rotate((int)(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), true);
+		rightMotor.rotate((int)(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), false);
+		stopRobot();
+	}
+	
+	/**
+	 * Turn by 'degrees' degrees.
+	 * @param degrees : angle to turn
+	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 */
+	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
+		if (leftWheelDir == 1 && rightWheelDir == -1) {
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), false);
+
+		}
+		else {
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+		}
+		stopRobot();
+	}
+
+	
+	/**
+	 * Update the robot's acceleration
+	 * @param acc : desired acceleration
+	 */
+	public static void setAcceleration(int acc) {
+		leftMotor.setAcceleration(acc);
+		rightMotor.setAcceleration(acc);
+	}
+	
+	/**
+	 * Update the robot's speed.
+	 * @param sp : desired speed
+	 */
+	public static void setSpeed(int sp) {
+		leftMotor.setSpeed(sp);
+		rightMotor.setSpeed(sp);
+	}
+	/**
+	 * Lowers back wheels
+	 */
+	public static void landingGearOn() {
+		backMotor.setSpeed(Robot.GEAR_SPEED);
+		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
+		
+		backMotor.rotate(195);
+	}
+	/**
+	 * Lifts back wheels
+	 */
+	public static void landingGearOff() {
+		backMotor.setSpeed(Robot.GEAR_SPEED);
+		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
+		
+		backMotor.rotate(-195);
 	}
 
 	/**
@@ -181,66 +284,15 @@ public class Navigation extends Thread {
 	 * @return
 	 */
 	boolean isNavigating() throws OdometerExceptions {
-		return navigate;
-	}
-
-	/**
-	 * This method allows the conversion of a distance to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @return
-	 */
-	private static int convertDistance(double radius, double distance) {
-		return (int) ((180.0 * distance) / (Math.PI * radius));
-	}
-
-	/**
-	 * This method allows the conversion of a angle to the total rotation of each
-	 * wheel need to cover that distance.
-	 * 
-	 * @param radius
-	 * @param distance
-	 * @param angle
-	 * @return
-	 */
-	private static int convertAngle(double radius, double width, double degrees) {
-		return convertDistance(radius, Math.PI * width * degrees / 360.0);
-	}
-
-	/**
-	 * Calculates distance between (x1, y1) and (x2, y2)
-	 * @param x1 : x-coord of the current position
-	 * @param y1 : y-coord of the current position
-	 * @param x2 : x-coord of the destination
-	 * @param y2 : y-coord of the destination
-	 * @return distance between current position and destination
-	 */
-	public static double calculateDistance(double x1, double y1, double x2, double y2) {
-		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+		return navigating;
 	}
 
 	/**
 	 * Returns the distance value as seen by the side sensor.
 	 * @return
 	 */
-	public int fetchUS() {
+	public int fetchSideUS() {
 		sideUsDistance.fetchSample(sideUsData, 0);
 		return (int) (sideUsData[0] * 100);
-	}
-	
-	public void landingGearOn() {
-		backMotor.setSpeed(Robot.GEAR_SPEED);
-		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
-		
-		backMotor.rotate(250);
-	}
-	
-	public void landingGearOff() {
-		backMotor.setSpeed(Robot.GEAR_SPEED);
-		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
-		
-		backMotor.rotate(-250);
 	}
 }

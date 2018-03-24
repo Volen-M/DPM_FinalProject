@@ -1,33 +1,35 @@
 package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Main Class of the Robot; dictates robot behaviour.
+ * Contains Main function
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ *
+ */
 public class Controller {
 
 	// Motor Objects, and Robot related parameters
-	private static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
-	private static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
-	private static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
 	public static final TextLCD lcd = LocalEV3.get().getTextLCD();
 	private static final Port usPort = LocalEV3.get().getPort("S3");
 
 	// Single navigation instance used by all classes
 	private static Navigation navigation;
 
-
 	// Constants for part 2
-	private static double lowerLeftX = 2 * USLocalizer.TILESIZE;
-	private static double lowerLeftY = 3 * USLocalizer.TILESIZE;
-	private static double upperRightX = 6 * USLocalizer.TILESIZE;
-	private static double upperRightY = 7 * USLocalizer.TILESIZE;
+	private static double lowerLeftX = 2 * Robot.TILESIZE;
+	private static double lowerLeftY = 3 * Robot.TILESIZE;
+	private static double upperRightX = 6 * Robot.TILESIZE;
+	private static double upperRightY = 7 * Robot.TILESIZE;
 	private static int targetBlock = 3;
 
 	
@@ -43,31 +45,38 @@ public class Controller {
 		ColourCalibration colourCalibration = new ColourCalibration();
 		Thread colourCalibrationThread = new Thread(colourCalibration);
 		// Odometer related objects
-		Odometer odometer = Odometer.getOdometer(leftMotor, rightMotor, Robot.TRACK, Robot.WHEEL_RAD);
+		Odometer odometer = Odometer.getOrCreateOdometer(Robot.TRACK, Robot.WHEEL_RAD);
 
 		// usSensor is the instance
 		SensorModes ultrasonicSensor = new EV3UltrasonicSensor(usPort);
 		// usDistance provides samples from this instance
 		SampleProvider usDistance = ultrasonicSensor.getMode("Distance");
 
-		navigation = new Navigation(odometer, leftMotor, rightMotor, backMotor);
+		navigation = new Navigation(odometer);
 
 		// Start odometer and display threads and correction Threads.
 		Thread odoThread = new Thread(odometer);
 		odoThread.start();
 
 		// Create ultrasonic and light localizer objects.
-		USLocalizer USLocalizer = new USLocalizer(odometer, leftMotor, rightMotor, usDistance, 0,
-				navigation);
+		USLocalizer USLocalizer = new USLocalizer(odometer, usDistance, 0, navigation);
 		navigation.usLoc = USLocalizer;
-		LightLocalizer lightLocatizer = new LightLocalizer(odometer, leftMotor, rightMotor, navigation);
-
-		navigation.landingGearOn();
+		LightLocalizer lightLocatizer = new LightLocalizer(odometer, navigation);
 
 		while (Button.waitForAnyPress() != Button.ID_DOWN)
 			;
-		navigation.landingGearOff();
 
+		odometer.setXYT(0, 0, 0);
+		navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
+
+		System.out.println(odometer.getXYT()[0] + " " + odometer.getXYT()[1]+ " "  + odometer.getXYT()[2] );
+		
+		while (Button.waitForAnyPress() != Button.ID_DOWN)
+			;
+
+		odometer.setXYT(0, 0, 0);
+		navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
+		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			;
 		System.exit(0);
