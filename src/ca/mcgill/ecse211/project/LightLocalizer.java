@@ -56,85 +56,65 @@ public class LightLocalizer {
 	 * @param finalY Final X coordinate that the robot will set
 	 * @param finalTheta Final theta coordinate that the robot will set
 	 */
-	public void localize(double startingExpectedDegrees) {
-		if (startingExpectedDegrees == 0) {
-			int i = 1;
-			int j = 0;
-		}
-		else if (startingExpectedDegrees == 90) {
-			int i = 0;
-			int j = 1;
+	public void localize() {
+		int index = 0;
+		if (odometer.getXYT()[3] > 0.25 || odometer.getXYT()[3] < 359.75) {
+			navigation.turnTo(0);
 		}
 		navigation.setSpeed(Robot.LOCALIZATION_SPEED);
 		navigation.forward();
 		index = 0;
-		sampleLeft = fetchSampleLeft();
-		sampleRight = fetchSampleRight();
-		while (index <2 ) {
-			lineData[index] = odometer.getXYT()[1];
+		boolean leftCheck = false;
+		boolean rightCheck = true;
+		while (leftCheck || rightCheck) {
+			sampleLeft = fetchSampleLeft();
+			sampleRight = fetchSampleRight();
+			if (leftCheck && sampleLeft < 0.38) {
+				lineData[0] = odometer.getXYT()[1];
+				Sound.beepSequenceUp();
+				leftCheck = false;
+			}
+			if (!rightCheck && sampleRight < 0.38) {
+				lineData[1] = odometer.getXYT()[1];
+				Sound.beepSequenceUp();
+				rightCheck = false;
+			}
 			Sound.beepSequenceUp();
 			index++;
 		}
 		navigation.stopRobot();
-		lineData[index];
+		double deltaOdo = lineData[1]-lineData[2];
+		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.ODOODO));
+		odometer.setY(odometer.getXYT()[1]+Robot.ODOWHEEL/2);
 		
+
+		index = 0;
+		leftCheck = false;
+		rightCheck = true;
+		while (leftCheck || rightCheck) {
+			sampleLeft = fetchSampleLeft();
+			sampleRight = fetchSampleRight();
+			if (leftCheck && sampleLeft < 0.38) {
+				lineData[0] = odometer.getXYT()[0];
+				Sound.beepSequenceUp();
+				leftCheck = false;
+			}
+			if (!rightCheck && sampleRight < 0.38) {
+				lineData[1] = odometer.getXYT()[0];
+				Sound.beepSequenceUp();
+				rightCheck = false;
+			}
+			Sound.beepSequenceUp();
+			index++;
+		}
+		navigation.stopRobot();
+		deltaOdo = lineData[1]-lineData[2];
+		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.ODOODO));
+		odometer.setY(odometer.getXYT()[0]+Robot.ODOWHEEL/2);
 		
 		
 		
 	}
-//	void whatever() {
-//		int index = 0;
-//		navigation.setSpeed(ROTATION_SPEED);
-//
-//		// ensure that we are close to origin before rotating
-//		moveToIntersection();
-//
-//		// Scan all four lines and record our angle
-//		while (index < 4) {
-//
-//			navigation.rotateClockWise();
-//
-//			sample = fetchSample();
-//
-//			if (sample < 0.38) {
-//				lineData[index] = odometer.getXYT()[2];
-//				Sound.beepSequenceUp();
-//				index++;
-//			}
-//		}
-//
-//		navigation.stop();
-//
-//		double deltax, deltay, thetax, thetay;
-//
-//		// calculate our location from 0 using the calculated angles
-//		thetay = lineData[3] - lineData[1];
-//		thetax = lineData[2] - lineData[0];
-//
-//		deltax = -1 * SENSOR_LENGTH * Math.cos(Math.toRadians(thetay / 2));
-//		deltay = -1 * SENSOR_LENGTH * Math.cos(Math.toRadians(thetax / 2));
-//
-//		// travel to one-one to correct position
-//		odometer.setXYT(deltax, deltay, odometer.getXYT()[2]);
-//		if (Robot.calculateDistance(odometer.getXYT()[2], odometer.getXYT()[1], 0, 0) > 1.5) {
-//			this.navigation.travelTo(0, 0, false, null);
-//		}
-//
-//		this.navigation.turnTo(0.0);
-//
-//		navigation.setSpeed(ROTATION_SPEED / 2);
-//
-//		// if we are not facing 0.0 then turn ourselves so that we are
-//		if (odometer.getXYT()[2] <= 357 && odometer.getXYT()[2] >= 3) {
-//			Sound.beep();
-//			navigation.rotateByAngle(-odometer.getXYT()[2] + 9, 1, -1);
-//		}
-//
-//		navigation.stop();
-//		odometer.setXYT(finalX * Robot.TILESIZE, finalY * Robot.TILESIZE, finalTheta - 5);
-//		lightSensor.close();
-//
-//	}
 
 	/**
 	 * This method gets the color value of the light sensor
