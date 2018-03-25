@@ -13,6 +13,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 public final class Robot {
 	public static final int FORWARD_SPEED = 180;
 	public static final int ROTATE_SPEED = 60;
+	public static final int LOCALIZATION_SPEED = 100;
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 500;
 	public static final int GEAR_ACCELERATION = 500;
@@ -20,6 +21,8 @@ public final class Robot {
 	public static final double TRACK = 12.7;
 	public static final double D = 40.0;
 	public static final double K = 2;
+	public static final double ODOWHEEL = 3.3;
+	public static final double ODOODO = 12.9;
 	public static double TILESIZE = 30.48;
 	
 	/**

@@ -51,6 +51,7 @@ public class Navigation extends Thread {
 	public Navigation(Odometer odo) {
 		this.odometer = odo;
 		setAcceleration(Robot.ACCELERATION);
+		setSpeed(Robot.FORWARD_SPEED);
 
 		// usSensor is the instance
 		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
