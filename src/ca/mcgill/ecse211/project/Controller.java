@@ -40,6 +40,8 @@ public class Controller {
 	 */
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws OdometerExceptions, InterruptedException {
+		
+		WiFiData.processData();
 
 		ColourCalibration colourCalibration = new ColourCalibration();
 		Thread colourCalibrationThread = new Thread(colourCalibration);
