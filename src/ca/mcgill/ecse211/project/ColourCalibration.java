@@ -1,11 +1,17 @@
 package ca.mcgill.ecse211.project;
 
-import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
+/**
+ * Class for EveryThing color detection related. Makes use of the Gaussian distribution to find detected color
+ * Extends Thread
+ * @author Volen Mihaylov
+ * @author Bryan Jay
+ * @author Patrick Ghazal
+ *
+ */
 public class ColourCalibration extends Thread {
 
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S2"));
@@ -35,7 +41,8 @@ public class ColourCalibration extends Thread {
 		lightSensor.setCurrentMode("Red"); // set the sensor floodlight to white
 	}
 /**
- * Main running function that searches for the colour
+ * Main running function that searches for the color and constantly outputs it on the console.
+ * (Not to be used in conjunction with anything else as it will constantly output the color)
  */
 	public void run() {
 		if (!isFieldSearching) {
@@ -51,33 +58,33 @@ public class ColourCalibration extends Thread {
 		}
 	}
 
-	/**
-	 * Updates the Display to show block colour
-	 * 
-	 */
-	private void updateDisplay() {
-		String blockColour = "";
-		if (currentBlock != null) {
-			if (currentBlock.equals(colour.RED)) {
-				blockColour = "Red";
-			} else if (currentBlock.equals(colour.BLUE)) {
-				blockColour = "Blue";
-			} else if (currentBlock.equals(colour.YELLOW)) {
-				blockColour = "Yellow";
-			} else if (currentBlock.equals(colour.WHITE)) {
-				blockColour = "White";
-			} // else blockColour remains ""
-
-			if (blockColour != "") {
-				// If the value of blockColour has changed
-				Controller.lcd.drawString("Block Colour =", 0, 5);
-				Controller.lcd.drawString(blockColour, 0, 6);
-			}
-		} else {
-			Controller.lcd.clear();
-		}
-
-	}
+//	/**
+//	 * Updates the Display to show block colour
+//	 * 
+//	 */
+//	private void updateDisplay() {
+//		String blockColour = "";
+//		if (currentBlock != null) {
+//			if (currentBlock.equals(colour.RED)) {
+//				blockColour = "Red";
+//			} else if (currentBlock.equals(colour.BLUE)) {
+//				blockColour = "Blue";
+//			} else if (currentBlock.equals(colour.YELLOW)) {
+//				blockColour = "Yellow";
+//			} else if (currentBlock.equals(colour.WHITE)) {
+//				blockColour = "White";
+//			} // else blockColour remains ""
+//
+//			if (blockColour != "") {
+//				// If the value of blockColour has changed
+//				Controller.lcd.drawString("Block Colour =", 0, 5);
+//				Controller.lcd.drawString(blockColour, 0, 6);
+//			}
+//		} else {
+//			Controller.lcd.clear();
+//		}
+//
+//	}
 
 	/**
 	 * Determines if it the target block
@@ -123,7 +130,7 @@ public class ColourCalibration extends Thread {
 			currentBlock = colour.WHITE;
 		}
 		if (!isFieldSearching) {
-			updateDisplay();
+//			updateDisplay();
 		} else {
 
 			String blockColour = "";
@@ -138,7 +145,7 @@ public class ColourCalibration extends Thread {
 				blockColour = "White";
 			}
 			
-			Controller.lcd.drawString("Block Colour =" + blockColour, 0, 5);
+//			Controller.lcd.drawString("Block Colour =" + blockColour, 0, 5);
 		}
 	}
 

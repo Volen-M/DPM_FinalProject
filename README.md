@@ -7,12 +7,14 @@
 	* 00 - Shell complete
 	* 01 - Gear system functional
 	* 02 - Navigation functional
-	* 03 - Ultrasonic localization complete
-	* 04 - Light sensor correction functional
-	* 05 - Functional search and localize system
-	* 06 - Obstacle avoidance complete
-	* 06 - Full Course pathing Complete
-	* 07 - Finalized version (can do all trials)
+	* 03 - Odometer functional
+	* 04 - Ultrasonic localization complete
+	* 05 - Light sensor correction functional
+	* 06 - Console Inputs Functional
+	* 07 - Functional search and localize system
+	* 08 - Obstacle avoidance complete
+	* 09 - Full Course pathing Complete
+	* 10 - Finalized version (can do all trials)
 	
 	
 ## Version Setup

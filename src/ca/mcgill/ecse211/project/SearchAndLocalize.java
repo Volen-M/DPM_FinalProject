@@ -2,6 +2,14 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Sound;
 
+/**
+ * Class that finds the needed cube in a certain rectangular area amongst other cubes
+ * 
+ * 
+ * @author Volen Mihaylov
+ * @author Patrick Ghazal
+ * @author Bryan Jay
+ */
 public class SearchAndLocalize {
 	public double lowerLeftX, lowerLeftY;
 	public double upperRightX, upperRightY;
@@ -9,7 +17,7 @@ public class SearchAndLocalize {
 	private Navigation navigation;
 	private boolean foundBlock = false;
 	private ColourCalibration colourCalib;
-	private double minCoord = 0.0, maxCoord = 8 * USLocalizer.TILESIZE;
+	private double minCoord = 0.0, maxCoord = 12 * Robot.TILESIZE;
 	private double[][] destinations;
 
 	public SearchAndLocalize(double llx, double lly, double urx, double ury, int tb, Navigation nav,
@@ -43,7 +51,7 @@ public class SearchAndLocalize {
 		this.colourCalib.resetBlock();
 
 		// Travel to the lower-left corner
-		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, false, null);
+		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY);
 		Sound.beep();
 		// this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, false, null);
 		// Sound.beep();
@@ -52,10 +60,10 @@ public class SearchAndLocalize {
 		 * Travel to each destination one by one, stopping the for loop if the correct
 		 * block was found
 		 */
-		this.navigation.travelTo(this.lowerLeftX, this.upperRightY, true, this);
-		this.navigation.travelTo(this.upperRightX, this.upperRightY, true, this);
-		this.navigation.travelTo(this.upperRightX, this.lowerLeftY, true, this);
-		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, true, this);
+		this.navigation.travelTo(this.lowerLeftX, this.upperRightY);
+		this.navigation.travelTo(this.upperRightX, this.upperRightY);
+		this.navigation.travelTo(this.upperRightX, this.lowerLeftY);
+		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY);
 
 		// for (double[] dest : destinations) {
 		// if (foundBlock) {
@@ -65,7 +73,7 @@ public class SearchAndLocalize {
 		// }
 
 		// Once the correct block is found, go to to the upper right corner.
-		this.navigation.travelTo(this.upperRightX, this.upperRightY, false, null);
+		this.navigation.travelTo(this.upperRightX, this.upperRightY);
 	}
 
 	/**
