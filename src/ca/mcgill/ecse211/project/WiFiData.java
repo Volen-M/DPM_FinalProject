@@ -53,7 +53,7 @@ public class WiFiData {
 
 	// End of received data
 
-	private static boolean betaDemo = true;
+	public static boolean betaDemo = true;
 
 	@SuppressWarnings("rawtypes")
 	public static void processData() {

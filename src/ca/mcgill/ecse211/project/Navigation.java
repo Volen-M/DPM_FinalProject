@@ -331,32 +331,6 @@ public class Navigation extends Thread {
 		travelTo(bridgeEntranceX, bridgeEntranceY);
 	}
 
-	// TODO: finish implementing this method
-	public void checkForEndOfArea() {
-		int zoneLLX = 0, zoneLLY = 0, zoneURX = 0, zoneURY = 0;
-		if (currentZone.equals("green")) {
-			zoneLLX = WiFiData.greenLLX;
-			zoneLLY = WiFiData.greenLLY;
-			zoneURX = WiFiData.greenURX;
-			zoneURX = WiFiData.greenURY;
-		} else if (currentZone.equals("red")) {
-			zoneLLX = WiFiData.redLLX;
-			zoneLLY = WiFiData.redLLY;
-			zoneURX = WiFiData.redURX;
-			zoneURX = WiFiData.redURY;
-		}
-		// Needs to be implemented as a thread (or find a way to make it run constantly)
-		while (true) {
-			double currX = odometer.getXYT()[0], currY = odometer.getXYT()[1];
-			if (currX - 10 <= zoneLLX || currX + 10 >= zoneURX) {
-				stopRobot(); // after stopping, what should it do?
-			}
-			if (currY - 10 <= zoneLLY || currY + 10 >= zoneURY) {
-				stopRobot(); // see above
-			}
-		}
-	}
-
 	public static void setCurrentZone(String colour) {
 		currentZone = colour;
 	}
