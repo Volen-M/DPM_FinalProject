@@ -217,8 +217,8 @@ public class Navigation extends Thread {
 	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
-		leftMotor.rotate((int)(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), true);
-		rightMotor.rotate((int)(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist)*(Robot.TILESIZE+0.4)/Robot.TILESIZE), false);
+		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
+		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
 		stopRobot();
 	}
 	
@@ -235,8 +235,8 @@ public class Navigation extends Thread {
 
 		}
 		else {
-			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), true);
-			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees), false);
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+0), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+0), false);
 		}
 		stopRobot();
 	}

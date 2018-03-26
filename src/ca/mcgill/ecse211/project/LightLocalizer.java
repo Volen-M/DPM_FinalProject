@@ -57,13 +57,12 @@ public class LightLocalizer {
 	 * @param finalTheta Final theta coordinate that the robot will set
 	 */
 	public void localize() {
-		int index = 0;
 		if (odometer.getXYT()[3] > 0.25 || odometer.getXYT()[3] < 359.75) {
 			navigation.turnTo(0);
 		}
 		navigation.setSpeed(Robot.LOCALIZATION_SPEED);
 		navigation.forward();
-		index = 0;
+		int index = 0;
 		boolean leftCheck = false;
 		boolean rightCheck = true;
 		while (leftCheck || rightCheck) {
@@ -84,10 +83,12 @@ public class LightLocalizer {
 		}
 		navigation.stopRobot();
 		double deltaOdo = lineData[1]-lineData[2];
-		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.ODOODO));
-		odometer.setY(odometer.getXYT()[1]+Robot.ODOWHEEL/2);
-		
+		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.LSTOLS));
+		odometer.setTheta(0);
+		odometer.setY(odometer.getXYT()[1]+deltaOdo/2);
 
+		navigation.turnTo(90);
+		navigation.forward();
 		index = 0;
 		leftCheck = false;
 		rightCheck = true;
@@ -109,13 +110,17 @@ public class LightLocalizer {
 		}
 		navigation.stopRobot();
 		deltaOdo = lineData[1]-lineData[2];
-		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.ODOODO));
-		odometer.setY(odometer.getXYT()[0]+Robot.ODOWHEEL/2);
+		navigation.turnTo(odometer.getXYT()[2]+Math.sin(deltaOdo/Robot.LSTOLS));
+		odometer.setTheta(90);
+		odometer.setX(expectedTile(odometer.getXYT()[0])+deltaOdo/2+Robot.LSTOWHEEL);
 		
 		
 		
 	}
-
+	
+	private int expectedTile(double coordinate) {
+		return (int)Math.round(coordinate);
+	}
 	/**
 	 * This method gets the color value of the light sensor
 	 * 

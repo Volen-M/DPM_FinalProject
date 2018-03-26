@@ -17,13 +17,13 @@ public final class Robot {
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 500;
 	public static final int GEAR_ACCELERATION = 500;
-	public static final double WHEEL_RAD = 2.1;
+	public static final double WHEEL_RAD = 2.135;
 	public static final double TRACK = 12.7;
 	public static final double D = 40.0;
 	public static final double K = 2;
-	public static final double ODOWHEEL = 3.3;
-	public static final double ODOODO = 12.9;
-	public static double TILESIZE = 30.48;
+	public static final double LSTOWHEEL = 3.3;
+	public static final double LSTOLS = 12.9;
+	public static final double TILESIZE = 30.48;
 	
 	/**
 	 * Constructor that initializes robot object
