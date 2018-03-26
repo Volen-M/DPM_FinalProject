@@ -51,58 +51,11 @@ public class LightLocalizer {
 	 * @param finalY Final X coordinate that the robot will set
 	 * @param finalTheta Final theta coordinate that the robot will set
 	 */
-	public void fullLocalize() {
-		if (odometer.getXYT()[2] > 0.25 || odometer.getXYT()[2] < 359.75) {
-			navigation.turnTo(0);
-		}
-		navigation.setSpeed(Robot.LOCALIZATION_SPEED);
-		navigation.forward();
-		boolean leftCheck = true;
-		boolean rightCheck = true;
-		while (leftCheck || rightCheck) {
-			sampleLeft = fetchSampleLeft();
-			sampleRight = fetchSampleRight();
-			if (leftCheck && sampleLeft < 0.38) {
-				lineData[0] = odometer.getXYT()[1];
-				Sound.beepSequenceUp();
-				leftCheck = false;
-			}
-			if (rightCheck && sampleRight < 0.38) {
-				lineData[1] = odometer.getXYT()[1];
-				Sound.beepSequenceUp();
-				rightCheck = false;
-			}
-		}
-		navigation.stopRobot();
-		double deltaOdo = lineData[0]-lineData[1];
-		navigation.turnTo(odometer.getXYT()[2]+Math.asin(deltaOdo/Robot.LSTOLS)*180/Math.PI);
-		odometer.setTheta(0);
-		odometer.setY(expectedTile(odometer.getXYT()[1])+deltaOdo/2+Robot.LSTOWHEEL);
-		navigation.moveBy(-(deltaOdo/2+Robot.LSTOWHEEL));
-
-		navigation.turnTo(90);
-		navigation.forward();
-		leftCheck = true;
-		rightCheck = true;
-		while (leftCheck || rightCheck) {
-			sampleLeft = fetchSampleLeft();
-			sampleRight = fetchSampleRight();
-			if (leftCheck && sampleLeft < 0.38) {
-				lineData[0] = odometer.getXYT()[0];
-				Sound.beepSequenceUp();
-				leftCheck = false;
-			}
-			if (rightCheck && sampleRight < 0.38) {
-				lineData[1] = odometer.getXYT()[0];
-				Sound.beepSequenceUp();
-				rightCheck = false;
-			}
-		}
-		navigation.stopRobot();
-		deltaOdo = lineData[0]-lineData[1];
-		navigation.turnTo(odometer.getXYT()[2]+Math.asin(deltaOdo/Robot.LSTOLS)*180/Math.PI);
-		odometer.setTheta(90);
-		odometer.setX(expectedTile(odometer.getXYT()[0])+deltaOdo/2+Robot.LSTOWHEEL);
+	public void fullLocalize(int type) {
+		//TODO
+		//type =0 will be cross (one location)
+		//type = 1 will right then up localization
+		//type = 2 will be left then up
 
 	}
 

@@ -64,7 +64,7 @@ public class Controller {
 
 
 		odometer.setXYT(0, 0, 0);
-		int test = 5;
+		int test = 0;
 		if (test == 0 ) {		//Test for the back wheel to go up or down need to set the angle by how much they have to rotate (you dont want to over rotate or under
 			//You know you over wroted due to screeching sound.... Constant to set:Angle in navigation.landingGearOn() and navigation.landingGearoff() 
 
