@@ -51,7 +51,7 @@ public class SearchAndLocalize {
 		this.colourCalib.resetBlock();
 
 		// Travel to the lower-left corner
-		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY);
+		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, false, null);
 		Sound.beep();
 		// this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, false, null);
 		// Sound.beep();
@@ -60,10 +60,10 @@ public class SearchAndLocalize {
 		 * Travel to each destination one by one, stopping the for loop if the correct
 		 * block was found
 		 */
-		this.navigation.travelTo(this.lowerLeftX, this.upperRightY);
-		this.navigation.travelTo(this.upperRightX, this.upperRightY);
-		this.navigation.travelTo(this.upperRightX, this.lowerLeftY);
-		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY);
+		this.navigation.travelTo(this.lowerLeftX, this.upperRightY, true, this);
+		this.navigation.travelTo(this.upperRightX, this.upperRightY, true, this);
+		this.navigation.travelTo(this.upperRightX, this.lowerLeftY, true, this);
+		this.navigation.travelTo(this.lowerLeftX, this.lowerLeftY, true, this);
 
 		// for (double[] dest : destinations) {
 		// if (foundBlock) {
@@ -73,7 +73,7 @@ public class SearchAndLocalize {
 		// }
 
 		// Once the correct block is found, go to to the upper right corner.
-		this.navigation.travelTo(this.upperRightX, this.upperRightY);
+		this.navigation.travelTo(this.upperRightX, this.upperRightY, false, null);
 	}
 
 	/**
