@@ -21,8 +21,8 @@ public final class Robot {
 	public static final double TRACK = 12.7;
 	public static final double D = 40.0;
 	public static final double K = 2;
-	public static final double LSTOWHEEL = 3.3;
-	public static final double LSTOLS = 12.9;
+	public static final double LSTOWHEEL = 7.35;
+	public static final double LSTOLS = 14.65;
 	public static final double TILESIZE = 30.48;
 	
 	/**

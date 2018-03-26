@@ -31,7 +31,7 @@ public class Navigation extends Thread {
 
 	public USLocalizer usLoc;
 
-	private static final Port usSidePort = LocalEV3.get().getPort("S4");
+//	private static final Port usSidePort = LocalEV3.get().getPort("S3");
 
 	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
@@ -54,10 +54,10 @@ public class Navigation extends Thread {
 		setSpeed(Robot.FORWARD_SPEED);
 
 		// usSensor is the instance
-		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
-		// usDistance provides samples from this instance
-		sideUsDistance = sideUltrasonicSensor.getMode("Distance");
-		sideUsData = new float[sideUsDistance.sampleSize()];
+//		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
+//		// usDistance provides samples from this instance
+//		sideUsDistance = sideUltrasonicSensor.getMode("Distance");
+//		sideUsData = new float[sideUsDistance.sampleSize()];
 	}
 
 	/**
@@ -83,8 +83,7 @@ public class Navigation extends Thread {
 		deltaY = y - currY;
 
 		// Calculate the angle to turn around
-		currDegrees = odometer.getXYT()[2];
-		double mDegrees = Math.atan2(deltaX, deltaY)/Math.PI*180 - currDegrees;
+		double mDegrees = Math.atan2(deltaX, deltaY)/Math.PI*180;
 		double hypot = Math.hypot(deltaX, deltaY);
 
 		// Turn to the correct angle towards the endpoint
@@ -139,8 +138,10 @@ public class Navigation extends Thread {
 	 * @param degrees
 	 */
 	public void turnTo(double degrees) {
+		
 		navigating = true;
 		// ensures minimum angle for turning
+		degrees = degrees - odometer.getXYT()[2];
 		if (degrees > 180) {
 			degrees -= 360;
 		} else if (degrees < -180) {

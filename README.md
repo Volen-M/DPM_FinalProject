@@ -8,9 +8,9 @@
 	* 01 - Gear system functional
 	* 02 - Navigation functional
 	* 03 - Odometer functional
-	* 04 - Light sensor correction functional
-	* 05 - Console Inputs Functional
-	* 06 - Ultrasonic localization complete
+	* 04 - Ultrasonic localization complete
+	* 05 - Light sensor correction functional
+	* 06 - Console Inputs Functional
 	* 07 - Functional search and localize system
 	* 08 - Obstacle avoidance complete
 	* 09 - Full Course pathing Complete

@@ -145,7 +145,7 @@ public class ColourCalibration extends Thread {
 				blockColour = "White";
 			}
 			
-			Controller.lcd.drawString("Block Colour =" + blockColour, 0, 5);
+//			Controller.lcd.drawString("Block Colour =" + blockColour, 0, 5);
 		}
 	}
 
