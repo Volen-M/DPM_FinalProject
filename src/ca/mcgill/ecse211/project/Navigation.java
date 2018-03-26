@@ -8,8 +8,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class containing all movement related behaviors.
- * Extends Thread
+ * Class containing all movement related behaviors. Extends Thread
  * 
  * @author Volen Mihaylov
  * @author Patrick Ghazal
@@ -18,7 +17,7 @@ import lejos.robotics.SampleProvider;
 public class Navigation extends Thread {
 
 	private Odometer odometer;
-	
+
 	private double deltaX;
 	private double deltaY;
 
@@ -31,22 +30,28 @@ public class Navigation extends Thread {
 
 	public USLocalizer usLoc;
 
-//	private static final Port usSidePort = LocalEV3.get().getPort("S3");
+	// private static final Port usSidePort = LocalEV3.get().getPort("S3");
 
 	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
-	
+
 	private static SensorModes sideUltrasonicSensor;
 	private static SampleProvider sideUsDistance;
 	private float[] sideUsData;
 
 	private static int distanceSensorToBlock = 2;
 
+	// Data from Wifi
+	private static String currentZone;
+	private static int startingCorner;
+
 	/**
 	 * Navigation constructor
 	 * 
-	 * @param odo Odometer object to keep track of position for coordinate related movements
+	 * @param odo
+	 *            Odometer object to keep track of position for coordinate related
+	 *            movements
 	 */
 	public Navigation(Odometer odo) {
 		this.odometer = odo;
@@ -54,10 +59,10 @@ public class Navigation extends Thread {
 		setSpeed(Robot.FORWARD_SPEED);
 
 		// usSensor is the instance
-//		sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
-//		// usDistance provides samples from this instance
-//		sideUsDistance = sideUltrasonicSensor.getMode("Distance");
-//		sideUsData = new float[sideUsDistance.sampleSize()];
+		// sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
+		// // usDistance provides samples from this instance
+		// sideUsDistance = sideUltrasonicSensor.getMode("Distance");
+		// sideUsData = new float[sideUsDistance.sampleSize()];
 	}
 
 	/**
@@ -68,13 +73,8 @@ public class Navigation extends Thread {
 	 * @param y
 	 *            Y-Coordinate
 	 */
-	public void travelTo(double x, double y, boolean lookForBlocks, SearchAndLocalize search) {
+	public void travelTo(double x, double y) {
 		navigating = true;
-		/*
-		 * The search instance of SearchAndLocalize in the parameters is only necessary
-		 * when lookForBlocks is true. Therefore, in calls where lookForBlocks is false,
-		 * we pass null to the search parameter.
-		 */
 
 		currX = odometer.getXYT()[0];
 		currY = odometer.getXYT()[1];
@@ -83,7 +83,7 @@ public class Navigation extends Thread {
 		deltaY = y - currY;
 
 		// Calculate the angle to turn around
-		double mDegrees = Math.atan2(deltaX, deltaY)/Math.PI*180;
+		double mDegrees = Math.atan2(deltaX, deltaY) / Math.PI * 180;
 		double hypot = Math.hypot(deltaX, deltaY);
 
 		// Turn to the correct angle towards the endpoint
@@ -99,7 +99,9 @@ public class Navigation extends Thread {
 
 	/**
 	 * Goes to a block when it is detected in the field
-	 * @param searcher : instance of the SearchAndLocalize class
+	 * 
+	 * @param searcher
+	 *            : instance of the SearchAndLocalize class
 	 */
 	private void goToBlock(SearchAndLocalize searcher) {
 		int dist = this.usLoc.fetchUS();
@@ -114,9 +116,11 @@ public class Navigation extends Thread {
 
 	/**
 	 * Checks for the presence of a block in the sights of the sensor.
-	 * @param searcher: instance of the SearchAndLocalize class
-	 * @return 0 if no block is detected, 1 if a block is detected
-	 * on the side, 2 if a block is detected at the front
+	 * 
+	 * @param searcher:
+	 *            instance of the SearchAndLocalize class
+	 * @return 0 if no block is detected, 1 if a block is detected on the side, 2 if
+	 *         a block is detected at the front
 	 */
 	private int blockDetected(SearchAndLocalize searcher) {
 		/*
@@ -138,7 +142,7 @@ public class Navigation extends Thread {
 	 * @param degrees
 	 */
 	public void turnTo(double degrees) {
-		
+
 		navigating = true;
 		// ensures minimum angle for turning
 		degrees = degrees - odometer.getXYT()[2];
@@ -150,7 +154,7 @@ public class Navigation extends Thread {
 
 		// set Speed
 		setSpeed(Robot.ROTATE_SPEED);
-		
+
 		// if angle is negative, turn to the left
 		if (degrees < 0) {
 			rotateByAngle(-1 * degrees, -1, 1);
@@ -162,22 +166,22 @@ public class Navigation extends Thread {
 		stopRobot();
 		navigating = false;
 	}
+
 	/**
 	 * Moves robot forward or back by certain amount
-	 * @param distance Amount to move by 
+	 * 
+	 * @param distance
+	 *            Amount to move by
 	 */
 	public static void moveBy(double distance) {
-		if (distance>=0) {
-		rotateByDistance(distance, 1, 1);
-		}
-		else {
+		if (distance >= 0) {
+			rotateByDistance(distance, 1, 1);
+		} else {
 			rotateByDistance(distance, -1, -1);
-			
+
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Freely sets both wheels forward indefinitely.
 	 * 
@@ -186,7 +190,7 @@ public class Navigation extends Thread {
 		leftMotor.forward();
 		rightMotor.forward();
 	}
-	
+
 	/**
 	 * Freely rotates the robot clockwise indefinitely.
 	 */
@@ -194,7 +198,7 @@ public class Navigation extends Thread {
 		leftMotor.forward();
 		rightMotor.backward();
 	}
-	
+
 	/**
 	 * Freely rotates the robot counter-clockwise indefinitely.
 	 */
@@ -202,7 +206,7 @@ public class Navigation extends Thread {
 		leftMotor.backward();
 		rightMotor.forward();
 	}
-	
+
 	/**
 	 * Stop both wheels.
 	 */
@@ -210,72 +214,84 @@ public class Navigation extends Thread {
 		leftMotor.stop(true);
 		rightMotor.stop(false);
 	}
-	
+
 	/**
 	 * Travel distance dist.
-	 * @param dist : distance to travel
-	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
-	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 * 
+	 * @param dist
+	 *            : distance to travel
+	 * @param leftWheelDir
+	 *            : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir
+	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
 		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
 		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
 		stopRobot();
 	}
-	
+
 	/**
 	 * Turn by 'degrees' degrees.
-	 * @param degrees : angle to turn
-	 * @param leftWheelDir : 1 for the left wheel to go forwrd, -1 for backward
-	 * @param rightWheelDir : 1 for the right wheel to go forward, -1 for backward
+	 * 
+	 * @param degrees
+	 *            : angle to turn
+	 * @param leftWheelDir
+	 *            : 1 for the left wheel to go forwrd, -1 for backward
+	 * @param rightWheelDir
+	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */
 	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
 		if (leftWheelDir == 1 && rightWheelDir == -1) {
-			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), true);
-			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+2), false);
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 2), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 2), false);
 
-		}
-		else {
-			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+0), true);
-			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees+0), false);
+		} else {
+			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), true);
+			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), false);
 		}
 		stopRobot();
 	}
 
-	
 	/**
 	 * Update the robot's acceleration
-	 * @param acc : desired acceleration
+	 * 
+	 * @param acc
+	 *            : desired acceleration
 	 */
 	public static void setAcceleration(int acc) {
 		leftMotor.setAcceleration(acc);
 		rightMotor.setAcceleration(acc);
 	}
-	
+
 	/**
 	 * Update the robot's speed.
-	 * @param sp : desired speed
+	 * 
+	 * @param sp
+	 *            : desired speed
 	 */
 	public static void setSpeed(int sp) {
 		leftMotor.setSpeed(sp);
 		rightMotor.setSpeed(sp);
 	}
+
 	/**
 	 * Lowers back wheels
 	 */
 	public static void landingGearOn() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
-		
+
 		backMotor.rotate(195);
 	}
+
 	/**
 	 * Lifts back wheels
 	 */
 	public static void landingGearOff() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
 		backMotor.setAcceleration(Robot.GEAR_ACCELERATION);
-		
+
 		backMotor.rotate(-195);
 	}
 
@@ -291,10 +307,61 @@ public class Navigation extends Thread {
 
 	/**
 	 * Returns the distance value as seen by the side sensor.
+	 * 
 	 * @return
 	 */
 	public int fetchSideUS() {
 		sideUsDistance.fetchSample(sideUsData, 0);
 		return (int) (sideUsData[0] * 100);
+	}
+
+	public void travelToTunnelEntrance() {
+		// x is the halfway point between both x's, y is the lower-left y because we're
+		// coming from green
+		double tunnelEntranceX = ((WiFiData.tnURX + WiFiData.tnLLX) / 2.0) * 30.48;
+		double tunnelEntranceY = (WiFiData.tnLLY) * 30.48;
+		travelTo(tunnelEntranceX, tunnelEntranceY);
+	}
+
+	public void travelToBridgeEntrance() {
+		// x is the halfway point between both x's, y is the upper-right y because we're
+		// coming from red
+		double bridgeEntranceX = ((WiFiData.brURX + WiFiData.brLLX) / 2.0) * 30.48;
+		double bridgeEntranceY = (WiFiData.brLLY) * 30.48;
+		travelTo(bridgeEntranceX, bridgeEntranceY);
+	}
+
+	// TODO: finish implementing this method
+	public void checkForEndOfArea() {
+		int zoneLLX = 0, zoneLLY = 0, zoneURX = 0, zoneURY = 0;
+		if (currentZone.equals("green")) {
+			zoneLLX = WiFiData.greenLLX;
+			zoneLLY = WiFiData.greenLLY;
+			zoneURX = WiFiData.greenURX;
+			zoneURX = WiFiData.greenURY;
+		} else if (currentZone.equals("red")) {
+			zoneLLX = WiFiData.redLLX;
+			zoneLLY = WiFiData.redLLY;
+			zoneURX = WiFiData.redURX;
+			zoneURX = WiFiData.redURY;
+		}
+		// Needs to be implemented as a thread (or find a way to make it run constantly)
+		while (true) {
+			double currX = odometer.getXYT()[0], currY = odometer.getXYT()[1];
+			if (currX - 10 <= zoneLLX || currX + 10 >= zoneURX) {
+				stopRobot(); // after stopping, what should it do?
+			}
+			if (currY - 10 <= zoneLLY || currY + 10 >= zoneURY) {
+				stopRobot(); // see above
+			}
+		}
+	}
+
+	public static void setCurrentZone(String colour) {
+		currentZone = colour;
+	}
+
+	public static void setStartingCorner(int sC) {
+		startingCorner = sC;
 	}
 }

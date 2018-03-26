@@ -112,16 +112,16 @@ public class Controller {
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
+			navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(2*Robot.TILESIZE, 2*Robot.TILESIZE, false, null);
+			navigation.travelTo(2*Robot.TILESIZE, 2*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(3*Robot.TILESIZE, 2*Robot.TILESIZE, false, null);
+			navigation.travelTo(3*Robot.TILESIZE, 2*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(4*Robot.TILESIZE, 1*Robot.TILESIZE, false, null);
+			navigation.travelTo(4*Robot.TILESIZE, 1*Robot.TILESIZE);
 
 
 		}
@@ -129,22 +129,22 @@ public class Controller {
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE, false, null);
+			navigation.travelTo(5*Robot.TILESIZE, 3*Robot.TILESIZE);
 			System.out.println("X: "+ odometer.getXYT()[0]);
 			System.out.println("Y: "+ odometer.getXYT()[1]);
 			System.out.println("Theta: "+ odometer.getXYT()[2]);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			navigation.travelTo(2*Robot.TILESIZE, 2*Robot.TILESIZE, false, null);
+			navigation.travelTo(2*Robot.TILESIZE, 2*Robot.TILESIZE);
 			System.out.println("X: "+ odometer.getXYT()[0]);
 			System.out.println("Y: "+ odometer.getXYT()[1]);
 			System.out.println("Theta: "+ odometer.getXYT()[2]);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			navigation.travelTo(3*Robot.TILESIZE, 2*Robot.TILESIZE, false, null);
+			navigation.travelTo(3*Robot.TILESIZE, 2*Robot.TILESIZE);
 			System.out.println("X: "+ odometer.getXYT()[0]);
 			System.out.println("Y: "+ odometer.getXYT()[1]);
 			System.out.println("Theta: "+ odometer.getXYT()[2]);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			navigation.travelTo(4*Robot.TILESIZE, 1*Robot.TILESIZE, false, null);
+			navigation.travelTo(4*Robot.TILESIZE, 1*Robot.TILESIZE);
 			System.out.println("X: "+ odometer.getXYT()[0]);
 			System.out.println("Y: "+ odometer.getXYT()[1]);
 			System.out.println("Theta: "+ odometer.getXYT()[2]);
