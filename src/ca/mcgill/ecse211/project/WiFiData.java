@@ -99,7 +99,7 @@ public class WiFiData {
 				sgLLY = ((Long) data.get("SG_LL_Y")).intValue();
 				sgURX = ((Long) data.get("SG_UR_X")).intValue();
 				sgURY = ((Long) data.get("SG_UR_Y")).intValue();
-				
+
 				if (TEAM_NUMBER == redTeam) {
 					Navigation.setCurrentZone("red");
 					Navigation.setStartingCorner(redCorner);
@@ -107,14 +107,13 @@ public class WiFiData {
 					Navigation.setCurrentZone("green");
 					Navigation.setStartingCorner(greenCorner);
 				}
-				
+
 				// ----------------------------------------------
 			} else {
 				Navigation.setCurrentZone("green");
 				Navigation.setStartingCorner(greenCorner);
 			}
 
-			
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}

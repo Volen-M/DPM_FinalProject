@@ -1,8 +1,5 @@
 package ca.mcgill.ecse211.project;
 
-import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-
 /**
  * Class that contain robot constants and uses them to convert distance/turn to
  * wheel rotation

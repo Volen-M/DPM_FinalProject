@@ -61,34 +61,6 @@ public class ColourCalibration extends Thread {
 		}
 	}
 
-	// /**
-	// * Updates the Display to show block colour
-	// *
-	// */
-	// private void updateDisplay() {
-	// String blockColour = "";
-	// if (currentBlock != null) {
-	// if (currentBlock.equals(colour.RED)) {
-	// blockColour = "Red";
-	// } else if (currentBlock.equals(colour.BLUE)) {
-	// blockColour = "Blue";
-	// } else if (currentBlock.equals(colour.YELLOW)) {
-	// blockColour = "Yellow";
-	// } else if (currentBlock.equals(colour.WHITE)) {
-	// blockColour = "White";
-	// } // else blockColour remains ""
-	//
-	// if (blockColour != "") {
-	// // If the value of blockColour has changed
-	// Controller.lcd.drawString("Block Colour =", 0, 5);
-	// Controller.lcd.drawString(blockColour, 0, 6);
-	// }
-	// } else {
-	// Controller.lcd.clear();
-	// }
-	//
-	// }
-
 	/**
 	 * Determines if it the target block
 	 * 
