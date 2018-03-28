@@ -4,7 +4,9 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
- * Class that contain robot constants and uses them to convert distance/turn to wheel rotation
+ * Class that contain robot constants and uses them to convert distance/turn to
+ * wheel rotation
+ * 
  * @author Volen Mihaylov
  * @author Patrick Ghazal
  * @author Bryan Jay
@@ -24,12 +26,12 @@ public final class Robot {
 	public static final double LSTOWHEEL = 7.35;
 	public static final double LSTOLS = 14.65;
 	public static final double TILESIZE = 30.48;
-	
+
 	/**
 	 * Constructor that initializes robot object
 	 */
 	public Robot() {
-		
+
 	}
 
 	/**
@@ -59,14 +61,19 @@ public final class Robot {
 
 	/**
 	 * Calculates distance between (x1, y1) and (x2, y2)
-	 * @param x1 : x-coord of the current position
-	 * @param y1 : y-coord of the current position
-	 * @param x2 : x-coord of the destination
-	 * @param y2 : y-coord of the destination
+	 * 
+	 * @param x1
+	 *            : x-coord of the current position
+	 * @param y1
+	 *            : y-coord of the current position
+	 * @param x2
+	 *            : x-coord of the destination
+	 * @param y2
+	 *            : y-coord of the destination
 	 * @return distance between current position and destination
 	 */
 	public static double calculateDistance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 	}
-	
+
 }

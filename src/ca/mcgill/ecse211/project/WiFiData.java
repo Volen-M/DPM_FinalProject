@@ -53,8 +53,6 @@ public class WiFiData {
 
 	// End of received data
 
-	public static boolean betaDemo = true;
-
 	@SuppressWarnings("rawtypes")
 	public static void processData() {
 
@@ -69,6 +67,8 @@ public class WiFiData {
 
 			greenTeam = ((Long) data.get("GreenTeam")).intValue();
 			greenCorner = ((Long) data.get("GreenCorner")).intValue();
+			redTeam = ((Long) data.get("RedTeam")).intValue();
+			redCorner = ((Long) data.get("RedCorner")).intValue();
 			redLLX = ((Long) data.get("Red_LL_X")).intValue();
 			redLLY = ((Long) data.get("Red_LL_Y")).intValue();
 			redURX = ((Long) data.get("Red_UR_X")).intValue();
@@ -86,10 +86,7 @@ public class WiFiData {
 			brURX = ((Long) data.get("BR_UR_X")).intValue();
 			brURY = ((Long) data.get("BR_UR_Y")).intValue();
 
-			if (!betaDemo) {
-				redTeam = ((Long) data.get("RedTeam")).intValue();
-				redCorner = ((Long) data.get("RedCorner")).intValue();
-
+			if (!Controller.betaDemo) {
 				// ----------------------------------------------
 				// Values to be used after the beta demo
 				og = ((Long) data.get("OG")).intValue();
@@ -102,16 +99,22 @@ public class WiFiData {
 				sgLLY = ((Long) data.get("SG_LL_Y")).intValue();
 				sgURX = ((Long) data.get("SG_UR_X")).intValue();
 				sgURY = ((Long) data.get("SG_UR_Y")).intValue();
+				
+				if (TEAM_NUMBER == redTeam) {
+					Navigation.setCurrentZone("red");
+					Navigation.setStartingCorner(redCorner);
+				} else if (TEAM_NUMBER == greenTeam) {
+					Navigation.setCurrentZone("green");
+					Navigation.setStartingCorner(greenCorner);
+				}
+				
 				// ----------------------------------------------
-			}
-
-			if (TEAM_NUMBER == redTeam) {
-				Navigation.setCurrentZone("red");
-				Navigation.setStartingCorner(redCorner);
-			} else if (TEAM_NUMBER == greenTeam) {
+			} else {
 				Navigation.setCurrentZone("green");
 				Navigation.setStartingCorner(greenCorner);
 			}
+
+			
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}

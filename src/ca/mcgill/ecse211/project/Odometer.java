@@ -55,7 +55,8 @@ public class Odometer extends OdometerData implements Runnable {
 	 * @return new or existing Odometer Object
 	 * @throws OdometerExceptions
 	 */
-	public synchronized static Odometer getOrCreateOdometer(final double TRACK, final double WHEEL_RAD) throws OdometerExceptions {
+	public synchronized static Odometer getOrCreateOdometer(final double TRACK, final double WHEEL_RAD)
+			throws OdometerExceptions {
 		if (odo != null) { // Return existing object
 			return odo;
 		} else { // create object and return it
@@ -94,10 +95,10 @@ public class Odometer extends OdometerData implements Runnable {
 			rightMotorTachoCount = Navigation.rightMotor.getTachoCount();
 
 			/*
-			 * if the tachometer values don't change, add 1 to checks,
-			 * for a max of 100 (to save space). checks > 20 means the tachometer
-			 * values aren't changing for 20 iterations or more, and therefore that the robot is
-			 * stopped. if a different value is found, clear checks
+			 * if the tachometer values don't change, add 1 to checks, for a max of 100 (to
+			 * save space). checks > 20 means the tachometer values aren't changing for 20
+			 * iterations or more, and therefore that the robot is stopped. if a different
+			 * value is found, clear checks
 			 */
 			if (leftMotorTachoCount == prevlMTC && rightMotorTachoCount == prevrMTC) {
 				if (checks < 100) {

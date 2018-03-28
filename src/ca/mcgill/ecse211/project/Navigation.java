@@ -317,17 +317,17 @@ public class Navigation extends Thread {
 
 	public void travelToTunnelEntrance() {
 		// x is the halfway point between both x's, y is the lower-left y because we're
-		// coming from green
+		// coming from green (- 5 for not starting right on edge of tunnel)
 		double tunnelEntranceX = ((WiFiData.tnURX + WiFiData.tnLLX) / 2.0) * 30.48;
-		double tunnelEntranceY = (WiFiData.tnLLY) * 30.48;
+		double tunnelEntranceY = (WiFiData.tnLLY) * 30.48 - 5;
 		travelTo(tunnelEntranceX, tunnelEntranceY);
 	}
 
 	public void travelToBridgeEntrance() {
 		// x is the halfway point between both x's, y is the upper-right y because we're
-		// coming from red
+		// coming from red (+ 5 for not starting right on edge of bridge)
 		double bridgeEntranceX = ((WiFiData.brURX + WiFiData.brLLX) / 2.0) * 30.48;
-		double bridgeEntranceY = (WiFiData.brLLY) * 30.48;
+		double bridgeEntranceY = (WiFiData.brURY) * 30.48 + 5;
 		travelTo(bridgeEntranceX, bridgeEntranceY);
 	}
 

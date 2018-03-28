@@ -4,8 +4,9 @@ import lejos.hardware.Sound;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class that utilizes the UltraSonic Sensor to point the robot in the right direction when it is in a corner position next to two walls
- * Utilizes falling edge and rising edge for proper localization
+ * Class that utilizes the UltraSonic Sensor to point the robot in the right
+ * direction when it is in a corner position next to two walls Utilizes falling
+ * edge and rising edge for proper localization
  *
  * @author Volen Mihaylov
  * @author Patrick Ghazal
@@ -44,12 +45,11 @@ public class USLocalizer {
 	}
 
 	/**
-	 * Initializes starting coordinates according to inputed corner.
-	 * corner = 0 is bottom left corner
-	 * corner = 1 is bottom right corner
-	 * corner = 2 is top right corner
-	 * corner = 3 is top left corner
-	 * @param corner 
+	 * Initializes starting coordinates according to inputed corner. corner = 0 is
+	 * bottom left corner corner = 1 is bottom right corner corner = 2 is top right
+	 * corner corner = 3 is top left corner
+	 * 
+	 * @param corner
 	 */
 	public void setStartingCoordinates(int corner) {
 		switch (corner) {
@@ -101,7 +101,8 @@ public class USLocalizer {
 		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateCounterClockWise();
 		}
-		navigation.stopRobot();;
+		navigation.stopRobot();
+		;
 		Sound.buzz();
 		// record angle
 		angleA = odometer.getXYT()[2];
@@ -115,7 +116,8 @@ public class USLocalizer {
 		while (fetchUS() < Robot.D + Robot.K) {
 			navigation.rotateClockWise();
 		}
-		navigation.stopRobot();;
+		navigation.stopRobot();
+		;
 		Sound.buzz();
 		angleB = odometer.getXYT()[2];
 
@@ -152,7 +154,8 @@ public class USLocalizer {
 		while (fetchUS() > Robot.D) {
 			navigation.rotateCounterClockWise();
 		}
-		navigation.stopRobot();;
+		navigation.stopRobot();
+		;
 
 		Sound.buzz();
 		// record angle
@@ -167,7 +170,8 @@ public class USLocalizer {
 		while (fetchUS() > Robot.D) {
 			navigation.rotateClockWise();
 		}
-		navigation.stopRobot();;
+		navigation.stopRobot();
+		;
 		Sound.buzz();
 
 		angleB = odometer.getXYT()[2];

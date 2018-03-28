@@ -3,7 +3,8 @@ package ca.mcgill.ecse211.project;
 import lejos.hardware.Sound;
 
 /**
- * Class that finds the needed cube in a certain rectangular area amongst other cubes
+ * Class that finds the needed cube in a certain rectangular area amongst other
+ * cubes
  * 
  * 
  * @author Volen Mihaylov
@@ -40,10 +41,9 @@ public class SearchAndLocalize {
 
 	}
 
-	
 	/**
-	 * fieldTest implements the second part of the demo.
-	 * Go to LL, detect blocks, go to UR
+	 * fieldTest implements the second part of the demo. Go to LL, detect blocks, go
+	 * to UR
 	 */
 	public void fieldTest() {
 
@@ -77,8 +77,10 @@ public class SearchAndLocalize {
 	}
 
 	/**
-	 * sets the value of the boolean foundBlock 
-	 * @param newVal : boolean value to set
+	 * sets the value of the boolean foundBlock
+	 * 
+	 * @param newVal
+	 *            : boolean value to set
 	 */
 	public void setFoundBlock(boolean newVal) {
 		this.foundBlock = newVal;
@@ -99,6 +101,7 @@ public class SearchAndLocalize {
 
 	/**
 	 * Helper method for the set destinations method.
+	 * 
 	 * @param val
 	 * @return
 	 */
@@ -134,6 +137,7 @@ public class SearchAndLocalize {
 
 	/**
 	 * Return the ColourCalibration instance
+	 * 
 	 * @return
 	 */
 	public ColourCalibration getCC() {
@@ -142,6 +146,7 @@ public class SearchAndLocalize {
 
 	/**
 	 * Return the current value of foundBlock
+	 * 
 	 * @return
 	 */
 	public boolean getFoundBlock() {
