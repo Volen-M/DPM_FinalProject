@@ -38,7 +38,7 @@ public class WiFiData {
 
 	// ** Set these as appropriate for your team and current situation **
 	private static final String SERVER_IP = "192.168.2.3";
-	private static final int TEAM_NUMBER = 7;
+	private static final int TEAM_NUMBER = 11;
 
 	// Enable/disable printing of debug info from the WiFi class
 	private static final boolean ENABLE_DEBUG_WIFI_PRINT = true;
@@ -69,51 +69,56 @@ public class WiFiData {
 			greenCorner = ((Long) data.get("GreenCorner")).intValue();
 			redTeam = ((Long) data.get("RedTeam")).intValue();
 			redCorner = ((Long) data.get("RedCorner")).intValue();
-			redLLX = ((Long) data.get("Red_LL_X")).intValue();
-			redLLY = ((Long) data.get("Red_LL_Y")).intValue();
-			redURX = ((Long) data.get("Red_UR_X")).intValue();
-			redURY = ((Long) data.get("Red_UR_Y")).intValue();
-			greenLLX = ((Long) data.get("Green_LL_X")).intValue();
-			greenLLY = ((Long) data.get("Green_LL_Y")).intValue();
-			greenURX = ((Long) data.get("Green_UR_X")).intValue();
-			greenURY = ((Long) data.get("Green_UR_Y")).intValue();
-			tnLLX = ((Long) data.get("TN_LL_X")).intValue();
-			tnLLY = ((Long) data.get("TN_LL_Y")).intValue();
-			tnURX = ((Long) data.get("TN_UR_X")).intValue();
-			tnURY = ((Long) data.get("TN_UR_Y")).intValue();
-			brLLX = ((Long) data.get("BR_LL_X")).intValue();
-			brLLY = ((Long) data.get("BR_LL_Y")).intValue();
-			brURX = ((Long) data.get("BR_UR_X")).intValue();
-			brURY = ((Long) data.get("BR_UR_Y")).intValue();
+			redLLX = ((Long) data.get("Red_LL_x")).intValue();
+			redLLY = ((Long) data.get("Red_LL_y")).intValue();
+			redURX = ((Long) data.get("Red_UR_x")).intValue();
+			redURY = ((Long) data.get("Red_UR_y")).intValue();
+			greenLLX = ((Long) data.get("Green_LL_x")).intValue();
+			greenLLY = ((Long) data.get("Green_LL_y")).intValue();
+			greenURX = ((Long) data.get("Green_UR_x")).intValue();
+			greenURY = ((Long) data.get("Green_UR_y")).intValue();
+			tnLLX = ((Long) data.get("TN_LL_x")).intValue();
+			tnLLY = ((Long) data.get("TN_LL_y")).intValue();
+			tnURX = ((Long) data.get("TN_UR_x")).intValue();
+			tnURY = ((Long) data.get("TN_UR_y")).intValue();
+			brLLX = ((Long) data.get("BR_LL_x")).intValue();
+			brLLY = ((Long) data.get("BR_LL_y")).intValue();
+			brURX = ((Long) data.get("BR_UR_x")).intValue();
+			brURY = ((Long) data.get("BR_UR_y")).intValue();
+			
 
 			if (!Controller.betaDemo) {
 				// ----------------------------------------------
 				// Values to be used after the beta demo
 				og = ((Long) data.get("OG")).intValue();
 				or = ((Long) data.get("OR")).intValue();
-				srLLX = ((Long) data.get("SR_LL_X")).intValue();
-				srLLY = ((Long) data.get("SR_LL_Y")).intValue();
-				srURX = ((Long) data.get("SR_UR_X")).intValue();
-				srURY = ((Long) data.get("SR_UR_Y")).intValue();
-				sgLLX = ((Long) data.get("SG_LL_X")).intValue();
-				sgLLY = ((Long) data.get("SG_LL_Y")).intValue();
-				sgURX = ((Long) data.get("SG_UR_X")).intValue();
-				sgURY = ((Long) data.get("SG_UR_Y")).intValue();
-
+				srLLX = ((Long) data.get("SR_LL_x")).intValue();
+				srLLY = ((Long) data.get("SR_LL_y")).intValue();
+				srURX = ((Long) data.get("SR_UR_x")).intValue();
+				srURY = ((Long) data.get("SR_UR_y")).intValue();
+				sgLLX = ((Long) data.get("SG_LL_x")).intValue();
+				sgLLY = ((Long) data.get("SG_LL_y")).intValue();
+				sgURX = ((Long) data.get("SG_UR_x")).intValue();
+				sgURY = ((Long) data.get("SG_UR_y")).intValue();
+				
 				if (TEAM_NUMBER == redTeam) {
+					Controller.setCurrentTeam("red");
 					Navigation.setCurrentZone("red");
 					Navigation.setStartingCorner(redCorner);
 				} else if (TEAM_NUMBER == greenTeam) {
+					Controller.setCurrentTeam("green");
 					Navigation.setCurrentZone("green");
 					Navigation.setStartingCorner(greenCorner);
 				}
-
+				
 				// ----------------------------------------------
 			} else {
+				Controller.setCurrentTeam("green");
 				Navigation.setCurrentZone("green");
 				Navigation.setStartingCorner(greenCorner);
 			}
 
+			
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}

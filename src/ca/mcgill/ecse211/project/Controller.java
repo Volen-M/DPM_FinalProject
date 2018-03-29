@@ -2,6 +2,7 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
@@ -29,6 +30,7 @@ public class Controller {
 	private static double upperRightX = 6 * Robot.TILESIZE;
 	private static double upperRightY = 7 * Robot.TILESIZE;
 	private static int targetBlock = 3;
+	private static String currentTeam;
 
 	// Set to true when testing, allows for beta demo behaviour not to happen
 	private static boolean testing = false;
@@ -74,9 +76,9 @@ public class Controller {
 
 		if (testing) {
 			odometer.setXYT(0, 0, 0);
-			int test = 0;
+			int test = 8;
 			if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
-								// they have to rotate (you dont want to over rotate or under
+				// they have to rotate (you dont want to over rotate or under
 				// You know you over wroted due to screeching sound.... Constant to set:Angle in
 				// navigation.landingGearOn() and navigation.landingGearoff()
 
@@ -88,15 +90,35 @@ public class Controller {
 				navigation.landingGearOff();
 
 			} else if (test == 1) { // Test for wheel radius (get by what percentage it is off on average so
-									// (Distancetravelled+offset)/Distancetravelled
+				// (Distancetravelled+offset)/Distancetravelled
 				// and change the WHEEL_RAD by that.... Constant to set: Robot.WHEEL_RAD
-
+				//				while (Button.waitForAnyPress() != Button.ID_DOWN)
+				//					;
+				//				navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
 				navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
@@ -105,7 +127,7 @@ public class Controller {
 				navigation.rotateByDistance(6 * Robot.TILESIZE, 1, 1);
 
 			} else if (test == 2) { // Test for track length by checking turning. Get it as close as possible then
-									// just add constant to turning as
+				// just add constant to turning as
 				// chances are it wont turn as nicely both ways compare angles to black lines
 				// for ease (make sure to replace exactly the cross in the middle of the axis of
 				// both wheels after each trial)
@@ -114,25 +136,51 @@ public class Controller {
 
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
+				odometer.setXYT(0, 0, 0);
 				navigation.turnTo(90);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
+				odometer.setXYT(0, 0, 0);
 				navigation.turnTo(-90);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.turnTo(180);
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(90);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.turnTo(-180);
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(-90);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.turnTo(270);
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(90);
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
-				navigation.turnTo(-270);
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(-90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(-90);
+				//				while (Button.waitForAnyPress() != Button.ID_DOWN)
+				//					;
+				//				navigation.turnTo(180);
+				//				while (Button.waitForAnyPress() != Button.ID_DOWN)
+				//					;
+				//				navigation.turnTo(-180);
+				//				while (Button.waitForAnyPress() != Button.ID_DOWN)
+				//					;
+				//				navigation.turnTo(270);
+				//				while (Button.waitForAnyPress() != Button.ID_DOWN)
+				//					;
+				//				navigation.turnTo(-270);
 
 			} else if (test == 3) { // This is just to check Test 1 and 2 are successful together first makes the
-									// robot go to (5,3) then (2,2) then (3,2) and then (4,1)
+				// robot go to (5,3) then (2,2) then (3,2) and then (4,1)
 				// Please note since at this point the odometer has not been tested it resets it
 
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
@@ -153,7 +201,7 @@ public class Controller {
 				navigation.travelTo(4 * Robot.TILESIZE, 1 * Robot.TILESIZE);
 
 			} else if (test == 4) { // This is test 3 but with Odometer and without reseting anything to check if
-									// Odometer works....Constants: None -> (for Coding)
+				// Odometer works....Constants: None -> (for Coding)
 
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
@@ -211,30 +259,168 @@ public class Controller {
 				while (Button.waitForAnyPress() != Button.ID_DOWN)
 					;
 				usLocalizer.localize();
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				usLocalizer.localize();
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				usLocalizer.localize();
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				usLocalizer.localize();
 
+			} else if (test == 7) {
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(-90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					;
+				odometer.setXYT(0, 0, 0);
+				navigation.turnTo(-90);
+				while (Button.waitForAnyPress() != Button.ID_DOWN);
+				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+				while (Button.waitForAnyPress() != Button.ID_DOWN)
+					navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			} else if (test == 8) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			usLocalizer.localize();
+			System.out.println("X: " + odometer.getXYT()[0]);
+			System.out.println("Y: " + odometer.getXYT()[1]);
+			System.out.println("Theta: " + odometer.getXYT()[2]);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			usLocalizer.localize();
+			System.out.println("X: " + odometer.getXYT()[0]);
+			System.out.println("Y: " + odometer.getXYT()[1]);
+			System.out.println("Theta: " + odometer.getXYT()[2]);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
+			lightLocalizer.localizeY();
+			System.out.println("X: " + odometer.getXYT()[0]);
+			System.out.println("Y: " + odometer.getXYT()[1]);
+			System.out.println("Theta: " + odometer.getXYT()[2]);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 90);
+			lightLocalizer.localizeX();
+			System.out.println("X: " + odometer.getXYT()[0]);
+			System.out.println("Y: " + odometer.getXYT()[1]);
+			System.out.println("Theta: " + odometer.getXYT()[2]);
+				
 			}
 		}
-
 		if (betaDemo && !testing) {
-			// Behaviour for the beta demo, to be refined if necessary
-			usLocalizer.localize();
-			lightLocalizer.fullLocalize(2); // starting in lower-right corner, so left and up
-			navigation.travelToTunnelEntrance();
-			navigation.turnTo(0);
-			navigation.forward();
-			while (odometer.getXYT()[1] <= WiFiData.tnURY + 15)
-				;
-			navigation.stopRobot();
-			navigation.travelToBridgeEntrance();
-			navigation.turnTo(180);
-			navigation.landingGearOn();
-			navigation.forward();
-			while (odometer.getXYT()[1] >= WiFiData.brLLY - 15)
-				;
-			navigation.stopRobot();
-			navigation.landingGearOff();
-			navigation.travelTo(7.5 * 30.48, 0.5 * 30.48); // middle of the lower right square
+				usLocalizer.localize();
+				odometer.setXYT(7.25*Robot.TILESIZE, 0.75*Robot.TILESIZE, 270);
+				navigation.turnTo(-45);
+				navigation.moveBy(Math.sqrt(2)*Robot.TILESIZE/2);
+				navigation.turnTo(270);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0+Robot.TILESIZE, WiFiData.tnLLY-Robot.TILESIZE-Robot.TILESIZE/2);
+				navigation.turnTo(270);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0, WiFiData.tnLLY-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnURX-Robot.TILESIZE/2.0, WiFiData.tnURY+Robot.TILESIZE/2);
+				navigation.turnTo(90);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.landingGearOn();
+				navigation.travelTo(WiFiData.brURX-Robot.TILESIZE/2.0, WiFiData.brURY+Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.brURX+Robot.TILESIZE/2.0, WiFiData.brURY-Robot.TILESIZE/2);
+				navigation.landingGearOff();
+				navigation.turnTo(90);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(180);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(7.5*Robot.TILESIZE, 0.5*Robot.TILESIZE);
+				
+		
+				usLocalizer.localize();
+				odometer.setXYT(0.75*Robot.TILESIZE, 0.75*Robot.TILESIZE, 270);
+				navigation.turnTo(-45);
+				navigation.moveBy(Math.sqrt(2)*Robot.TILESIZE/2);
+				navigation.turnTo(270);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0+Robot.TILESIZE, WiFiData.tnLLY-Robot.TILESIZE-Robot.TILESIZE/2);
+				navigation.turnTo(270);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0, WiFiData.tnLLY-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnURX-Robot.TILESIZE/2.0, WiFiData.tnURY+Robot.TILESIZE/2);
+				navigation.turnTo(90);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(0);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(WiFiData.brURX-Robot.TILESIZE/2.0, WiFiData.brURY+Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.brURX+Robot.TILESIZE/2.0, WiFiData.brURY-Robot.TILESIZE/2);
+				navigation.turnTo(90);
+				navigation.moveBy(10);
+				lightLocalizer.localizeX();
+				navigation.turnTo(180);
+				navigation.moveBy(10);
+				lightLocalizer.localizeY();
+				navigation.travelTo(7.5*Robot.TILESIZE, 0.5*Robot.TILESIZE);
+				
 		}
+//		if (betaDemo && !testing) {
+//			// Behaviour for the beta demo, to be refined if necessary
+//			usLocalizer.localize();
+//			lightLocalizer.fullLocalize(2); // starting in lower-right corner, so left and up
+//			navigation.travelToTunnelEntrance();
+//			navigation.turnTo(0);
+//			navigation.forward();
+//			while (odometer.getXYT()[1] <= WiFiData.tnURY + 15)
+//				;
+//			navigation.stopRobot();
+//			navigation.travelToBridgeEntrance();
+//			navigation.turnTo(180);
+//			navigation.landingGearOn();
+//			navigation.forward();
+//			while (odometer.getXYT()[1] >= WiFiData.brLLY - 15)
+//				;
+//			navigation.stopRobot();
+//			navigation.landingGearOff();
+//			navigation.travelTo(7.5 * 30.48, 0.5 * 30.48); // middle of the lower right square
+//		}
 
+	}
+
+	public static void setCurrentTeam(String colour) {
+		currentTeam = colour;
 	}
 }
