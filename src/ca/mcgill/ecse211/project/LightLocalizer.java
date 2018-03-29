@@ -30,7 +30,7 @@ public class LightLocalizer {
 	double[] lineData;
 
 	/**
-	 * LightLocalizet constructor
+	 * LightLocalizer constructor
 	 * 
 	 * @param odometer
 	 *            Odometer object to keep track of position for coordinate related

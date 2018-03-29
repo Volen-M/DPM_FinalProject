@@ -18,9 +18,6 @@ public class Odometer extends OdometerData implements Runnable {
 	private int rightMotorTachoCount;
 	private int prevlMTC = 0, prevrMTC = 0; // prevlMTC = previousLeftMotorTachoCount, same for right
 
-	private final double TRACK;
-	private final double WHEEL_RAD;
-
 	private static final long ODOMETER_PERIOD = 25; // odometer update period in ms
 
 	private static int checks = 0;
@@ -33,16 +30,13 @@ public class Odometer extends OdometerData implements Runnable {
 	 * @param rightMotor
 	 * @throws OdometerExceptions
 	 */
-	private Odometer(final double TRACK, final double WHEEL_RAD) throws OdometerExceptions {
+	private Odometer() throws OdometerExceptions {
 
 		// Reset the values of x, y and z to 0
 		this.setXYT(0, 0, 0);
 
 		this.leftMotorTachoCount = 0;
 		this.rightMotorTachoCount = 0;
-
-		this.TRACK = TRACK;
-		this.WHEEL_RAD = WHEEL_RAD;
 
 	}
 
@@ -55,12 +49,12 @@ public class Odometer extends OdometerData implements Runnable {
 	 * @return new or existing Odometer Object
 	 * @throws OdometerExceptions
 	 */
-	public synchronized static Odometer getOrCreateOdometer(final double TRACK, final double WHEEL_RAD)
+	public synchronized static Odometer getOrCreateOdometer()
 			throws OdometerExceptions {
 		if (odo != null) { // Return existing object
 			return odo;
 		} else { // create object and return it
-			odo = new Odometer(TRACK, WHEEL_RAD);
+			odo = new Odometer();
 			return odo;
 		}
 	}
@@ -113,9 +107,9 @@ public class Odometer extends OdometerData implements Runnable {
 				/*
 				 * All the following calculations based on the slides.
 				 */
-				double d1 = (WHEEL_RAD * Math.PI * (leftMotorTachoCount - prevlMTC)) / 180,
-						d2 = (WHEEL_RAD * Math.PI * (rightMotorTachoCount - prevrMTC)) / 180;
-				deltaTheta = (d1 - d2) / TRACK;
+				double d1 = (Robot.WHEEL_RAD * Math.PI * (leftMotorTachoCount - prevlMTC)) / 180,
+						d2 = (Robot.WHEEL_RAD * Math.PI * (rightMotorTachoCount - prevrMTC)) / 180;
+				deltaTheta = (d1 - d2) / Robot.TRACK;
 				double newHeading = getXYT()[2] + (deltaTheta * (180.0 / Math.PI));
 				double displacement = (d1 + d2) / 2.00;
 				deltaX = displacement * Math.sin(newHeading * (Math.PI / 180.0));

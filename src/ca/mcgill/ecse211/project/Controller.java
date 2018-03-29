@@ -49,7 +49,7 @@ public class Controller {
 		}
 
 		// Odometer related objects
-		Odometer odometer = Odometer.getOrCreateOdometer(Robot.TRACK, Robot.WHEEL_RAD);
+		Odometer odometer = Odometer.getOrCreateOdometer();
 
 		// usSensor is the instance
 		SensorModes ultrasonicSensor = new EV3UltrasonicSensor(usPort);

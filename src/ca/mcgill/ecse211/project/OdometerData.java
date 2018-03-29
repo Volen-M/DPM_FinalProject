@@ -22,7 +22,7 @@ public class OdometerData {
 	private volatile double theta; // Head angle
 
 	// Class control variables
-	private volatile static int numberOfIntances = 0; // Number of OdometerData
+	private volatile static int numberOfInstances = 0; // Number of OdometerData
 														// objects instantiated
 														// so far
 	private static final int MAX_INSTANCES = 1; // Maximum number of
@@ -62,10 +62,10 @@ public class OdometerData {
 	public synchronized static OdometerData getOdometerData() throws OdometerExceptions {
 		if (odoData != null) { // Return existing object
 			return odoData;
-		} else if (numberOfIntances < MAX_INSTANCES) { // create object and
+		} else if (numberOfInstances < MAX_INSTANCES) { // create object and
 														// return it
 			odoData = new OdometerData();
-			numberOfIntances += 1;
+			numberOfInstances += 1;
 			return odoData;
 		} else {
 			throw new OdometerExceptions("Only one intance of the Odometer can be created.");
