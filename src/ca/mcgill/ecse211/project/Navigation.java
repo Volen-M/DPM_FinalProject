@@ -6,7 +6,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class containing all movement related behaviors. Extends Thread
+ * Class containing all robot movement related behaviors. Extends Thread.
  * 
  * @author Volen Mihaylov
  * @author Patrick Ghazal
@@ -67,9 +67,9 @@ public class Navigation extends Thread {
 	 * A method to drive our vehicle to a certain Cartesian coordinate
 	 * 
 	 * @param x
-	 *            X-Coordinate
+	 *            X-Coordinate of destination
 	 * @param y
-	 *            Y-Coordinate
+	 *            Y-Coordinate of destination
 	 */
 	public void travelTo(double x, double y) {
 		navigating = true;
@@ -98,8 +98,7 @@ public class Navigation extends Thread {
 	/**
 	 * Goes to a block when it is detected in the field
 	 * 
-	 * @param searcher
-	 *            : instance of the SearchAndLocalize class
+	 * @param searcher Instance of the SearchAndLocalize class
 	 */
 	private void goToBlock(SearchAndLocalize searcher) {
 		int dist = this.usLoc.fetchUS();
@@ -115,8 +114,7 @@ public class Navigation extends Thread {
 	/**
 	 * Checks for the presence of a block in the sights of the sensor.
 	 * 
-	 * @param searcher:
-	 *            instance of the SearchAndLocalize class
+	 * @param searcher Instance of the SearchAndLocalize class
 	 * @return 0 if no block is detected, 1 if a block is detected on the side, 2 if
 	 *         a block is detected at the front
 	 */

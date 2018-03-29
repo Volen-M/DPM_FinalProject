@@ -420,6 +420,11 @@ public class Controller {
 
 	}
 
+	
+	/**
+	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
+	 * @param colour the colour of the team as per the retrieved wifi data
+	 */
 	public static void setCurrentTeam(String colour) {
 		currentTeam = colour;
 	}

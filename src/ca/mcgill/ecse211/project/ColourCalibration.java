@@ -5,8 +5,8 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class for EveryThing color detection related. Makes use of the Gaussian
- * distribution to find detected color Extends Thread
+ * Class for Everything color detection related. Makes use of the Gaussian
+ * distribution to find detected color. Extends Thread.
  * 
  * @author Volen Mihaylov
  * @author Bryan Jay
