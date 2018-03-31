@@ -1,5 +1,6 @@
 package ca.mcgill.ecse211.project;
 
+import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
@@ -26,7 +27,7 @@ public class ColourCalibration extends Thread {
 	private static final double[] std_yellow = { 0.093333, 0.063156, 0.00990942 };
 	private static final double[] std_white = { 0.0953342, 0.089224356, 0.05930942 };
 	private colour currentBlock;
-	private colour flag;
+	private int flag;
 
 	// Used to know whether the calibration is used for part 1 or 2 of the demo
 	public boolean isFieldSearching = false;
@@ -38,27 +39,10 @@ public class ColourCalibration extends Thread {
 		BLUE, RED, YELLOW, WHITE
 	}
 
-	public ColourCalibration() {
+	public ColourCalibration(int flag) {
 		lightSensor.setCurrentMode("Red"); // set the sensor floodlight to white
-	}
+		this.flag = flag;
 
-	/**
-	 * Main running function that searches for the color and constantly outputs it
-	 * on the console. (Not to be used in conjunction with anything else as it will
-	 * constantly output the color)
-	 */
-	public void run() {
-		if (!isFieldSearching) {
-			// first part of the demo, continuously search for a color
-			while (true) {
-				colourDetection();
-			}
-		} else {
-			// second part of the demo, colourDetection() is called
-			// at will by SearchAndLocalize
-			while (true)
-				;
-		}
 	}
 
 	/**
@@ -68,19 +52,22 @@ public class ColourCalibration extends Thread {
 	 */
 	public boolean isBlock() {
 
-		if (flag.equals(currentBlock)) {
-			// Sound.beep();
+		if (flag == currentBlock.ordinal()) {
+			Sound.beepSequenceUp();
 			return true;
 		} else {
+			Sound.beep();
 			return false;
 		}
 	}
 
 	/**
-	 * Determines the colour of the block
+	 * Determines the colour of the block and returns whether or not it its Target
+	 * block
 	 * 
+	 * @return boolean
 	 */
-	public void colourDetection() {
+	public boolean colourDetection() {
 
 		float[] RGB = new float[3];
 		RGB = getRGB();
@@ -104,24 +91,8 @@ public class ColourCalibration extends Thread {
 				&& Math.abs(RGB[2] - RGB_white[2]) <= 2 * std_white[2]) {
 			currentBlock = colour.WHITE;
 		}
-		if (!isFieldSearching) {
-			// updateDisplay();
-		} else {
 
-			String blockColour = "";
-
-			if (currentBlock.equals(colour.RED)) {
-				blockColour = "Red";
-			} else if (currentBlock.equals(colour.BLUE)) {
-				blockColour = "Blue";
-			} else if (currentBlock.equals(colour.YELLOW)) {
-				blockColour = "Yellow";
-			} else if (currentBlock.equals(colour.WHITE)) {
-				blockColour = "White";
-			}
-
-			// Controller.lcd.drawString("Block Colour =" + blockColour, 0, 5);
-		}
+		return isBlock();
 	}
 
 	/**
@@ -151,16 +122,6 @@ public class ColourCalibration extends Thread {
 	 */
 	public void resetBlock() {
 		currentBlock = null;
-	}
-
-	/**
-	 * Sets which colour to look for
-	 * 
-	 * @param f
-	 *            Colour code Integer
-	 */
-	public void setFlag(int f) {
-		this.flag = colour.values()[f];
 	}
 
 }

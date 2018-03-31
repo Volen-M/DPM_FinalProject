@@ -47,6 +47,12 @@ public class LightLocalizer {
 		lineData = new double[4];
 	}
 
+	/**
+	 * Method to fully localize its position
+	 * 
+	 * @param int
+	 *            integer to determine the type of localization to be done depending on robots location
+	 */
 	public void fullLocalize(int type) {
 		switch (type) {
 		case 1: { // right then up
@@ -138,6 +144,10 @@ public class LightLocalizer {
 
 	}
 
+	/**
+	 * This method determines the expected tile location of the robot from its coordinates
+	 * 
+	 */
 	private int expectedTile(double coordinate) {
 		return (int) Math.round(coordinate);
 	}

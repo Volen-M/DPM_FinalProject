@@ -70,8 +70,7 @@ public class Controller {
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, navigation);
 
 		if (!betaDemo) {
-			ColourCalibration colourCalibration = new ColourCalibration();
-			Thread colourCalibrationThread = new Thread(colourCalibration);
+			ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
 		}
 
 		if (testing) {
