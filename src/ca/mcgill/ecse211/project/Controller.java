@@ -41,8 +41,6 @@ public class Controller {
 	@SuppressWarnings({ "static-access", "resource" })
 	public static void main(String[] args) throws OdometerExceptions, InterruptedException {
 
-
-
 		// Odometer related objects
 		Odometer odometer = Odometer.getOrCreateOdometer();
 
@@ -53,7 +51,7 @@ public class Controller {
 
 		navigation = new Navigation(odometer);
 
-		Thread odoThread = new Thread(odometer);		// Start odometer thread.
+		Thread odoThread = new Thread(odometer); // Start odometer thread.
 		odoThread.start();
 
 		// Create ultrasonic and light localizer objects.
@@ -63,33 +61,35 @@ public class Controller {
 
 		if (!testing) {
 			WiFiData.processData();
+		} else {
+			runTests(navigation, odometer, usLocalizer, lightLocalizer);
 		}
 		if (!betaDemo) {
 			ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
 		}
 
-
 		if (betaDemo && !testing) {
 			if (currentTeam.equals("Green")) {
 				usLocalizer.localize();
-				odometer.setXYT(7.25*Robot.TILESIZE, 0.75*Robot.TILESIZE, 270);
+				odometer.setXYT(7.25 * Robot.TILESIZE, 0.75 * Robot.TILESIZE, 270);
 				navigation.turnTo(-45);
-				navigation.moveBy(Math.sqrt(2)*Robot.TILESIZE/2);
+				navigation.moveBy(Math.sqrt(2) * Robot.TILESIZE / 2);
 				navigation.turnTo(270);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(0);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0+Robot.TILESIZE, WiFiData.tnLLY-Robot.TILESIZE-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnLLX + Robot.TILESIZE / 2.0 + Robot.TILESIZE,
+						WiFiData.tnLLY - Robot.TILESIZE - Robot.TILESIZE / 2);
 				navigation.turnTo(270);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(0);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0, WiFiData.tnLLY-Robot.TILESIZE/2);
-				navigation.travelTo(WiFiData.tnURX-Robot.TILESIZE/2.0, WiFiData.tnURY+Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnLLX + Robot.TILESIZE / 2.0, WiFiData.tnLLY - Robot.TILESIZE / 2);
+				navigation.travelTo(WiFiData.tnURX - Robot.TILESIZE / 2.0, WiFiData.tnURY + Robot.TILESIZE / 2);
 				navigation.turnTo(90);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
@@ -97,8 +97,8 @@ public class Controller {
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
 				navigation.landingGearOn();
-				navigation.travelTo(WiFiData.brURX-Robot.TILESIZE/2.0, WiFiData.brURY+Robot.TILESIZE/2);
-				navigation.travelTo(WiFiData.brURX+Robot.TILESIZE/2.0, WiFiData.brURY-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.brURX - Robot.TILESIZE / 2.0, WiFiData.brURY + Robot.TILESIZE / 2);
+				navigation.travelTo(WiFiData.brURX + Robot.TILESIZE / 2.0, WiFiData.brURY - Robot.TILESIZE / 2);
 				navigation.landingGearOff();
 				navigation.turnTo(90);
 				navigation.moveBy(10);
@@ -106,71 +106,74 @@ public class Controller {
 				navigation.turnTo(180);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(7.5*Robot.TILESIZE, 0.5*Robot.TILESIZE);
-			}
-			else {
+				navigation.travelTo(7.5 * Robot.TILESIZE, 0.5 * Robot.TILESIZE);
+			} else {
 				usLocalizer.localize();
-				odometer.setXYT(0.75*Robot.TILESIZE, 0.75*Robot.TILESIZE, 270);
+				odometer.setXYT(0.75 * Robot.TILESIZE, 0.75 * Robot.TILESIZE, 270);
 				navigation.turnTo(-45);
-				navigation.moveBy(Math.sqrt(2)*Robot.TILESIZE/2);
+				navigation.moveBy(Math.sqrt(2) * Robot.TILESIZE / 2);
 				navigation.turnTo(270);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(0);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0+Robot.TILESIZE, WiFiData.tnLLY-Robot.TILESIZE-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnLLX + Robot.TILESIZE / 2.0 + Robot.TILESIZE,
+						WiFiData.tnLLY - Robot.TILESIZE - Robot.TILESIZE / 2);
 				navigation.turnTo(270);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(0);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(WiFiData.tnLLX+Robot.TILESIZE/2.0, WiFiData.tnLLY-Robot.TILESIZE/2);
-				navigation.travelTo(WiFiData.tnURX-Robot.TILESIZE/2.0, WiFiData.tnURY+Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.tnLLX + Robot.TILESIZE / 2.0, WiFiData.tnLLY - Robot.TILESIZE / 2);
+				navigation.travelTo(WiFiData.tnURX - Robot.TILESIZE / 2.0, WiFiData.tnURY + Robot.TILESIZE / 2);
 				navigation.turnTo(90);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(0);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(WiFiData.brURX-Robot.TILESIZE/2.0, WiFiData.brURY+Robot.TILESIZE/2);
-				navigation.travelTo(WiFiData.brURX+Robot.TILESIZE/2.0, WiFiData.brURY-Robot.TILESIZE/2);
+				navigation.travelTo(WiFiData.brURX - Robot.TILESIZE / 2.0, WiFiData.brURY + Robot.TILESIZE / 2);
+				navigation.travelTo(WiFiData.brURX + Robot.TILESIZE / 2.0, WiFiData.brURY - Robot.TILESIZE / 2);
 				navigation.turnTo(90);
 				navigation.moveBy(10);
 				lightLocalizer.localizeX();
 				navigation.turnTo(180);
 				navigation.moveBy(10);
 				lightLocalizer.localizeY();
-				navigation.travelTo(7.5*Robot.TILESIZE, 0.5*Robot.TILESIZE);
+				navigation.travelTo(7.5 * Robot.TILESIZE, 0.5 * Robot.TILESIZE);
 			}
 
 		}
-		//		if (betaDemo && !testing) {
-		//			// Behaviour for the beta demo, to be refined if necessary
-		//			usLocalizer.localize();
-		//			lightLocalizer.fullLocalize(2); // starting in lower-right corner, so left and up
-		//			navigation.travelToTunnelEntrance();
-		//			navigation.turnTo(0);
-		//			navigation.forward();
-		//			while (odometer.getXYT()[1] <= WiFiData.tnURY + 15)
-		//				;
-		//			navigation.stopRobot();
-		//			navigation.travelToBridgeEntrance();
-		//			navigation.turnTo(180);
-		//			navigation.landingGearOn();
-		//			navigation.forward();
-		//			while (odometer.getXYT()[1] >= WiFiData.brLLY - 15)
-		//				;
-		//			navigation.stopRobot();
-		//			navigation.landingGearOff();
-		//			navigation.travelTo(7.5 * 30.48, 0.5 * 30.48); // middle of the lower right square
-		//		}
+		// if (betaDemo && !testing) {
+		// // Behaviour for the beta demo, to be refined if necessary
+		// usLocalizer.localize();
+		// lightLocalizer.fullLocalize(2); // starting in lower-right corner, so left
+		// and up
+		// navigation.travelToTunnelEntrance();
+		// navigation.turnTo(0);
+		// navigation.forward();
+		// while (odometer.getXYT()[1] <= WiFiData.tnURY + 15)
+		// ;
+		// navigation.stopRobot();
+		// navigation.travelToBridgeEntrance();
+		// navigation.turnTo(180);
+		// navigation.landingGearOn();
+		// navigation.forward();
+		// while (odometer.getXYT()[1] >= WiFiData.brLLY - 15)
+		// ;
+		// navigation.stopRobot();
+		// navigation.landingGearOff();
+		// navigation.travelTo(7.5 * 30.48, 0.5 * 30.48); // middle of the lower right
+		// square
+		// }
 
 	}
 
 	@SuppressWarnings("static-access")
-	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer, LightLocalizer lightLocalizer) {
+	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
+			LightLocalizer lightLocalizer) {
 		odometer.setXYT(0, 0, 0);
 		int test = 8;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
@@ -188,15 +191,18 @@ public class Controller {
 		} else if (test == 1) { // Test for wheel radius (get by what percentage it is off on average so
 			// (Distancetravelled+offset)/Distancetravelled
 			// and change the WHEEL_RAD by that.... Constant to set: Robot.WHEEL_RAD
-			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
-			//					;
-			//				navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			// while (Button.waitForAnyPress() != Button.ID_DOWN)
+			// ;
+			// navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
@@ -262,18 +268,18 @@ public class Controller {
 				;
 			odometer.setXYT(0, 0, 0);
 			navigation.turnTo(-90);
-			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
-			//					;
-			//				navigation.turnTo(180);
-			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
-			//					;
-			//				navigation.turnTo(-180);
-			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
-			//					;
-			//				navigation.turnTo(270);
-			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
-			//					;
-			//				navigation.turnTo(-270);
+			// while (Button.waitForAnyPress() != Button.ID_DOWN)
+			// ;
+			// navigation.turnTo(180);
+			// while (Button.waitForAnyPress() != Button.ID_DOWN)
+			// ;
+			// navigation.turnTo(-180);
+			// while (Button.waitForAnyPress() != Button.ID_DOWN)
+			// ;
+			// navigation.turnTo(270);
+			// while (Button.waitForAnyPress() != Button.ID_DOWN)
+			// ;
+			// navigation.turnTo(-270);
 
 		} else if (test == 3) { // This is just to check Test 1 and 2 are successful together first makes the
 			// robot go to (5,3) then (2,2) then (3,2) and then (4,1)
@@ -382,7 +388,8 @@ public class Controller {
 				;
 			odometer.setXYT(0, 0, 0);
 			navigation.turnTo(-90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
@@ -416,12 +423,41 @@ public class Controller {
 			System.out.println("Y: " + odometer.getXYT()[1]);
 			System.out.println("Theta: " + odometer.getXYT()[2]);
 
+		} else if (test == 5) {
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
+			navigation.setSpeed(Robot.FORWARD_SPEED);
+			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
+			navigation.landingGearOn();
+			navigation.setSpeed(Robot.FORWARD_SPEED);
+			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			navigation.landingGearOn();
+
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
+
 		}
 	}
 
 	/**
 	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
-	 * @param colour the colour of the team as per the retrieved wifi data
+	 * 
+	 * @param colour
+	 *            the colour of the team as per the retrieved wifi data
 	 */
 	public static void setCurrentTeam(String colour) {
 		currentTeam = colour;
