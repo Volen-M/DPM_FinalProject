@@ -217,7 +217,7 @@ public class Navigation extends Thread {
 	 * @param dist
 	 *            : distance to travel
 	 * @param leftWheelDir
-	 *            : 1 for the left wheel to go forwrd, -1 for backward
+	 *            : 1 for the left wheel to go forward, -1 for backward
 	 * @param rightWheelDir
 	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */
@@ -233,7 +233,7 @@ public class Navigation extends Thread {
 	 * @param degrees
 	 *            : angle to turn
 	 * @param leftWheelDir
-	 *            : 1 for the left wheel to go forwrd, -1 for backward
+	 *            : 1 for the left wheel to go forward, -1 for backward
 	 * @param rightWheelDir
 	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */

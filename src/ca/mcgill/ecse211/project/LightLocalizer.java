@@ -12,13 +12,14 @@ import lejos.hardware.sensor.SensorMode;
  * @author Volen Mihaylov
  *
  */
+@SuppressWarnings("static-access")
 public class LightLocalizer {
 
 	// vehicle constants
 
 	private Odometer odometer;
 	public Navigation navigation;
-	// Instantiate the EV3 Color Sensor
+	// Instantiate the EV3 Colour Sensor
 	private static final EV3ColorSensor lightSensorLeft = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	private static final EV3ColorSensor lightSensorRight = new EV3ColorSensor(LocalEV3.get().getPort("S4"));
 	private float sampleLeft;
@@ -48,42 +49,25 @@ public class LightLocalizer {
 	}
 
 	/**
-	 * Method to fully localize its position
+	 * Method to fully localise its position
 	 * 
 	 * @param int
-	 *            integer to determine the type of localization to be done depending on robots location
+	 *            integer to determine the type of localisation to be done depending on robots location
 	 */
 	public void fullLocalize(int type) {
-		switch (type) {
-		case 1: { // right then up
-			Navigation.rotateByAngle(90, 1, -1);
-			localizeX();
-			Navigation.rotateByAngle(90, -1, 1);
-			localizeY();
-			break;
-		}
-		case 2: { // left then up
-			Navigation.rotateByAngle(90, -1, 1);
-			localizeX(); // behavior after this assumes that the robot is still facing "left" (270)
-			Navigation.rotateByAngle(90, 1, -1);
-			localizeY();
-			break;
-		}
-		default: {
-			break;
-		}
-		}
-
 	}
 
+	/**
+	 * X Coordinate correction method. Must be called when robot's Light Sensors are at a distance from the line 
+	 * of at maximum 2.5 times the distance between the light sensors and the front wheel axle
+	 */
 	public void localizeX() {
 		Navigation.setSpeed(Robot.LOCALIZATION_SPEED);
 		boolean leftCheck = true;
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[0];
+		double oriTheta = odometer.getXYT()[2];
 		navigation.forward();
-		leftCheck = true;
-		rightCheck = true;
 		while (leftCheck || rightCheck) {
 			sampleLeft = fetchSampleLeft();
 			sampleRight = fetchSampleRight();
@@ -98,25 +82,37 @@ public class LightLocalizer {
 				rightCheck = false;
 			}
 			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.LSTOWHEEL * 2.5) {
+				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
 			}
 		}
 		navigation.stopRobot();
 		double deltaOdo = lineData[0] - lineData[1];
-		navigation.turnTo(odometer.getXYT()[2] + Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI);
-		odometer.setTheta(90); // needs to be changed to accept -90 (i.e. 270) when type 2 fullLocalize
-		// is that what you said you hardcoded?
-		odometer.setX(expectedTile(odometer.getXYT()[0]) + deltaOdo / 2 + Robot.LSTOWHEEL);
-
+		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
+		if (deltaDeg <= 15) {
+			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
+			odometer.setTheta(oriTheta); 
+			odometer.setX(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
+		}
+		else {
+			Sound.beepSequenceUp();
+			Sound.beepSequence();
+			Sound.beepSequenceUp();
+		}
 	}
 
+	/**
+	 * Y Coordinate correction method. Must be called when robot's Light Sensors are at a distance from the line 
+	 * of at maximum 2.5 times the distance between the light sensors and the front wheel axle
+	 */
 	public void localizeY() {
 		navigation.setSpeed(Robot.LOCALIZATION_SPEED);
-		navigation.forward();
 		boolean leftCheck = true;
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[1];
+		double oriTheta = odometer.getXYT()[2];
+		navigation.forward();
 		while (leftCheck || rightCheck) {
 			sampleLeft = fetchSampleLeft();
 			sampleRight = fetchSampleRight();
@@ -138,22 +134,22 @@ public class LightLocalizer {
 		}
 		navigation.stopRobot();
 		double deltaOdo = lineData[0] - lineData[1];
-		navigation.turnTo(odometer.getXYT()[2] + Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI);
-		odometer.setTheta(0);
-		odometer.setY(expectedTile(odometer.getXYT()[1]) + deltaOdo / 2 + Robot.LSTOWHEEL);
-
+		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
+		if (deltaDeg <= 15) {
+			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
+			odometer.setTheta(oriTheta);
+			odometer.setY(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
+		}
+		else {
+			Sound.beepSequenceUp();
+			Sound.beepSequence();
+			Sound.beepSequenceUp();
+		}
 	}
 
-	/**
-	 * This method determines the expected tile location of the robot from its coordinates
-	 * 
-	 */
-	private int expectedTile(double coordinate) {
-		return (int) Math.round(coordinate);
-	}
 
 	/**
-	 * This method gets the color value of the left light sensor
+	 * This method gets the colour value of the left light sensor
 	 * 
 	 */
 	private float fetchSampleLeft() {
@@ -163,7 +159,7 @@ public class LightLocalizer {
 	}
 
 	/**
-	 * This method gets the color value of the right light sensor
+	 * This method gets the colour value of the right light sensor
 	 * 
 	 */
 	private float fetchSampleRight() {
