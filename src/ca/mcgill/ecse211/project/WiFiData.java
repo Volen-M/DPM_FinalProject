@@ -103,19 +103,19 @@ public class WiFiData {
 				
 				if (TEAM_NUMBER == redTeam) {
 					Controller.setCurrentTeam("red");
-					Navigation.setCurrentZone("red");
-					Navigation.setStartingCorner(redCorner);
+//					Navigation.setCurrentZone("red");
+//					Navigation.setStartingCorner(redCorner);
 				} else if (TEAM_NUMBER == greenTeam) {
 					Controller.setCurrentTeam("green");
-					Navigation.setCurrentZone("green");
-					Navigation.setStartingCorner(greenCorner);
+//					Navigation.setCurrentZone("green");
+//					Navigation.setStartingCorner(greenCorner);
 				}
 				
 				// ----------------------------------------------
 			} else {
 				Controller.setCurrentTeam("green");
-				Navigation.setCurrentZone("green");
-				Navigation.setStartingCorner(greenCorner);
+//				Navigation.setCurrentZone("green");
+//				Navigation.setStartingCorner(greenCorner);
 			}
 
 			

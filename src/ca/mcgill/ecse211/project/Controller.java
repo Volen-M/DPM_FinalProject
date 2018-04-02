@@ -191,11 +191,11 @@ public class Controller {
 			//				while (Button.waitForAnyPress() != Button.ID_DOWN)
 			//					;
 			//				navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
 				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
 				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
 				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
@@ -329,15 +329,15 @@ public class Controller {
 			// Robot.LSTOWHEEL (distance between wheel and odo
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(0, 0, 90);
+			odometer.setXYT(0, 0, 0);
 			lightLocalizer.localizeX();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(0, 0, 90);
+			odometer.setXYT(0, 0, 0);
 			lightLocalizer.localizeX();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(0, 0, 90);
+			odometer.setXYT(0, 0, 0);
 			lightLocalizer.localizeX();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;

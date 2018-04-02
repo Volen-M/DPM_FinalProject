@@ -45,7 +45,7 @@ public class LightLocalizer {
 		idColourLeft = lightSensorLeft.getRedMode(); // set the sensor light to red
 		this.navigation = nav;
 		idColourRight = lightSensorRight.getRedMode(); // set the sensor light to red
-		lineData = new double[4];
+		lineData = new double[2];
 	}
 
 	/**
@@ -67,6 +67,7 @@ public class LightLocalizer {
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[0];
 		double oriTheta = odometer.getXYT()[2];
+		lineData = new double[2];
 		navigation.forward();
 		while (leftCheck || rightCheck) {
 			sampleLeft = fetchSampleLeft();
@@ -81,7 +82,7 @@ public class LightLocalizer {
 				Sound.beepSequenceUp();
 				rightCheck = false;
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.LSTOWHEEL * 2.5) {
+			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.LSTOWHEEL * 1.5) {
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
@@ -112,6 +113,7 @@ public class LightLocalizer {
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[1];
 		double oriTheta = odometer.getXYT()[2];
+		lineData = new double[2];
 		navigation.forward();
 		while (leftCheck || rightCheck) {
 			sampleLeft = fetchSampleLeft();
@@ -126,7 +128,7 @@ public class LightLocalizer {
 				Sound.beepSequenceUp();
 				rightCheck = false;
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.LSTOWHEEL * 2.5) {
+			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.LSTOWHEEL * 1.5) {
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;

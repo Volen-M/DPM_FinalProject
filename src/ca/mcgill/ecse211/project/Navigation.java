@@ -33,6 +33,7 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
+	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 
 	private static SensorModes sideUltrasonicSensor;
 	private static SampleProvider sideUsDistance;
@@ -100,16 +101,16 @@ public class Navigation extends Thread {
 	 * 
 	 * @param searcher Instance of the SearchAndLocalize class
 	 */
-	private void goToBlock(SearchAndLocalize searcher) {
-		int dist = this.usLoc.fetchUS();
-		if (dist > distanceSensorToBlock) {
-			rotateByDistance(dist - distanceSensorToBlock, 1, 1);
-		}
-		searcher.getCC().colourDetection();
-		if (searcher.getCC().isBlock()) {
-			searcher.setFoundBlock(true);
-		}
-	}
+//	private void goToBlock(SearchAndLocalize searcher) {
+//		int dist = this.usLoc.fetchUS();
+//		if (dist > distanceSensorToBlock) {
+//			rotateByDistance(dist - distanceSensorToBlock, 1, 1);
+//		}
+//		searcher.getCC().colourDetection();
+//		if (searcher.getCC().isBlock()) {
+//			searcher.setFoundBlock(true);
+//		}
+//	}
 
 	/**
 	 * Checks for the presence of a block in the sights of the sensor.
