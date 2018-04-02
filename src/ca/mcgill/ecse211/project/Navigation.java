@@ -176,7 +176,7 @@ public class Navigation extends Thread {
 		if (distance >= 0) {
 			rotateByDistance(distance, 1, 1);
 		} else {
-			rotateByDistance(distance, -1, -1);
+			rotateByDistance(-1*distance, -1, -1);
 
 		}
 	}
