@@ -28,8 +28,8 @@ public class Controller {
 	private static String currentTeam;
 
 	// Set to true when testing, allows for beta demo behaviour not to happen
-	private static boolean testing = false;
-	public static boolean betaDemo = true;
+	private static boolean testing = true;
+	public static boolean betaDemo = false;
 
 	/**
 	 * Main method. Initial entry point of the code for this lab.
@@ -58,14 +58,13 @@ public class Controller {
 		USLocalizer usLocalizer = new USLocalizer(odometer, usDistance, 0, navigation);
 		navigation.usLoc = usLocalizer;
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, navigation);
+		ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
+
 
 		if (!testing) {
 			WiFiData.processData();
 		} else {
-			runTests(navigation, odometer, usLocalizer, lightLocalizer);
-		}
-		if (!betaDemo) {
-			ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
+			runTests(navigation, odometer, usLocalizer, lightLocalizer, colourCalibration);
 		}
 
 		if (betaDemo && !testing) {
@@ -173,7 +172,7 @@ public class Controller {
 
 	@SuppressWarnings("static-access")
 	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
-			LightLocalizer lightLocalizer) {
+			LightLocalizer lightLocalizer, ColourCalibration colourCalibration) {
 		odometer.setXYT(0, 0, 0);
 		int test = 8;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
@@ -423,7 +422,7 @@ public class Controller {
 			System.out.println("Y: " + odometer.getXYT()[1]);
 			System.out.println("Theta: " + odometer.getXYT()[2]);
 
-		} else if (test == 5) {
+		} else if (test == 9) {
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
@@ -450,6 +449,28 @@ public class Controller {
 			navigation.turnTo(270);
 			lightLocalizer.localizeX();
 
+		} else if (test == 10) {
+
+			//should make beep.upsequence if it is the target block
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			colourCalibration.colourDetection();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			colourCalibration.colourDetection();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			colourCalibration.colourDetection();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			colourCalibration.colourDetection();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			colourCalibration.colourDetection();
 		}
 	}
 
