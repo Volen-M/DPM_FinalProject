@@ -91,7 +91,7 @@ public class LightLocalizer {
 		navigation.stopRobot();
 		double deltaOdo = lineData[0] - lineData[1];
 		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
-		if (deltaDeg <= 15) {
+		if (deltaDeg <= 15 && deltaDeg >=-15) {
 			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 			odometer.setTheta(oriTheta); 
 			odometer.setX(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
@@ -137,7 +137,7 @@ public class LightLocalizer {
 		navigation.stopRobot();
 		double deltaOdo = lineData[0] - lineData[1];
 		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
-		if (deltaDeg <= 15) {
+		if (deltaDeg <= 15 && deltaDeg >=-15) {
 			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 			odometer.setTheta(oriTheta);
 			odometer.setY(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
