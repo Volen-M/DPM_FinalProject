@@ -329,19 +329,19 @@ public class Controller {
 			// Robot.LSTOWHEEL (distance between wheel and odo
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(0, 0, 0);
-			lightLocalizer.localizeX();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			lightLocalizer.localizeX();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
+			odometer.setXYT(0, 0, 90);
 			lightLocalizer.localizeX();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 90);
+			lightLocalizer.localizeX();
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 90);
+			lightLocalizer.localizeX();
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
 			lightLocalizer.localizeY();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
