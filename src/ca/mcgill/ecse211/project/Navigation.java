@@ -22,7 +22,6 @@ public class Navigation extends Thread {
 	// current location of the vehicle
 	private double currX;
 	private double currY;
-	private double currDegrees;
 
 	private boolean navigating = false;
 
@@ -35,11 +34,9 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 
-	private static SensorModes sideUltrasonicSensor;
+	
 	private static SampleProvider sideUsDistance;
 	private float[] sideUsData;
-
-	private static int distanceSensorToBlock = 2;
 
 	// Data from Wifi
 	private static String currentZone;
@@ -186,6 +183,7 @@ public class Navigation extends Thread {
 	 * 
 	 */
 	public static void forward() {
+		
 		leftMotor.forward();
 		rightMotor.forward();
 	}

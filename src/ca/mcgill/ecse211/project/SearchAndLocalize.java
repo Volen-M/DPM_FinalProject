@@ -27,7 +27,8 @@ public class SearchAndLocalize {
 	private double constant = 4;
 	private ArrayList<Area> foundCubes;
 
-	public SearchAndLocalize(Navigation navigation, ColourCalibration colourCalibration, SampleProvider usDistance, Odometer odometer, double ur_x, double ur_y, double ll_x, double ll_y, int cornerOfZone) {
+	public SearchAndLocalize(Navigation navigation, ColourCalibration colourCalibration, SampleProvider usDistance, Odometer odometer,
+			double ur_x, double ur_y, double ll_x, double ll_y, int cornerOfZone) {
 		this.navigation = navigation;
 		this.colourCalib = colourCalibration;
 		this.lowerLeftX = ll_x;
@@ -68,7 +69,7 @@ public class SearchAndLocalize {
 		}
 	}
 
-	public void findFlag() {
+	public int findFlag() { //Int return is where robot ended, so 0=North, 1=East, 2=South, 3=West
 		double xDist;
 		double yDist;
 		double distToCube;
@@ -111,7 +112,7 @@ public class SearchAndLocalize {
 							}
 							navigation.moveBy(-1*distToCube);
 							navigation.turnTo(0);
-							return;
+							return 3;
 						}
 						else {
 							navigation.moveBy(-1*distToCube);
@@ -121,13 +122,106 @@ public class SearchAndLocalize {
 				}
 
 			}
+			navigation.turnTo(90);
 			while (odometer.getXYT()[0]<=limiter[1]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					checkCube = true;
+					tempArea = new Area(odometer.getXYT()[0],limiter[0]-distToCube,1);
+					for (Area area: foundCubes) {
+						if(area.isIn(tempArea)) {
+							checkCube = false;
+							break;
+						}
+					}
+					if (checkCube) {
+						foundCubes.add(tempArea);
+						navigation.moveBy(4);
+						navigation.turnTo(180);
+						navigation.moveBy(distToCube-constant);
+						if(colourCalib.colourDetection()) {
+							for(int i = 0; i < 3; i++) {
+								Sound.beep();
+							}
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(90);
+							return 0;
+						}
+						else {
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(90);
+						}
+					}
+				}
+
 
 			}
+			navigation.turnTo(180);
 			while (odometer.getXYT()[1]>=limiter[2]) {
-
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					checkCube = true;
+					tempArea = new Area(limiter[1]-distToCube,odometer.getXYT()[1],2);
+					for (Area area: foundCubes) {
+						if(area.isIn(tempArea)) {
+							checkCube = false;
+							break;
+						}
+					}
+					if (checkCube) {
+						foundCubes.add(tempArea);
+						navigation.moveBy(4);
+						navigation.turnTo(270);
+						navigation.moveBy(distToCube-constant);
+						if(colourCalib.colourDetection()) {
+							for(int i = 0; i < 3; i++) {
+								Sound.beep();
+							}
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(180);
+							return 1;
+						}
+						else {
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(180);
+						}
+					}
+				}
 			}
+			navigation.turnTo(270);
 			while (odometer.getXYT()[0]>=limiter[3]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					checkCube = true;
+					tempArea = new Area(odometer.getXYT()[0],limiter[2]+distToCube,3);
+					for (Area area: foundCubes) {
+						if(area.isIn(tempArea)) {
+							checkCube = false;
+							break;
+						}
+					}
+					if (checkCube) {
+						foundCubes.add(tempArea);
+						navigation.moveBy(4);
+						navigation.turnTo(0);
+						navigation.moveBy(distToCube-constant);
+						if(colourCalib.colourDetection()) {
+							for(int i = 0; i < 3; i++) {
+								Sound.beep();
+							}
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(270);
+							return 1;
+						}
+						else {
+							navigation.moveBy(-1*distToCube);
+							navigation.turnTo(270);
+						}
+					}
+				}
 
 			}
 
@@ -135,15 +229,16 @@ public class SearchAndLocalize {
 				Sound.beep();
 			}
 		}
-		else if (corner == 1) {
-
-		}
-		else if (corner == 2) {
-
-		}
-		else if (corner == 3) {
-
-		}
+		//		else if (corner == 1) {
+		//
+		//		}
+		//		else if (corner == 2) {
+		//
+		//		}
+		//		else if (corner == 3) {
+		//
+		//		}
+		return -1;
 	}
 
 	/**

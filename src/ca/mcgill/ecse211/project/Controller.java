@@ -59,12 +59,13 @@ public class Controller {
 		navigation.usLoc = usLocalizer;
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, navigation);
 		ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
+		SearchAndLocalize searchAndLocalize = new SearchAndLocalize(navigation, colourCalibration, usDistance, odometer, 6, 6, 1, 1, 0);
 
 
 		if (!testing) {
 			WiFiData.processData();
 		} else {
-			runTests(navigation, odometer, usLocalizer, lightLocalizer, colourCalibration);
+			runTests(navigation, odometer, usLocalizer, lightLocalizer, colourCalibration, searchAndLocalize);
 		}
 
 		if (betaDemo && !testing) {
@@ -172,7 +173,7 @@ public class Controller {
 
 	@SuppressWarnings("static-access")
 	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
-			LightLocalizer lightLocalizer, ColourCalibration colourCalibration) {
+			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) {
 		odometer.setXYT(0, 0, 0);
 		int test = 8;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
@@ -454,23 +455,27 @@ public class Controller {
 			//should make beep.upsequence if it is the target block
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			colourCalibration.colourDetection();
+			System.out.println(colourCalibration.colourDetection());
 			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			colourCalibration.colourDetection();
+			System.out.println(colourCalibration.colourDetection());
 			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			colourCalibration.colourDetection();
+			System.out.println(colourCalibration.colourDetection());
 			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			colourCalibration.colourDetection();
+			System.out.println(colourCalibration.colourDetection());
 			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			colourCalibration.colourDetection();
+			System.out.println(colourCalibration.colourDetection());
+		} else if (test == 11) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.findFlag();
 		}
 	}
 
