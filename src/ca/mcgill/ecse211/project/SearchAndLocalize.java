@@ -19,6 +19,7 @@ public class SearchAndLocalize {
 	private Navigation navigation;
 	private boolean foundBlock = false;
 	private ColourCalibration colourCalib;
+	private LightLocalizer lightLocalizer;
 	private Odometer odometer;
 	private int corner;
 	private double[] limiter;
@@ -27,10 +28,11 @@ public class SearchAndLocalize {
 	private double constant = 4;
 	private ArrayList<Area> foundCubes;
 
-	public SearchAndLocalize(Navigation navigation, ColourCalibration colourCalibration, SampleProvider usDistance, Odometer odometer,
+	public SearchAndLocalize(Navigation navigation, ColourCalibration colourCalibration, SampleProvider usDistance, Odometer odometer, LightLocalizer lightLocalizer,
 			double ur_x, double ur_y, double ll_x, double ll_y, int cornerOfZone) {
 		this.navigation = navigation;
 		this.colourCalib = colourCalibration;
+		this.lightLocalizer = lightLocalizer;
 		this.lowerLeftX = ll_x;
 		this.lowerLeftY = ll_y;
 		this.upperRightX = ur_x;
@@ -43,28 +45,28 @@ public class SearchAndLocalize {
 		this.foundCubes = new ArrayList<Area>();
 		switch (cornerOfZone) {
 		case 0:
-			limiter[0]=ur_y;
-			limiter[1]=ur_x;
-			limiter[2]=ll_y;
-			limiter[3]=ll_x;
+			limiter[0]=ur_y*Robot.TILESIZE;
+			limiter[1]=ur_x*Robot.TILESIZE;
+			limiter[2]=ll_y*Robot.TILESIZE;
+			limiter[3]=ll_x*Robot.TILESIZE;
 			break;
 		case 1:
-			limiter[1]=ur_y;
-			limiter[2]=ur_x;
-			limiter[3]=ll_y;
-			limiter[0]=ll_x;
+			limiter[1]=ur_y*Robot.TILESIZE;
+			limiter[2]=ur_x*Robot.TILESIZE;
+			limiter[3]=ll_y*Robot.TILESIZE;
+			limiter[0]=ll_x*Robot.TILESIZE;
 			break;
 		case 2:
-			limiter[2]=ur_y;
-			limiter[3]=ur_x;
-			limiter[0]=ll_y;
-			limiter[1]=ll_x;
+			limiter[2]=ur_y*Robot.TILESIZE;
+			limiter[3]=ur_x*Robot.TILESIZE;
+			limiter[0]=ll_y*Robot.TILESIZE;
+			limiter[1]=ll_x*Robot.TILESIZE;
 			break;
 		case 3:
-			limiter[3]=ur_y;
-			limiter[0]=ur_x;
-			limiter[1]=ll_y;
-			limiter[2]=ll_x;
+			limiter[3]=ur_y*Robot.TILESIZE;
+			limiter[0]=ur_x*Robot.TILESIZE;
+			limiter[1]=ll_y*Robot.TILESIZE;
+			limiter[2]=ll_x*Robot.TILESIZE;
 			break;
 		}
 	}
@@ -252,13 +254,31 @@ public class SearchAndLocalize {
 		navigation.setSpeed(Robot.FORWARD_SPEED);
 		if (test==0) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
-			while (odometer.getXYT()[1]>=limiter[0]);
+			while (odometer.getXYT()[1]<=limiter[0]) {
+				navigation.forward();
+			}
+			navigation.stopRobot();
 			navigation.turnTo(90);
-			while (odometer.getXYT()[0]>=limiter[1]);
+			lightLocalizer.localizeX();
+			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (odometer.getXYT()[0]<=limiter[1]){
+				navigation.forward();
+			}
+			navigation.stopRobot();
 			navigation.turnTo(180);
-			while (odometer.getXYT()[1]>=limiter[2]);
+			lightLocalizer.localizeY();
+			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (odometer.getXYT()[1]>=limiter[2]) {
+				navigation.forward();
+			}
+			navigation.stopRobot();
 			navigation.turnTo(270);
-			while (odometer.getXYT()[0]>=limiter[3]);
+			lightLocalizer.localizeX();
+			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (odometer.getXYT()[0]>=limiter[3]){
+				navigation.forward();
+			}
+			navigation.stopRobot();
 
 		}
 		else if (test == 1) {
@@ -271,8 +291,10 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 			}
+			navigation.stopRobot();
 			navigation.turnTo(90);
-			while (odometer.getXYT()[0]>=limiter[1]) {
+			lightLocalizer.localizeX();
+			while (odometer.getXYT()[0]<=limiter[1]) {
 				navigation.forward();
 				distToCube = fetchUS();
 				if (distToCube < xDist) {
@@ -281,7 +303,9 @@ public class SearchAndLocalize {
 				}
 
 			}
+			navigation.stopRobot();
 			navigation.turnTo(180);
+			lightLocalizer.localizeY();
 			while (odometer.getXYT()[1]>=limiter[2]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -291,7 +315,9 @@ public class SearchAndLocalize {
 				}
 
 			}
+			navigation.stopRobot();
 			navigation.turnTo(270);
+			lightLocalizer.localizeX();
 			while (odometer.getXYT()[0]>=limiter[3]) {
 				navigation.forward();
 				distToCube = fetchUS();

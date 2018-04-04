@@ -55,7 +55,47 @@ public class LightLocalizer {
 	 *            integer to determine the type of localisation to be done depending on robots location
 	 */
 	public void fullLocalize(int type) {
+
 	}
+	
+	public double roundDeci(double x) {
+		return Math.round(x*100)/100;
+	}
+	public void localizeXMid() {
+		localizeX();
+		double xLoc = odometer.getXYT()[0];
+		double deg = odometer.getXYT()[2];
+		System.out.println();
+		System.out.println("X:" + roundDeci(xLoc/Robot.TILESIZE));
+		System.out.println("Theta:" + roundDeci(deg));
+		if (deg>=0 && deg<= 180) {
+			navigation.moveBy((Math.floor(xLoc/Robot.TILESIZE)*Robot.TILESIZE+0.5*Robot.TILESIZE)-xLoc);
+		}else {
+			navigation.moveBy(xLoc-(Math.ceil(xLoc/Robot.TILESIZE)*Robot.TILESIZE-0.5*Robot.TILESIZE));
+		}
+		System.out.println();
+		System.out.println("X:" + roundDeci(xLoc/Robot.TILESIZE));
+		System.out.println("Theta:" + roundDeci(deg));
+	}
+
+
+	public void localizeYMid() {
+		localizeY();
+		double yLoc = odometer.getXYT()[1];
+		double deg = odometer.getXYT()[2];
+		System.out.println();
+		System.out.println("Y:" + roundDeci(yLoc/Robot.TILESIZE));
+		System.out.println("Theta:" + roundDeci(deg));
+		if (deg>=270 || deg<= 90) {
+			navigation.moveBy((Math.floor(yLoc/Robot.TILESIZE)*Robot.TILESIZE+0.5*Robot.TILESIZE)-yLoc);
+		}else {
+			navigation.moveBy(yLoc-(Math.ceil(yLoc/Robot.TILESIZE)*Robot.TILESIZE-0.5*Robot.TILESIZE));
+		}
+		System.out.println();
+		System.out.println("Y:" + roundDeci(yLoc/Robot.TILESIZE));
+		System.out.println("Theta:" + roundDeci(deg));
+	}
+
 
 	/**
 	 * X Coordinate correction method. Must be called when robot's Light Sensors are at a distance from the line 
@@ -82,30 +122,38 @@ public class LightLocalizer {
 				Sound.beepSequenceUp();
 				rightCheck = false;
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.LSTOWHEEL * 1.5) {
+			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.TILESIZE * 1.1) {
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
 			}
 		}
 		navigation.stopRobot();
-		double deltaOdo = lineData[0] - lineData[1];
+		double deltaOdo = oriTheta <= 180 ? lineData[0] - lineData[1] : lineData[1] - lineData[0];
 		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
-		if (deltaDeg <= 15 && deltaDeg >=-15) {
+		double xLoc = odometer.getXYT()[0];
+//		if (deltaDeg <= 15 && deltaDeg >=-15) {
 			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 			odometer.setTheta(oriTheta); 
-			odometer.setX(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
-		}
-		else {
-			Sound.beepSequenceUp();
-			Sound.beepSequence();
-			Sound.beepSequenceUp();
-		}
+			if (oriTheta >= 0 && oriTheta<= 180) {
+//				double fix = lineData[0] < lineData[1] ? lineData[0] : lineData[1];
+				odometer.setX(Math.floor(xLoc/Robot.TILESIZE)*Robot.TILESIZE + Math.abs(deltaOdo) / 2*Robot.TRACKOVERLS + Robot.LSTOWHEEL);
+			}
+			else {
+//				double fix = lineData[0] > lineData[1] ? lineData[0] : lineData[1];
+				odometer.setX(Math.ceil(xLoc/Robot.TILESIZE)*Robot.TILESIZE - Math.abs(deltaOdo) / 2 *Robot.TRACKOVERLS- Robot.LSTOWHEEL);
+			}
+//		}
+//		else {
+//			Sound.beepSequenceUp();
+//			Sound.beepSequence();
+//			Sound.beepSequenceUp();
+//		}
 	}
 
 	/**
 	 * Y Coordinate correction method. Must be called when robot's Light Sensors are at a distance from the line 
-	 * of at maximum 2.5 times the distance between the light sensors and the front wheel axle
+	 * of at maximum 1.1 times the Tilesize
 	 */
 	public void localizeY() {
 		navigation.setSpeed(Robot.LOCALIZATION_SPEED);
@@ -128,30 +176,38 @@ public class LightLocalizer {
 				Sound.beepSequenceUp();
 				rightCheck = false;
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.LSTOWHEEL * 1.5) {
+			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.TILESIZE * 1.1) {
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
 			}
 		}
 		navigation.stopRobot();
-		double deltaOdo = lineData[0] - lineData[1];
+		double deltaOdo = oriTheta <= 90 || oriTheta>=270 ? lineData[0] - lineData[1] : lineData[1] - lineData[0];
 		double deltaDeg = Math.asin(deltaOdo / Robot.LSTOLS) * 180 / Math.PI;
-		if (deltaDeg <= 15 && deltaDeg >=-15) {
+		double yLoc = odometer.getXYT()[1];
+//		if (deltaDeg <= 15 && deltaDeg >=-15) {
 			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 			odometer.setTheta(oriTheta);
-			odometer.setY(oriCoord + deltaOdo / 2 + Robot.LSTOWHEEL);
-		}
-		else {
-			Sound.beepSequenceUp();
-			Sound.beepSequence();
-			Sound.beepSequenceUp();
-		}
+			if (oriTheta >= 270 || oriTheta <= 90) {
+//				double fix = lineData[0] < lineData[1] ? lineData[0] : lineData[1];
+				odometer.setY(Math.floor(yLoc/Robot.TILESIZE)*Robot.TILESIZE + Math.abs(deltaOdo) / 2 + Robot.LSTOWHEEL);
+			}
+			else {
+//				double fix = lineData[0] > lineData[1] ? lineData[0] : lineData[1];
+				odometer.setY(Math.ceil(yLoc/Robot.TILESIZE)*Robot.TILESIZE - Math.abs(deltaOdo) / 2 - Robot.LSTOWHEEL);
+			}
+//		}
+//		else {
+//			Sound.beepSequenceUp();
+//			Sound.beepSequence();
+//			Sound.beepSequenceUp();
+//		}
 	}
 
 
-	
-	
+
+
 	private float fetchSampleLeft() {
 		float[] colorValue = new float[idColourLeft.sampleSize()];
 		idColourLeft.fetchSample(colorValue, 0);

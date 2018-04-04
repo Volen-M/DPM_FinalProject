@@ -59,7 +59,7 @@ public class Controller {
 		navigation.usLoc = usLocalizer;
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, navigation);
 		ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
-		SearchAndLocalize searchAndLocalize = new SearchAndLocalize(navigation, colourCalibration, usDistance, odometer, 6, 6, 1, 1, 0);
+		SearchAndLocalize searchAndLocalize = new SearchAndLocalize(navigation, colourCalibration, usDistance, odometer, lightLocalizer, 5, 3, 1, 1, 0);
 
 
 		if (!testing) {
@@ -144,38 +144,14 @@ public class Controller {
 				lightLocalizer.localizeY();
 				navigation.travelTo(7.5 * Robot.TILESIZE, 0.5 * Robot.TILESIZE);
 			}
-
 		}
-		// if (betaDemo && !testing) {
-		// // Behaviour for the beta demo, to be refined if necessary
-		// usLocalizer.localize();
-		// lightLocalizer.fullLocalize(2); // starting in lower-right corner, so left
-		// and up
-		// navigation.travelToTunnelEntrance();
-		// navigation.turnTo(0);
-		// navigation.forward();
-		// while (odometer.getXYT()[1] <= WiFiData.tnURY + 15)
-		// ;
-		// navigation.stopRobot();
-		// navigation.travelToBridgeEntrance();
-		// navigation.turnTo(180);
-		// navigation.landingGearOn();
-		// navigation.forward();
-		// while (odometer.getXYT()[1] >= WiFiData.brLLY - 15)
-		// ;
-		// navigation.stopRobot();
-		// navigation.landingGearOff();
-		// navigation.travelTo(7.5 * 30.48, 0.5 * 30.48); // middle of the lower right
-		// square
-		// }
-
 	}
 
 	@SuppressWarnings("static-access")
 	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
 			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) {
 		odometer.setXYT(0, 0, 0);
-		int test = 8;
+		int test = 11;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -500,6 +476,47 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			searchAndLocalize.testMethod(test-11);
+		} else if (test == 15) {
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 90);
+			lightLocalizer.localizeXMid();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 90);
+			lightLocalizer.localizeXMid();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 270);
+			lightLocalizer.localizeXMid();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 270);
+			lightLocalizer.localizeXMid();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 0);
+			lightLocalizer.localizeYMid();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 0);
+			lightLocalizer.localizeYMid();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 180);
+			lightLocalizer.localizeYMid();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 180);
+			lightLocalizer.localizeYMid();
 		}
 	}
 
