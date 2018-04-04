@@ -214,7 +214,7 @@ public class SearchAndLocalize {
 							}
 							navigation.moveBy(-1*distToCube);
 							navigation.turnTo(270);
-							return 1;
+							return 2;
 						}
 						else {
 							navigation.moveBy(-1*distToCube);
@@ -241,6 +241,180 @@ public class SearchAndLocalize {
 		return -1;
 	}
 
+	public void testMethod(int test) {	
+		double xDist;
+		double yDist;
+		double distToCube;
+		boolean checkCube;
+		Area tempArea;
+		yDist = Math.abs(limiter[1]-limiter[3]);
+		xDist = Math.abs(limiter[0]-limiter[2]);
+		navigation.setSpeed(Robot.FORWARD_SPEED);
+		if (test==0) {
+			odometer.setXYT(limiter[3], limiter[2], 0);
+			while (odometer.getXYT()[1]>=limiter[0]);
+			navigation.turnTo(90);
+			while (odometer.getXYT()[0]>=limiter[1]);
+			navigation.turnTo(180);
+			while (odometer.getXYT()[1]>=limiter[2]);
+			navigation.turnTo(270);
+			while (odometer.getXYT()[0]>=limiter[3]);
+
+		}
+		else if (test == 1) {
+			odometer.setXYT(limiter[3], limiter[2], 0);
+			while (odometer.getXYT()[1]<=limiter[0]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					Sound.beep();
+					Sound.beep();
+				}
+			}
+			navigation.turnTo(90);
+			while (odometer.getXYT()[0]>=limiter[1]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					Sound.beep();
+					Sound.beep();
+				}
+
+			}
+			navigation.turnTo(180);
+			while (odometer.getXYT()[1]>=limiter[2]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					Sound.beep();
+					Sound.beep();
+				}
+
+			}
+			navigation.turnTo(270);
+			while (odometer.getXYT()[0]>=limiter[3]) {
+				navigation.forward();
+				distToCube = fetchUS();
+				if (distToCube < xDist) {
+					Sound.beep();
+					Sound.beep();
+				}
+
+			}
+		}
+		else if (test == 2) {
+			odometer.setXYT(limiter[3], limiter[2], 0);
+			if (corner == 0) {
+				while (odometer.getXYT()[1]<=limiter[0]) {
+					navigation.forward();
+					distToCube = fetchUS();
+					if (distToCube < xDist) {
+						checkCube = true;
+						if (checkCube) {
+							navigation.moveBy(4);
+							navigation.turnTo(90);
+							navigation.moveBy(distToCube-constant);
+							if(colourCalib.colourDetection()) {
+								for(int i = 0; i < 3; i++) {
+									Sound.beep();
+								}
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(0);
+								return;
+							}
+							else {
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(0);
+							}
+						}
+					}
+
+				}
+				navigation.turnTo(90);
+				while (odometer.getXYT()[0]<=limiter[1]) {
+					navigation.forward();
+					distToCube = fetchUS();
+					if (distToCube < xDist) {
+						checkCube = true;
+						if (checkCube) {
+							navigation.moveBy(4);
+							navigation.turnTo(180);
+							navigation.moveBy(distToCube-constant);
+							if(colourCalib.colourDetection()) {
+								for(int i = 0; i < 3; i++) {
+									Sound.beep();
+								}
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(90);
+								return;
+							}
+							else {
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(90);
+							}
+						}
+					}
+
+
+				}
+				navigation.turnTo(180);
+				while (odometer.getXYT()[1]>=limiter[2]) {
+					navigation.forward();
+					distToCube = fetchUS();
+					if (distToCube < xDist) {
+						checkCube = true;
+						if (checkCube) {
+							navigation.moveBy(4);
+							navigation.turnTo(270);
+							navigation.moveBy(distToCube-constant);
+							if(colourCalib.colourDetection()) {
+								for(int i = 0; i < 3; i++) {
+									Sound.beep();
+								}
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(180);
+								return;
+							}
+							else {
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(180);
+							}
+						}
+					}
+				}
+				navigation.turnTo(270);
+				while (odometer.getXYT()[0]>=limiter[3]) {
+					navigation.forward();
+					distToCube = fetchUS();
+					if (distToCube < xDist) {
+						checkCube = true;
+						if (checkCube) {
+							navigation.moveBy(4);
+							navigation.turnTo(0);
+							navigation.moveBy(distToCube-constant);
+							if(colourCalib.colourDetection()) {
+								for(int i = 0; i < 3; i++) {
+									Sound.beep();
+								}
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(270);
+								return;
+							}
+							else {
+								navigation.moveBy(-1*distToCube);
+								navigation.turnTo(270);
+							}
+						}
+					}
+
+				}
+
+			}
+		}
+		else if (test == 3) {
+			findFlag();
+		}
+	}
 	/**
 	 * A method to get the distance from our sensor
 	 * 

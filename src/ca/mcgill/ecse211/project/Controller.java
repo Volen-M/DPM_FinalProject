@@ -475,7 +475,31 @@ public class Controller {
 		} else if (test == 11) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.findFlag();
+			searchAndLocalize.testMethod(test-11);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+		} else if (test == 12) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+		} else if (test == 13) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+		} else if (test == 14) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			searchAndLocalize.testMethod(test-11);
 		}
 	}
 

@@ -150,10 +150,8 @@ public class LightLocalizer {
 	}
 
 
-	/**
-	 * This method gets the colour value of the left light sensor
-	 * 
-	 */
+	
+	
 	private float fetchSampleLeft() {
 		float[] colorValue = new float[idColourLeft.sampleSize()];
 		idColourLeft.fetchSample(colorValue, 0);
