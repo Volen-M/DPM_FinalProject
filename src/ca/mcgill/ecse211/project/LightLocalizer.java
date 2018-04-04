@@ -74,7 +74,7 @@ public class LightLocalizer {
 			navigation.moveBy(xLoc-(Math.ceil(xLoc/Robot.TILESIZE)*Robot.TILESIZE-0.5*Robot.TILESIZE));
 		}
 		System.out.println();
-		System.out.println("X:" + roundDeci(xLoc/Robot.TILESIZE));
+		System.out.println("X:" + roundDeci(odometer.getXYT()[0]/Robot.TILESIZE));
 		System.out.println("Theta:" + roundDeci(deg));
 	}
 
@@ -92,7 +92,7 @@ public class LightLocalizer {
 			navigation.moveBy(yLoc-(Math.ceil(yLoc/Robot.TILESIZE)*Robot.TILESIZE-0.5*Robot.TILESIZE));
 		}
 		System.out.println();
-		System.out.println("Y:" + roundDeci(yLoc/Robot.TILESIZE));
+		System.out.println("Y:" + roundDeci(odometer.getXYT()[1]/Robot.TILESIZE));
 		System.out.println("Theta:" + roundDeci(deg));
 	}
 
@@ -123,6 +123,14 @@ public class LightLocalizer {
 				rightCheck = false;
 			}
 			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.TILESIZE * 1.1) {
+				double fix = lineData[0] == 0.0 ? lineData[1] : lineData[0];
+				double xLoc = odometer.getXYT()[0];
+				if (oriTheta >= 0 && oriTheta<= 180) {
+					odometer.setX(Math.floor(xLoc/Robot.TILESIZE) + (xLoc-fix)+Robot.LSTOWHEEL);
+				}
+				else {
+					odometer.setX(Math.ceil(xLoc/Robot.TILESIZE) + (fix-xLoc)-Robot.LSTOWHEEL);
+				}
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
@@ -136,11 +144,9 @@ public class LightLocalizer {
 			navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 			odometer.setTheta(oriTheta); 
 			if (oriTheta >= 0 && oriTheta<= 180) {
-//				double fix = lineData[0] < lineData[1] ? lineData[0] : lineData[1];
 				odometer.setX(Math.floor(xLoc/Robot.TILESIZE)*Robot.TILESIZE + Math.abs(deltaOdo) / 2*Robot.TRACKOVERLS + Robot.LSTOWHEEL);
 			}
 			else {
-//				double fix = lineData[0] > lineData[1] ? lineData[0] : lineData[1];
 				odometer.setX(Math.ceil(xLoc/Robot.TILESIZE)*Robot.TILESIZE - Math.abs(deltaOdo) / 2 *Robot.TRACKOVERLS- Robot.LSTOWHEEL);
 			}
 //		}
@@ -177,6 +183,14 @@ public class LightLocalizer {
 				rightCheck = false;
 			}
 			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.TILESIZE * 1.1) {
+				double fix = lineData[0] == 0.0 ? lineData[1] : lineData[0];
+				double yLoc = odometer.getXYT()[1];
+				if (oriTheta >= 270 && oriTheta<= 90) {
+					odometer.setX(Math.floor(yLoc/Robot.TILESIZE) + (yLoc-fix)+Robot.LSTOWHEEL);
+				}
+				else {
+					odometer.setX(Math.ceil(yLoc/Robot.TILESIZE) + (fix-yLoc)-Robot.LSTOWHEEL);
+				}
 				navigation.stopRobot();
 				Sound.beepSequence();
 				return;
