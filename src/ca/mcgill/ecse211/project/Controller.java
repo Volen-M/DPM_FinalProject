@@ -151,7 +151,7 @@ public class Controller {
 	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
 			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) {
 		odometer.setXYT(0, 0, 0);
-		int test = 15;
+		int test = 12;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -405,8 +405,7 @@ public class Controller {
 				;
 
 			odometer.setXYT(0, 0, 0);
-			navigation.setSpeed(Robot.FORWARD_SPEED);
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(4*Robot.TILESIZE);
 			lightLocalizer.localizeY();
 
 			navigation.turnTo(270);
@@ -417,8 +416,7 @@ public class Controller {
 
 			odometer.setXYT(0, 0, 0);
 			navigation.landingGearOn();
-			navigation.setSpeed(Robot.FORWARD_SPEED);
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(4 * Robot.TILESIZE);
 			navigation.landingGearOn();
 
 			lightLocalizer.localizeY();
@@ -449,6 +447,13 @@ public class Controller {
 				;
 			System.out.println(colourCalibration.colourDetection());
 		} else if (test == 11) {
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			navigation.turnTo(90);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			navigation.turnTo(0);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			searchAndLocalize.testMethod(test-11);

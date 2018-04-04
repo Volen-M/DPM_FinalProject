@@ -249,8 +249,8 @@ public class SearchAndLocalize {
 		double distToCube;
 		boolean checkCube;
 		Area tempArea;
-		yDist = Math.abs(limiter[1]-limiter[3]);
-		xDist = Math.abs(limiter[0]-limiter[2]);
+		xDist = Math.abs(limiter[1]-limiter[3])/2-4;
+		yDist = Math.abs(limiter[0]-limiter[2])/2-4;
 		navigation.setSpeed(Robot.FORWARD_SPEED);
 		if (test==0) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
@@ -259,21 +259,21 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(90);
-			lightLocalizer.localizeX();
+			lightLocalizer.localizeXMid();
 			navigation.setSpeed(Robot.FORWARD_SPEED);
 			while (odometer.getXYT()[0]<=limiter[1]){
 				navigation.forward();
 			}
 			navigation.stopRobot();
 			navigation.turnTo(180);
-			lightLocalizer.localizeY();
+			lightLocalizer.localizeYMid();
 			navigation.setSpeed(Robot.FORWARD_SPEED);
 			while (odometer.getXYT()[1]>=limiter[2]) {
 				navigation.forward();
 			}
 			navigation.stopRobot();
 			navigation.turnTo(270);
-			lightLocalizer.localizeX();
+			lightLocalizer.localizeXMid();
 			navigation.setSpeed(Robot.FORWARD_SPEED);
 			while (odometer.getXYT()[0]>=limiter[3]){
 				navigation.forward();
@@ -288,45 +288,48 @@ public class SearchAndLocalize {
 				distToCube = fetchUS();
 				if (distToCube < xDist) {
 					Sound.beep();
-					Sound.beep();
 				}
 			}
+			System.out.println();
+			System.out.println();
 			navigation.stopRobot();
 			navigation.turnTo(90);
-			lightLocalizer.localizeX();
+			lightLocalizer.localizeXMid();
 			while (odometer.getXYT()[0]<=limiter[1]) {
 				navigation.forward();
 				distToCube = fetchUS();
-				if (distToCube < xDist) {
-					Sound.beep();
+				if (distToCube < yDist) {
 					Sound.beep();
 				}
-
 			}
+			System.out.println();
+			System.out.println();
 			navigation.stopRobot();
 			navigation.turnTo(180);
-			lightLocalizer.localizeY();
+			lightLocalizer.localizeYMid();
 			while (odometer.getXYT()[1]>=limiter[2]) {
 				navigation.forward();
 				distToCube = fetchUS();
 				if (distToCube < xDist) {
 					Sound.beep();
-					Sound.beep();
+					System.out.print("Beep  ");
 				}
-
 			}
+			System.out.println();
+			System.out.println();
 			navigation.stopRobot();
 			navigation.turnTo(270);
-			lightLocalizer.localizeX();
+			lightLocalizer.localizeXMid();
 			while (odometer.getXYT()[0]>=limiter[3]) {
 				navigation.forward();
 				distToCube = fetchUS();
-				if (distToCube < xDist) {
+				if (distToCube < yDist) {
 					Sound.beep();
-					Sound.beep();
+					System.out.print("Beep  ");
 				}
-
 			}
+			System.out.println();
+			System.out.println();
 		}
 		else if (test == 2) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
@@ -447,8 +450,20 @@ public class SearchAndLocalize {
 	 * @return
 	 */
 	public int fetchUS() {
-		usDistance.fetchSample(usData, 0);
-		return (int) (usData[0] * 100);
+		float[] data = new float[10];
+		float distance;
+		for(int i = 0; i < data.length; i++){
+			usDistance.fetchSample(usData, 0);
+			distance = (int)((usData[0]*100));
+			data[i] = distance;
+		}
+		
+		float average = 0;
+		for(int i = 1; i < data.length; i++){
+			average = average+ data[i];
+		}
+		average= average/(data.length-1);
+		return (int) average;
 	}
 
 	private class Area {

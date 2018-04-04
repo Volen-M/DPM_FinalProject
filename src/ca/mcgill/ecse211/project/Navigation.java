@@ -93,22 +93,6 @@ public class Navigation extends Thread {
 		navigating = false;
 	}
 
-	/**
-	 * Goes to a block when it is detected in the field
-	 * 
-	 * @param searcher
-	 *            Instance of the SearchAndLocalize class
-	 */
-	// private void goToBlock(SearchAndLocalize searcher) {
-	// int dist = this.usLoc.fetchUS();
-	// if (dist > distanceSensorToBlock) {
-	// rotateByDistance(dist - distanceSensorToBlock, 1, 1);
-	// }
-	// searcher.getCC().colourDetection();
-	// if (searcher.getCC().isBlock()) {
-	// searcher.setFoundBlock(true);
-	// }
-	// }
 
 	/**
 	 * Checks for the presence of a block in the sights of the sensor.
@@ -170,6 +154,7 @@ public class Navigation extends Thread {
 	 *            Amount to move by
 	 */
 	public static void moveBy(double distance) {
+		setSpeed(Robot.FORWARD_SPEED);
 		if (distance >= 0) {
 			rotateByDistance(distance, 1, 1);
 		} else {
@@ -183,15 +168,21 @@ public class Navigation extends Thread {
 	 * 
 	 */
 	public static void forward() {
-		
+		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.forward();
 		rightMotor.forward();
 	}
-
+	
+	public static void forward(int speed) {
+		setSpeed(speed);
+		leftMotor.forward();
+		rightMotor.forward();
+	}
 	/**
 	 * Freely rotates the robot clockwise indefinitely.
 	 */
 	public static void rotateClockWise() {
+		setSpeed(Robot.FORWARD_SPEED)
 		leftMotor.forward();
 		rightMotor.backward();
 	}
@@ -200,6 +191,7 @@ public class Navigation extends Thread {
 	 * Freely rotates the robot counter-clockwise indefinitely.
 	 */
 	public static void rotateCounterClockWise() {
+		setSpeed(Robot.FORWARD_SPEED)
 		leftMotor.backward();
 		rightMotor.forward();
 	}
