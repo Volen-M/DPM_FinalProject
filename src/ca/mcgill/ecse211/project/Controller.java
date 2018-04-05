@@ -149,9 +149,9 @@ public class Controller {
 
 	@SuppressWarnings("static-access")
 	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
-			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) {
+			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 12;
+		int test = 11;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -167,42 +167,27 @@ public class Controller {
 		} else if (test == 1) { // Test for wheel radius (get by what percentage it is off on average so
 			// (Distancetravelled+offset)/Distancetravelled
 			// and change the WHEEL_RAD by that.... Constant to set: Robot.WHEEL_RAD
-			// while (Button.waitForAnyPress() != Button.ID_DOWN)
-			// ;
-			// navigation.rotateByDistance(1 * Robot.TILESIZE, 1, 1);
+			//
+			//
+			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(2*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(2*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(2*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(4*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(4*Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(4 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(6 * Robot.TILESIZE, 1, 1);
+			navigation.moveBy(4*Robot.TILESIZE);
 
 		} else if (test == 2) { // Test for track length by checking turning. Get it as close as possible then
 			// just add constant to turning as
@@ -231,19 +216,19 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
+			navigation.turnTo(180);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
+			navigation.turnTo(-179.9);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
+			navigation.turnTo(180);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
+			navigation.turnTo(-179.9);
 			// while (Button.waitForAnyPress() != Button.ID_DOWN)
 			// ;
 			// navigation.turnTo(180);
@@ -474,13 +459,6 @@ public class Controller {
 				;
 			System.out.println(colourCalibration.colourDetection());
 		} else if (test == 11) {
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.turnTo(90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.turnTo(0);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			searchAndLocalize.testMethod(test-11);

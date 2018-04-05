@@ -51,22 +51,22 @@ public class SearchAndLocalize {
 			limiter[3]=ll_x*Robot.TILESIZE;
 			break;
 		case 1:
-			limiter[1]=ur_y*Robot.TILESIZE;
-			limiter[2]=ur_x*Robot.TILESIZE;
-			limiter[3]=ll_y*Robot.TILESIZE;
-			limiter[0]=ll_x*Robot.TILESIZE;
+			limiter[1]=ur_y*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[2]=ur_x*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[3]=ll_y*Robot.TILESIZE-Robot.TILESIZE*0.5;
+			limiter[0]=ll_x*Robot.TILESIZE-Robot.TILESIZE*0.5;
 			break;
 		case 2:
-			limiter[2]=ur_y*Robot.TILESIZE;
-			limiter[3]=ur_x*Robot.TILESIZE;
-			limiter[0]=ll_y*Robot.TILESIZE;
-			limiter[1]=ll_x*Robot.TILESIZE;
+			limiter[2]=ur_y*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[3]=ur_x*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[0]=ll_y*Robot.TILESIZE-Robot.TILESIZE*0.5;
+			limiter[1]=ll_x*Robot.TILESIZE-Robot.TILESIZE*0.5;
 			break;
 		case 3:
-			limiter[3]=ur_y*Robot.TILESIZE;
-			limiter[0]=ur_x*Robot.TILESIZE;
-			limiter[1]=ll_y*Robot.TILESIZE;
-			limiter[2]=ll_x*Robot.TILESIZE;
+			limiter[3]=ur_y*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[0]=ur_x*Robot.TILESIZE+Robot.TILESIZE*0.5;
+			limiter[1]=ll_y*Robot.TILESIZE-Robot.TILESIZE*0.5;
+			limiter[2]=ll_x*Robot.TILESIZE-Robot.TILESIZE*0.5;
 			break;
 		}
 	}
@@ -124,7 +124,9 @@ public class SearchAndLocalize {
 				}
 
 			}
+			navigation.stopRobot();
 			navigation.turnTo(90);
+			lightLocalizer.localizeXMid();
 			while (odometer.getXYT()[0]<=limiter[1]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -159,7 +161,9 @@ public class SearchAndLocalize {
 
 
 			}
+			navigation.stopRobot();
 			navigation.turnTo(180);
+			lightLocalizer.localizeYMid();
 			while (odometer.getXYT()[1]>=limiter[2]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -192,7 +196,9 @@ public class SearchAndLocalize {
 					}
 				}
 			}
+			navigation.stopRobot();
 			navigation.turnTo(270);
+			lightLocalizer.localizeXMid();
 			while (odometer.getXYT()[0]>=limiter[3]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -242,8 +248,15 @@ public class SearchAndLocalize {
 		//		}
 		return -1;
 	}
-
-	public void testMethod(int test) {	
+	public void logger() {
+		double[] xyt = new double[3];
+		xyt = odometer.getXYT();
+		System.out.println("X: " + Math.round(xyt[0]));
+		System.out.println("Y: " + Math.round(xyt[1]));
+		System.out.println("Deg: " + Math.round(xyt[2]));
+	}
+	
+	public void testMethod(int test) throws OdometerExceptions {	
 		double xDist;
 		double yDist;
 		double distToCube;
@@ -251,32 +264,46 @@ public class SearchAndLocalize {
 		Area tempArea;
 		xDist = Math.abs(limiter[1]-limiter[3])/2-4;
 		yDist = Math.abs(limiter[0]-limiter[2])/2-4;
-		navigation.setSpeed(Robot.FORWARD_SPEED);
 		if (test==0) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
+			logger();
 			while (odometer.getXYT()[1]<=limiter[0]) {
+				if (navigation.isNavigating() == false) {
 				navigation.forward();
+				}
 			}
 			navigation.stopRobot();
 			navigation.turnTo(90);
+			while (navigation.isNavigating()) {};
+			logger();
 			lightLocalizer.localizeXMid();
-			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (navigation.isNavigating()) {};
 			while (odometer.getXYT()[0]<=limiter[1]){
+				if (navigation.isNavigating() == false) {
 				navigation.forward();
+				}
 			}
 			navigation.stopRobot();
 			navigation.turnTo(180);
+			while (navigation.isNavigating()) {};
+			logger();
 			lightLocalizer.localizeYMid();
-			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (navigation.isNavigating()) {};
 			while (odometer.getXYT()[1]>=limiter[2]) {
+				if (navigation.isNavigating() == false) {
 				navigation.forward();
+				}
 			}
 			navigation.stopRobot();
 			navigation.turnTo(270);
+			while (navigation.isNavigating()) {};
+			logger();
 			lightLocalizer.localizeXMid();
-			navigation.setSpeed(Robot.FORWARD_SPEED);
+			while (navigation.isNavigating()) {};
 			while (odometer.getXYT()[0]>=limiter[3]){
+				if (navigation.isNavigating() == false) {
 				navigation.forward();
+				}
 			}
 			navigation.stopRobot();
 
@@ -330,119 +357,9 @@ public class SearchAndLocalize {
 			}
 			System.out.println();
 			System.out.println();
-		}
-		else if (test == 2) {
-			odometer.setXYT(limiter[3], limiter[2], 0);
-			if (corner == 0) {
-				while (odometer.getXYT()[1]<=limiter[0]) {
-					navigation.forward();
-					distToCube = fetchUS();
-					if (distToCube < xDist) {
-						checkCube = true;
-						if (checkCube) {
-							navigation.moveBy(4);
-							navigation.turnTo(90);
-							navigation.moveBy(distToCube-constant);
-							if(colourCalib.colourDetection()) {
-								for(int i = 0; i < 3; i++) {
-									Sound.beep();
-								}
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(0);
-								return;
-							}
-							else {
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(0);
-							}
-						}
-					}
-
-				}
-				navigation.turnTo(90);
-				while (odometer.getXYT()[0]<=limiter[1]) {
-					navigation.forward();
-					distToCube = fetchUS();
-					if (distToCube < xDist) {
-						checkCube = true;
-						if (checkCube) {
-							navigation.moveBy(4);
-							navigation.turnTo(180);
-							navigation.moveBy(distToCube-constant);
-							if(colourCalib.colourDetection()) {
-								for(int i = 0; i < 3; i++) {
-									Sound.beep();
-								}
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(90);
-								return;
-							}
-							else {
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(90);
-							}
-						}
-					}
-
-
-				}
-				navigation.turnTo(180);
-				while (odometer.getXYT()[1]>=limiter[2]) {
-					navigation.forward();
-					distToCube = fetchUS();
-					if (distToCube < xDist) {
-						checkCube = true;
-						if (checkCube) {
-							navigation.moveBy(4);
-							navigation.turnTo(270);
-							navigation.moveBy(distToCube-constant);
-							if(colourCalib.colourDetection()) {
-								for(int i = 0; i < 3; i++) {
-									Sound.beep();
-								}
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(180);
-								return;
-							}
-							else {
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(180);
-							}
-						}
-					}
-				}
-				navigation.turnTo(270);
-				while (odometer.getXYT()[0]>=limiter[3]) {
-					navigation.forward();
-					distToCube = fetchUS();
-					if (distToCube < xDist) {
-						checkCube = true;
-						if (checkCube) {
-							navigation.moveBy(4);
-							navigation.turnTo(0);
-							navigation.moveBy(distToCube-constant);
-							if(colourCalib.colourDetection()) {
-								for(int i = 0; i < 3; i++) {
-									Sound.beep();
-								}
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(270);
-								return;
-							}
-							else {
-								navigation.moveBy(-1*distToCube);
-								navigation.turnTo(270);
-							}
-						}
-					}
-
-				}
 
 			}
-		}
-		else if (test == 3) {
-			findFlag();
-		}
+
 	}
 	/**
 	 * A method to get the distance from our sensor

@@ -5,8 +5,8 @@ package ca.mcgill.ecse211.project;
  * Class that tracks position of the robot
  * 
  * @author Volen Mihaylov
- * @author Patrick Ghazal
  * @author Bryan Jay
+ * @author Patrick Ghazal
  *
  */
 public class Odometer extends OdometerData implements Runnable {

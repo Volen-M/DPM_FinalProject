@@ -93,29 +93,6 @@ public class Navigation extends Thread {
 		navigating = false;
 	}
 
-
-	/**
-	 * Checks for the presence of a block in the sights of the sensor.
-	 * 
-	 * @param searcher
-	 *            Instance of the SearchAndLocalize class
-	 * @return 0 if no block is detected, 1 if a block is detected on the side, 2 if
-	 *         a block is detected at the front
-	 */
-	private int blockDetected(SearchAndLocalize searcher) {
-		/*
-		 * 0: no block 1: side block 2: front block
-		 */
-		int sideDistance = fetchSideUS();
-		int frontDistance = this.usLoc.fetchUS();
-		if (sideDistance < (searcher.lowerLeftX - searcher.upperRightX) / 2 * Robot.TILESIZE + 5) {
-			return 1;
-		} else if (frontDistance < 5) {
-			return 2;
-		}
-		return 0;
-	}
-
 	/**
 	 * A method to turn our vehicle to a certain angle
 	 * 
@@ -153,7 +130,8 @@ public class Navigation extends Thread {
 	 * @param distance
 	 *            Amount to move by
 	 */
-	public static void moveBy(double distance) {
+	public void moveBy(double distance) {
+		navigating = true;
 		setSpeed(Robot.FORWARD_SPEED);
 		if (distance >= 0) {
 			rotateByDistance(distance, 1, 1);
@@ -161,19 +139,22 @@ public class Navigation extends Thread {
 			rotateByDistance(-1*distance, -1, -1);
 
 		}
+		navigating = false;
 	}
 
 	/**
 	 * Freely sets both wheels forward indefinitely.
 	 * 
 	 */
-	public static void forward() {
+	public void forward() {
+		navigating = true;
 		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.forward();
 		rightMotor.forward();
 	}
 	
-	public static void forward(int speed) {
+	public void forward(int speed) {
+		navigating = true;
 		setSpeed(speed);
 		leftMotor.forward();
 		rightMotor.forward();
@@ -181,7 +162,8 @@ public class Navigation extends Thread {
 	/**
 	 * Freely rotates the robot clockwise indefinitely.
 	 */
-	public static void rotateClockWise() {
+	public void rotateClockWise() {
+		navigating = true;
 		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.forward();
 		rightMotor.backward();
@@ -190,7 +172,8 @@ public class Navigation extends Thread {
 	/**
 	 * Freely rotates the robot counter-clockwise indefinitely.
 	 */
-	public static void rotateCounterClockWise() {
+	public void rotateCounterClockWise() {
+		navigating = true;
 		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.backward();
 		rightMotor.forward();
@@ -199,9 +182,10 @@ public class Navigation extends Thread {
 	/**
 	 * Stop both wheels.
 	 */
-	public static void stopRobot() {
+	public void stopRobot() {
 		leftMotor.stop(true);
 		rightMotor.stop(false);
+		navigating = false;
 	}
 
 	/**
@@ -214,10 +198,12 @@ public class Navigation extends Thread {
 	 * @param rightWheelDir
 	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */
-	public static void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
+	public void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
+		navigating = true;
 		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
 		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
 		stopRobot();
+		navigating = false;
 	}
 
 	/**
@@ -230,7 +216,9 @@ public class Navigation extends Thread {
 	 * @param rightWheelDir
 	 *            : 1 for the right wheel to go forward, -1 for backward
 	 */
-	public static void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
+	public void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
+		navigating = true;
+		
 		if (leftWheelDir == 1 && rightWheelDir == -1) {
 			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 2), true);
 			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 2), false);
@@ -240,6 +228,7 @@ public class Navigation extends Thread {
 			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), false);
 		}
 		stopRobot();
+		navigating = false;
 	}
 
 	/**
@@ -294,16 +283,7 @@ public class Navigation extends Thread {
 		return navigating;
 	}
 
-	/**
-	 * Returns the distance value as seen by the side sensor.
-	 * 
-	 * @return
-	 */
-	public int fetchSideUS() {
-		sideUsDistance.fetchSample(sideUsData, 0);
-		return (int) (sideUsData[0] * 100);
-	}
-
+	
 	public void travelToTunnelEntrance() {
 		// x is the halfway point between both x's, y is the lower-left y because we're
 		// coming from green (- 5 for not starting right on edge of tunnel)
