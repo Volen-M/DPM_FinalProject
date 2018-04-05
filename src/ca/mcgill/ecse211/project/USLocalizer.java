@@ -23,22 +23,21 @@ public class USLocalizer {
 	private double[] startingCoordinates = new double[2];
 
 	// Create a navigation
-	public Navigation navigation;
+	private Navigation navigation;
 
 	/**
 	 * Constructor to initialize variables
 	 * 
-	 * @param Odometer
-	 * @param EV3LargeRegulatedMotor
-	 * @param EV3LargeRegulatedMotor
-	 * @param boolean
-	 * @param SampleProvider
+	 * @param usDistance
+	 *            SampleProvider instance
+	 * @param corner
+	 *            starting corner
 	 */
-	public USLocalizer(Odometer odo, SampleProvider usDistance, int corner, Navigation nav) {
-		this.odometer = odo;
+	public USLocalizer(SampleProvider usDistance, int corner) {
+		this.odometer = Controller.getOdometerInstance();
 		this.usDistance = usDistance;
 		this.usData = new float[this.usDistance.sampleSize()];
-		navigation = nav;
+		navigation = Controller.getNavigationInstance();
 
 		setStartingCoordinates(corner);
 
@@ -50,6 +49,7 @@ public class USLocalizer {
 	 * corner corner = 3 is top left corner
 	 * 
 	 * @param corner
+	 *            starting corner
 	 */
 	public void setStartingCoordinates(int corner) {
 		switch (corner) {
@@ -86,8 +86,7 @@ public class USLocalizer {
 	}
 
 	/**
-	 * A method to localize position using the rising edge
-	 * 
+	 * A method to localize position using the rising edge routine.
 	 */
 	public void localizeRisingEdge() {
 
@@ -139,8 +138,7 @@ public class USLocalizer {
 	}
 
 	/**
-	 * A method to localize position using the falling edge
-	 * 
+	 * A method to localize position using the falling edge routine.
 	 */
 	public void localizeFallingEdge() {
 
@@ -197,7 +195,7 @@ public class USLocalizer {
 	/**
 	 * A method to get the distance from our sensor
 	 * 
-	 * @return
+	 * @return distance distance measured by the sensor
 	 */
 	public int fetchUS() {
 		usDistance.fetchSample(usData, 0);

@@ -6,15 +6,15 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class for Everything color detection related. Makes use of the Gaussian
- * distribution to find detected color. Extends Thread.
+ * Class for Everything color identification related. Makes use of the Gaussian
+ * distribution to find detected color.
  * 
  * @author Bryan Jay
  * @author Volen Mihaylov
  * @author Patrick Ghazal
  *
  */
-public class ColourCalibration extends Thread {
+public class ColourCalibration {
 
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S2"));
 	private static final double[] RGB_blue = { 0.023333, 0.043156, 0.0590942 };
@@ -39,6 +39,13 @@ public class ColourCalibration extends Thread {
 		BLUE, RED, YELLOW, WHITE
 	}
 
+	/**
+	 * ColourCalibration constructor. Sets the light sensor mode and the target
+	 * flag.
+	 * 
+	 * @param flag
+	 *            int value of the target flag
+	 */
 	public ColourCalibration(int flag) {
 		lightSensor.setCurrentMode("Red"); // set the sensor floodlight to white
 		this.flag = flag;
@@ -46,7 +53,7 @@ public class ColourCalibration extends Thread {
 	}
 
 	/**
-	 * Determines if it the target block
+	 * Determines if the current block is the target
 	 * 
 	 * @return boolean
 	 */
@@ -62,8 +69,8 @@ public class ColourCalibration extends Thread {
 	}
 
 	/**
-	 * Determines the colour of the block and returns whether or not it its Target
-	 * block
+	 * Reads sensor sample, sets currentBlock attribute if a colour is identified,
+	 * then returns whether the currentBlock is the target using isBlock()
 	 * 
 	 * @return boolean
 	 */
@@ -96,7 +103,7 @@ public class ColourCalibration extends Thread {
 	}
 
 	/**
-	 * Get the RGB values from the colour sensor
+	 * Gets the RGB values from the colour sensor
 	 * 
 	 * @return RGB
 	 */
@@ -109,7 +116,7 @@ public class ColourCalibration extends Thread {
 	}
 
 	/**
-	 * Returns the colour of the recent detected block
+	 * Returns the colour of the last-detected block
 	 * 
 	 * @return
 	 */
@@ -118,7 +125,7 @@ public class ColourCalibration extends Thread {
 	}
 
 	/**
-	 * Deletes the most recently detected block data, resets to null
+	 * Sets currentBlock to null, erasing the data on the last-detected block
 	 */
 	public void resetBlock() {
 		currentBlock = null;

@@ -26,8 +26,6 @@ public class Odometer extends OdometerData implements Runnable {
 	 * This is the default constructor of this class. It initiates all motors and
 	 * variables once.It cannot be accessed externally.
 	 * 
-	 * @param leftMotor
-	 * @param rightMotor
 	 * @throws OdometerExceptions
 	 */
 	private Odometer() throws OdometerExceptions {
@@ -44,13 +42,10 @@ public class Odometer extends OdometerData implements Runnable {
 	 * This method is meant to ensure only one instance of the odometer is used
 	 * throughout the code.
 	 * 
-	 * @param leftMotor
-	 * @param rightMotor
 	 * @return new or existing Odometer Object
 	 * @throws OdometerExceptions
 	 */
-	public synchronized static Odometer getOrCreateOdometer()
-			throws OdometerExceptions {
+	public synchronized static Odometer getOrCreateOdometer() throws OdometerExceptions {
 		if (odo != null) { // Return existing object
 			return odo;
 		} else { // create object and return it
@@ -78,7 +73,6 @@ public class Odometer extends OdometerData implements Runnable {
 	 * This method is where the logic for the odometer will run. Use the methods
 	 * provided from the OdometerData class to implement the odometer.
 	 */
-	// run method (required for Thread)
 	public void run() {
 		long updateStart, updateEnd;
 		while (true) {

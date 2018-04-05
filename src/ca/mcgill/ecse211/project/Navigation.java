@@ -2,8 +2,6 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.sensor.SensorModes;
-import lejos.robotics.SampleProvider;
 
 /**
  * Class containing all robot movement related behaviors. Extends Thread.
@@ -33,32 +31,15 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
-
 	
-	private static SampleProvider sideUsDistance;
-	private float[] sideUsData;
-
-	// Data from Wifi
-	private static String currentZone;
-	private static int startingCorner;
-
 	/**
 	 * Navigation constructor
 	 * 
-	 * @param odo
-	 *            Odometer object to keep track of position for coordinate related
-	 *            movements
 	 */
-	public Navigation(Odometer odo) {
-		this.odometer = odo;
+	public Navigation() {
+		this.odometer = Controller.getOdometerInstance();
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
-
-		// usSensor is the instance
-		// sideUltrasonicSensor = new EV3UltrasonicSensor(usSidePort);
-		// // usDistance provides samples from this instance
-		// sideUsDistance = sideUltrasonicSensor.getMode("Distance");
-		// sideUsData = new float[sideUsDistance.sampleSize()];
 	}
 
 	/**
@@ -96,7 +77,7 @@ public class Navigation extends Thread {
 	/**
 	 * A method to turn our vehicle to a certain angle
 	 * 
-	 * @param degrees
+	 * @param degrees desired orientation
 	 */
 	public void turnTo(double degrees) {
 
@@ -128,7 +109,7 @@ public class Navigation extends Thread {
 	 * Moves robot forward or back by certain amount
 	 * 
 	 * @param distance
-	 *            Amount to move by
+	 *            Distance to move by
 	 */
 	public void moveBy(double distance) {
 		navigating = true;
@@ -192,11 +173,11 @@ public class Navigation extends Thread {
 	 * Travel distance dist.
 	 * 
 	 * @param dist
-	 *            : distance to travel
+	 *            distance to travel
 	 * @param leftWheelDir
-	 *            : 1 for the left wheel to go forward, -1 for backward
+	 *            1 for the left wheel to go forward, -1 for backward
 	 * @param rightWheelDir
-	 *            : 1 for the right wheel to go forward, -1 for backward
+	 *            1 for the right wheel to go forward, -1 for backward
 	 */
 	public void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
 		navigating = true;
@@ -207,14 +188,14 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Turn by 'degrees' degrees.
+	 * Turn by a certain angle in a certain direction
 	 * 
 	 * @param degrees
-	 *            : angle to turn
+	 *            angle to turn
 	 * @param leftWheelDir
-	 *            : 1 for the left wheel to go forward, -1 for backward
+	 *            1 for the left wheel to go forward, -1 for backward
 	 * @param rightWheelDir
-	 *            : 1 for the right wheel to go forward, -1 for backward
+	 *            1 for the right wheel to go forward, -1 for backward
 	 */
 	public void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
 		navigating = true;
@@ -235,7 +216,7 @@ public class Navigation extends Thread {
 	 * Update the robot's acceleration
 	 * 
 	 * @param acc
-	 *            : desired acceleration
+	 *            desired acceleration
 	 */
 	public static void setAcceleration(int acc) {
 		leftMotor.setAcceleration(acc);
@@ -246,7 +227,7 @@ public class Navigation extends Thread {
 	 * Update the robot's speed.
 	 * 
 	 * @param sp
-	 *            : desired speed
+	 *            desired speed
 	 */
 	public static void setSpeed(int sp) {
 		leftMotor.setSpeed(sp);
@@ -277,13 +258,15 @@ public class Navigation extends Thread {
 	 * A method to determine whether another thread has called travelTo and turnTo
 	 * methods or not
 	 * 
-	 * @return
+	 * @return navigating boolean value, true if the robot is on the move
 	 */
 	boolean isNavigating() throws OdometerExceptions {
 		return navigating;
 	}
 
-	
+	/**
+	 * Travel to the entrance of the tunnel.
+	 */
 	public void travelToTunnelEntrance() {
 		// x is the halfway point between both x's, y is the lower-left y because we're
 		// coming from green (- 5 for not starting right on edge of tunnel)
@@ -292,6 +275,9 @@ public class Navigation extends Thread {
 		travelTo(tunnelEntranceX, tunnelEntranceY);
 	}
 
+	/**
+	 * Travel to the entrance of the bridge.
+	 */
 	public void travelToBridgeEntrance() {
 		// x is the halfway point between both x's, y is the upper-right y because we're
 		// coming from red (+ 5 for not starting right on edge of bridge)
@@ -300,11 +286,4 @@ public class Navigation extends Thread {
 		travelTo(bridgeEntranceX, bridgeEntranceY);
 	}
 
-	public static void setCurrentZone(String colour) {
-		currentZone = colour;
-	}
-
-	public static void setStartingCorner(int sC) {
-		startingCorner = sC;
-	}
 }

@@ -16,9 +16,9 @@ import lejos.hardware.sensor.SensorMode;
 public class LightLocalizer {
 
 	// vehicle constants
-
 	private Odometer odometer;
-	public Navigation navigation;
+	private Navigation navigation;
+
 	// Instantiate the EV3 Colour Sensor
 	private static final EV3ColorSensor lightSensorLeft = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	private static final EV3ColorSensor lightSensorRight = new EV3ColorSensor(LocalEV3.get().getPort("S4"));
@@ -31,19 +31,16 @@ public class LightLocalizer {
 	double[] lineData;
 
 	/**
-	 * LightLocalizer constructor
+	 * LightLocalizer constructor. Sets the light sensor modes.
 	 * 
-	 * @param odometer
-	 *            Odometer object to keep track of position for coordinate related
-	 *            movements
-	 * @param nav
-	 *            Navigation object to be able to induce movement into the robot
+	 *
 	 */
-	public LightLocalizer(Odometer odometer, Navigation nav) {
+	public LightLocalizer() {
 
-		this.odometer = odometer;
+		odometer = Controller.getOdometerInstance();
+		navigation = Controller.getNavigationInstance();
+		
 		idColourLeft = lightSensorLeft.getRedMode(); // set the sensor light to red
-		this.navigation = nav;
 		idColourRight = lightSensorRight.getRedMode(); // set the sensor light to red
 		lineData = new double[2];
 	}
@@ -51,8 +48,9 @@ public class LightLocalizer {
 	/**
 	 * Method to fully localise its position
 	 * 
-	 * @param int
-	 *            integer to determine the type of localisation to be done depending on robots location
+	 * @param type
+	 *            integer to determine the type of localization to be done depending
+	 *            on robots location
 	 */
 	public void fullLocalize(int type) {
 
@@ -61,6 +59,10 @@ public class LightLocalizer {
 	public double roundDeci(double x) {
 		return Math.round(x*100)/100;
 	}
+	
+	/**
+	 * Localizes along the x-axis, making sure to end up in the center of the tile. 
+	 */
 	public void localizeXMid() {
 		localizeX();
 		double xLoc = odometer.getXYT()[0];
@@ -78,7 +80,9 @@ public class LightLocalizer {
 		System.out.println("Theta:" + roundDeci(deg));
 	}
 
-
+	/**
+	 * Localizes along the y-axis, making sure to end up in the center of the tile. 
+	 */
 	public void localizeYMid() {
 		localizeY();
 		double yLoc = odometer.getXYT()[1];
@@ -202,9 +206,9 @@ public class LightLocalizer {
 		}
 	}
 
-
-
-
+	/**
+	 * This method gets the colour value detected by the left light sensor
+	 */
 	private float fetchSampleLeft() {
 		float[] colorValue = new float[idColourLeft.sampleSize()];
 		idColourLeft.fetchSample(colorValue, 0);
@@ -212,8 +216,7 @@ public class LightLocalizer {
 	}
 
 	/**
-	 * This method gets the colour value of the right light sensor
-	 * 
+	 * This method gets the colour value detected by the right light sensor
 	 */
 	private float fetchSampleRight() {
 		float[] colorValue = new float[idColourRight.sampleSize()];

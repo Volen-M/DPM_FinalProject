@@ -8,7 +8,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
 /**
- * Main Class of the Robot; dictates robot behaviour. Contains Main function
+ * Main Class of the Robot; dictates robot behaviour. Contains Main method.
  * 
  * @author Volen Mihaylov
  * @author Patrick Ghazal
@@ -23,6 +23,13 @@ public class Controller {
 	// Single navigation instance used by all classes
 	private static Navigation navigation;
 
+	// Other class instances necessary in the main and/or runTests
+	private static Odometer odometer;
+	private static USLocalizer usLocalizer;
+	private static LightLocalizer lightLocalizer;
+	private static ColourCalibration colourCalibration;
+	private static SearchAndLocalize searchAndLocalize;
+
 	// Constants for part 2
 	private static int targetBlock = 3;
 	private static String currentTeam;
@@ -32,7 +39,8 @@ public class Controller {
 	public static boolean betaDemo = false;
 
 	/**
-	 * Main method. Initial entry point of the code for this lab.
+	 * Main method. Initial entry point of the code for this lab. Instantiates
+	 * necessary objects and runs testing or demo behaviour.
 	 * 
 	 * @param args
 	 * @throws OdometerExceptions
@@ -42,30 +50,29 @@ public class Controller {
 	public static void main(String[] args) throws OdometerExceptions, InterruptedException {
 
 		// Odometer related objects
-		Odometer odometer = Odometer.getOrCreateOdometer();
+		odometer = Odometer.getOrCreateOdometer();
 
 		// usSensor is the instance
 		SensorModes ultrasonicSensor = new EV3UltrasonicSensor(usPort);
 		// usDistance provides samples from this instance
 		SampleProvider usDistance = ultrasonicSensor.getMode("Distance");
 
-		navigation = new Navigation(odometer);
+		navigation = new Navigation();
 
 		Thread odoThread = new Thread(odometer); // Start odometer thread.
 		odoThread.start();
 
-		// Create ultrasonic and light localizer objects.
-		USLocalizer usLocalizer = new USLocalizer(odometer, usDistance, 0, navigation);
+		// Create other necessary class instances.
+		usLocalizer = new USLocalizer(usDistance, 0);
 		navigation.usLoc = usLocalizer;
-		LightLocalizer lightLocalizer = new LightLocalizer(odometer, navigation);
-		ColourCalibration colourCalibration = new ColourCalibration(targetBlock);
-		SearchAndLocalize searchAndLocalize = new SearchAndLocalize(navigation, colourCalibration, usDistance, odometer, lightLocalizer, 5, 3, 1, 1, 0);
-
+		lightLocalizer = new LightLocalizer();
+		colourCalibration = new ColourCalibration(targetBlock);
+		searchAndLocalize = new SearchAndLocalize(usDistance, 5, 3, 1, 1, 0);
 
 		if (!testing) {
 			WiFiData.processData();
 		} else {
-			runTests(navigation, odometer, usLocalizer, lightLocalizer, colourCalibration, searchAndLocalize);
+			runTests();
 		}
 
 		if (betaDemo && !testing) {
@@ -148,8 +155,7 @@ public class Controller {
 	}
 
 	@SuppressWarnings("static-access")
-	public static void runTests(Navigation navigation, Odometer odometer, USLocalizer usLocalizer,
-			LightLocalizer lightLocalizer, ColourCalibration colourCalibration, SearchAndLocalize searchAndLocalize) throws OdometerExceptions {
+	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
 		int test = 11;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
@@ -169,25 +175,25 @@ public class Controller {
 			// and change the WHEEL_RAD by that.... Constant to set: Robot.WHEEL_RAD
 			//
 			//
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(2*Robot.TILESIZE);
+			navigation.moveBy(2 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(2*Robot.TILESIZE);
+			navigation.moveBy(2 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(2*Robot.TILESIZE);
+			navigation.moveBy(2 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(4*Robot.TILESIZE);
+			navigation.moveBy(4 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(4*Robot.TILESIZE);
+			navigation.moveBy(4 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.moveBy(4*Robot.TILESIZE);
+			navigation.moveBy(4 * Robot.TILESIZE);
 
 		} else if (test == 2) { // Test for track length by checking turning. Get it as close as possible then
 			// just add constant to turning as
@@ -393,30 +399,7 @@ public class Controller {
 				;
 
 			odometer.setXYT(0, 0, 0);
-			navigation.moveBy(4*Robot.TILESIZE);
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
 			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOn();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
-			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.moveBy(4*Robot.TILESIZE);
 			lightLocalizer.localizeY();
 
 			navigation.turnTo(270);
@@ -435,97 +418,119 @@ public class Controller {
 			navigation.turnTo(270);
 			lightLocalizer.localizeX();
 
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
+			navigation.moveBy(4 * Robot.TILESIZE);
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
+			navigation.landingGearOn();
+			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOn();
+
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
 
 		} else if (test == 10) {
 
-			//should make beep.upsequence if it is the target block
+			// should make beep.upsequence if it is the target block
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			System.out.println(colourCalibration.colourDetection());
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			System.out.println(colourCalibration.colourDetection());
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			System.out.println(colourCalibration.colourDetection());
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			System.out.println(colourCalibration.colourDetection());
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			System.out.println(colourCalibration.colourDetection());
 		} else if (test == 11) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 		} else if (test == 12) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 		} else if (test == 13) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 		} else if (test == 14) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			searchAndLocalize.testMethod(test-11);
+			searchAndLocalize.testMethod(test - 11);
 		} else if (test == 15) {
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 90);
-			lightLocalizer.localizeXMid();
-			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 90);
-			lightLocalizer.localizeXMid();
-			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 270);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 90);
 			lightLocalizer.localizeXMid();
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 270);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 90);
 			lightLocalizer.localizeXMid();
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 0);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 270);
+			lightLocalizer.localizeXMid();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 270);
+			lightLocalizer.localizeXMid();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 0);
 			lightLocalizer.localizeYMid();
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 0);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 0);
 			lightLocalizer.localizeYMid();
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 180);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 180);
 			lightLocalizer.localizeYMid();
-			
+
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(2.5*Robot.TILESIZE, 3.5*Robot.TILESIZE, 180);
+			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 180);
 			lightLocalizer.localizeYMid();
 		}
 	}
@@ -538,5 +543,29 @@ public class Controller {
 	 */
 	public static void setCurrentTeam(String colour) {
 		currentTeam = colour;
+	}
+
+	public static Odometer getOdometerInstance() {
+		return odometer;
+	}
+
+	public static Navigation getNavigationInstance() {
+		return navigation;
+	}
+
+	public static USLocalizer getUSLocalizerInstance() {
+		return usLocalizer;
+	}
+
+	public static LightLocalizer getLightLocalizerInstance() {
+		return lightLocalizer;
+	}
+
+	public static ColourCalibration getColourCalibrationInstance() {
+		return colourCalibration;
+	}
+
+	public static SearchAndLocalize getSearchAndLocalizeInstance() {
+		return searchAndLocalize;
 	}
 }

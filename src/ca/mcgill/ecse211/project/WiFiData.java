@@ -6,30 +6,8 @@ import ca.mcgill.ecse211.WiFiClient.WifiConnection;
 import lejos.hardware.Button;
 
 /**
- * Example class using WifiConnection to communicate with a server and receive
- * data concerning the competition such as the starting corner the robot is
- * placed in.
- * 
- * Keep in mind that this class is an **example** of how to use the WiFi code;
- * you must use the WifiConnection class yourself in your own code as
- * appropriate. In this example, we simply show how to get and process different
- * types of data.
- * 
- * There are two variables you **MUST** set manually before trying to use this
- * code.
- * 
- * 1. SERVER_IP: The IP address of the computer running the server application.
- * This will be your own laptop, until the beta beta demo or competition where
- * this is the TA or professor's laptop. In that case, set the IP to
- * 192.168.2.3.
- * 
- * 2. TEAM_NUMBER: your project team number
- * 
- * Note: We System.out.println() instead of LCD printing so that full debug
- * output (e.g. the very long string containing the transmission) can be read on
- * the screen OR a remote console such as the EV3Control program via Bluetooth
- * or WiFi. You can disable printing from the WiFi code via
- * ENABLE_DEBUG_WIFI_PRINT (below).
+ * WifiData class, used to retrieve the necessary demo data from the server.
+ * processData() is called from the Controller class when necessary.
  * 
  * @author Michael Smith, Tharsan Ponnampalam
  * @author Patrick Ghazal
@@ -55,6 +33,9 @@ public class WiFiData {
 
 	// End of received data
 
+	/**
+	 * Retrieve the data from the server. Sets the attributes to their values.
+	 */
 	@SuppressWarnings("rawtypes")
 	public static void processData() {
 
@@ -87,7 +68,6 @@ public class WiFiData {
 			brLLY = ((Long) data.get("BR_LL_y")).intValue();
 			brURX = ((Long) data.get("BR_UR_x")).intValue();
 			brURY = ((Long) data.get("BR_UR_y")).intValue();
-			
 
 			if (!Controller.betaDemo) {
 				// ----------------------------------------------
@@ -102,25 +82,24 @@ public class WiFiData {
 				sgLLY = ((Long) data.get("SG_LL_y")).intValue();
 				sgURX = ((Long) data.get("SG_UR_x")).intValue();
 				sgURY = ((Long) data.get("SG_UR_y")).intValue();
-				
+
 				if (TEAM_NUMBER == redTeam) {
 					Controller.setCurrentTeam("red");
-//					Navigation.setCurrentZone("red");
-//					Navigation.setStartingCorner(redCorner);
+					// Navigation.setCurrentZone("red");
+					// Navigation.setStartingCorner(redCorner);
 				} else if (TEAM_NUMBER == greenTeam) {
 					Controller.setCurrentTeam("green");
-//					Navigation.setCurrentZone("green");
-//					Navigation.setStartingCorner(greenCorner);
+					// Navigation.setCurrentZone("green");
+					// Navigation.setStartingCorner(greenCorner);
 				}
-				
+
 				// ----------------------------------------------
 			} else {
 				Controller.setCurrentTeam("green");
-//				Navigation.setCurrentZone("green");
-//				Navigation.setStartingCorner(greenCorner);
+				// Navigation.setCurrentZone("green");
+				// Navigation.setStartingCorner(greenCorner);
 			}
 
-			
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
