@@ -26,7 +26,7 @@ public class USLocalizer {
 	private Navigation navigation;
 
 	/**
-	 * Constructor to initialize variables
+	 * Constructor to initialize attributes
 	 * 
 	 * @param usDistance
 	 *            SampleProvider instance
@@ -73,7 +73,7 @@ public class USLocalizer {
 	}
 
 	/**
-	 * A method to determine which localization method to write
+	 * A method to determine which localization method to use
 	 * 
 	 */
 	public void localize() {

@@ -35,7 +35,6 @@ public class Navigation extends Thread {
 	
 	/**
 	 * Navigation constructor
-	 * 
 	 */
 	public Navigation() {
 		this.odometer = Controller.getOdometerInstance();
@@ -79,7 +78,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * A method to turn our vehicle to a certain angle
+	 * A method to turn our vehicle to a certain orientation
 	 * 
 	 * @param degrees desired orientation
 	 */
@@ -129,7 +128,6 @@ public class Navigation extends Thread {
 
 	/**
 	 * Freely sets both wheels forward indefinitely.
-	 * 
 	 */
 	public void forward() {
 		navigating = true;
@@ -165,7 +163,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Stop both wheels.
+	 * Stops both wheels.
 	 */
 	public void stopRobot() {
 		leftMotor.stop(true);

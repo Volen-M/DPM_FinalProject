@@ -72,7 +72,7 @@ public class ColourCalibration {
 	 * Reads sensor sample, sets currentBlock attribute if a colour is identified,
 	 * then returns whether the currentBlock is the target using isBlock()
 	 * 
-	 * @return boolean
+	 * @return whether the newly-identified block is the target
 	 */
 	public boolean colourDetection() {
 
@@ -103,9 +103,9 @@ public class ColourCalibration {
 	}
 
 	/**
-	 * Gets the RGB values from the colour sensor
+	 * Gets the RGB values from the colour sensor.
 	 * 
-	 * @return RGB
+	 * @return RGB array of sensor data
 	 */
 	public float[] getRGB() {
 		lightSensor.setCurrentMode("RGB");

@@ -23,8 +23,8 @@ public class Odometer extends OdometerData implements Runnable {
 	private static int checks = 0;
 
 	/**
-	 * This is the default constructor of this class. It initiates all motors and
-	 * variables once.It cannot be accessed externally.
+	 * This is the default constructor of this class.
+	 * It cannot be accessed externally.
 	 * 
 	 * @throws OdometerExceptions
 	 */

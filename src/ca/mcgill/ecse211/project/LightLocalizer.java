@@ -6,7 +6,7 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
 /**
- * Class that allows odometer Correction by using tile lines to calculate offset
+ * Class that corrects odometer data by using tile lines to calculate offset
  * from theoretical position.
  * 
  * @author Volen Mihaylov
@@ -32,8 +32,6 @@ public class LightLocalizer {
 
 	/**
 	 * LightLocalizer constructor. Sets the light sensor modes.
-	 * 
-	 *
 	 */
 	public LightLocalizer() {
 

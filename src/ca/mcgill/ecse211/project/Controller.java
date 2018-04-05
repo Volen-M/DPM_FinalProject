@@ -42,7 +42,7 @@ public class Controller {
 	 * Main method. Initial entry point of the code for this lab. Instantiates
 	 * necessary objects and runs testing or demo behaviour.
 	 * 
-	 * @param args
+	 * @param args Standard main method input
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
@@ -154,6 +154,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Used to run various tests.
+	 * @throws OdometerExceptions
+	 */
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
