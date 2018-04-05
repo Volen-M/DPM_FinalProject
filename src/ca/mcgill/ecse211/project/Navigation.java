@@ -2,6 +2,7 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.robotics.RegulatedMotor;
 
 /**
  * Class containing all robot movement related behaviors. Extends Thread.
@@ -40,6 +41,9 @@ public class Navigation extends Thread {
 		this.odometer = Controller.getOdometerInstance();
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
+		
+		
+		
 	}
 
 	/**

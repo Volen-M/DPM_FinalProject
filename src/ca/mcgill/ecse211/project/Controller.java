@@ -157,7 +157,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 11;
+		int test = 9;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -203,22 +203,30 @@ public class Controller {
 			// .... Constants to change: Robot.TRACK, then Navigation constants on line
 			// 233-234, 238, 239 (for now they are +2, +2 , +0. +0)
 
+//			while (Button.waitForAnyPress() != Button.ID_DOWN)
+//				;
+//			odometer.setXYT(0, 0, 0);
+//			navigation.turnTo(90);
+//			while (Button.waitForAnyPress() != Button.ID_DOWN)
+//				;
+//			odometer.setXYT(0, 0, 0);
+//			navigation.turnTo(-90);
+//			while (Button.waitForAnyPress() != Button.ID_DOWN)
+//				;
+//			odometer.setXYT(0, 0, 0);
+//			navigation.turnTo(90);
+//			while (Button.waitForAnyPress() != Button.ID_DOWN)
+//				;
+//			odometer.setXYT(0, 0, 0);
+//			navigation.turnTo(-90);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
+			navigation.turnTo(180);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
+			navigation.turnTo(-180);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
@@ -227,26 +235,18 @@ public class Controller {
 				;
 			odometer.setXYT(0, 0, 0);
 			navigation.turnTo(-179.9);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(180);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-179.9);
-			// while (Button.waitForAnyPress() != Button.ID_DOWN)
-			// ;
-			// navigation.turnTo(180);
-			// while (Button.waitForAnyPress() != Button.ID_DOWN)
-			// ;
-			// navigation.turnTo(-180);
-			// while (Button.waitForAnyPress() != Button.ID_DOWN)
-			// ;
-			// navigation.turnTo(270);
-			// while (Button.waitForAnyPress() != Button.ID_DOWN)
-			// ;
-			// navigation.turnTo(-270);
+			 while (Button.waitForAnyPress() != Button.ID_DOWN)
+			 ;
+			 navigation.turnTo(180);
+			 while (Button.waitForAnyPress() != Button.ID_DOWN)
+			 ;
+			 navigation.turnTo(-180);
+			 while (Button.waitForAnyPress() != Button.ID_DOWN)
+			 ;
+			 navigation.turnTo(270);
+			 while (Button.waitForAnyPress() != Button.ID_DOWN)
+			 ;
+			 navigation.turnTo(-270);
 
 		} else if (test == 3) { // This is just to check Test 1 and 2 are successful together first makes the
 			// robot go to (5,3) then (2,2) then (3,2) and then (4,1)
@@ -275,7 +275,7 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(0 * Robot.TILESIZE, 3 * Robot.TILESIZE);
+			navigation.travelTo(0 * Robot.TILESIZE, 2 * Robot.TILESIZE);
 			System.out.println("X: " + odometer.getXYT()[0]);
 			System.out.println("Y: " + odometer.getXYT()[1]);
 			System.out.println("Theta: " + odometer.getXYT()[2]);
@@ -399,7 +399,10 @@ public class Controller {
 				;
 
 			odometer.setXYT(0, 0, 0);
+			navigation.landingGearOn();
 			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOff();
+
 			lightLocalizer.localizeY();
 
 			navigation.turnTo(270);
@@ -411,7 +414,7 @@ public class Controller {
 			odometer.setXYT(0, 0, 0);
 			navigation.landingGearOn();
 			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOn();
+			navigation.landingGearOff();
 
 			lightLocalizer.localizeY();
 
@@ -422,7 +425,11 @@ public class Controller {
 				;
 
 			odometer.setXYT(0, 0, 0);
+			navigation.landingGearOn();
+
 			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOff();
+
 			lightLocalizer.localizeY();
 
 			navigation.turnTo(270);
@@ -434,7 +441,35 @@ public class Controller {
 			odometer.setXYT(0, 0, 0);
 			navigation.landingGearOn();
 			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOff();
+
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
 			navigation.landingGearOn();
+
+			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOff();
+
+			lightLocalizer.localizeY();
+
+			navigation.turnTo(270);
+			lightLocalizer.localizeX();
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+
+			odometer.setXYT(0, 0, 0);
+			navigation.landingGearOn();
+
+			navigation.moveBy(4 * Robot.TILESIZE);
+			navigation.landingGearOff();
 
 			lightLocalizer.localizeY();
 
