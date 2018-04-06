@@ -15,8 +15,8 @@ public final class Robot {
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 500;
 	public static final int GEAR_ACCELERATION = 500;
-	public static final double WHEEL_RAD = 2.1;//2.135 / 1.05;
-	public static final double TRACK = 12.7;//12.7 * 1.05 / 1.022;
+	public static final double WHEEL_RAD = 2.1;
+	public static final double TRACK = 12.7*180/175;
 	public static final double D = 40.0;
 	public static final double K = 2;
 	public static final double LSTOWHEEL = 6.55;
@@ -38,7 +38,7 @@ public final class Robot {
 	 * @param radius
 	 *            wheel radius
 	 * @param distance
-	 *            distance to be travelled
+	 *            distance to be traveled
 	 * @return number of rotations to travel distance
 	 */
 	public static int convertDistance(double radius, double distance) {

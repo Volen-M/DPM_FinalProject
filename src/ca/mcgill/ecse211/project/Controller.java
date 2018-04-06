@@ -574,6 +574,15 @@ public class Controller {
 		}
 	}
 
+	public static void logger() {
+		double[] xyt = new double[3];
+		xyt = odometer.getXYT();
+		System.out.println("X: " + Math.round(xyt[0]));
+		System.out.println("Y: " + Math.round(xyt[1]));
+		System.out.println("Deg: " + Math.round(xyt[2]));
+	}
+
+	
 	/**
 	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
 	 * 

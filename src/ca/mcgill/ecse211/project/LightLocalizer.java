@@ -116,6 +116,7 @@ public class LightLocalizer {
 				double xLoc = odometer.getXYT()[0];
 				if (oriTheta >= 0 && oriTheta<= 180) {
 					odometer.setX(Math.floor(xLoc/Robot.TILESIZE) + (xLoc-fix)+Robot.LSTOWHEEL);
+					Controller.logger();
 				}
 				else {
 					odometer.setX(Math.ceil(xLoc/Robot.TILESIZE) + (fix-xLoc)-Robot.LSTOWHEEL);
