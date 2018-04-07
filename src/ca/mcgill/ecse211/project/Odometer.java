@@ -79,8 +79,8 @@ public class Odometer extends OdometerData implements Runnable {
 
 			updateStart = System.currentTimeMillis();
 
-			leftMotorTachoCount = Navigation.leftMotor.getTachoCount();
-			rightMotorTachoCount = Navigation.rightMotor.getTachoCount();
+			leftMotorTachoCount = navigation.leftMotor.getTachoCount();
+			rightMotorTachoCount = navigation.rightMotor.getTachoCount();
 
 			/*
 			 * if the tachometer values don't change, add 1 to checks, for a max of 100 (to
