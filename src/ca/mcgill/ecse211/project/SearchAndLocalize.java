@@ -30,7 +30,7 @@ public class SearchAndLocalize {
 			int cornerOfZone) {
 		this.navigation = Controller.getNavigationInstance();
 		this.colourCalib = Controller.getColourCalibrationInstance();
-		this.lightLocalizer = Controller.getLightLocalizerInstance();
+		//this.lightLocalizer = Controller.getLightLocalizerInstance();
 		this.lowerLeftX = ll_x;
 		this.lowerLeftY = ll_y;
 		this.upperRightX = ur_x;

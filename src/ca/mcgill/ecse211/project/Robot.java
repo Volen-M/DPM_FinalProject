@@ -16,7 +16,7 @@ public final class Robot {
 	public static final int ACCELERATION = 500;
 	public static final int GEAR_ACCELERATION = 500;
 	public static final double WHEEL_RAD = 2.1;
-	public static final double TRACK = 12.9*180/140;//12.7*180/165;
+	public static final double TRACK = 12.9*180/175;//12.7*180/165;
 	public static final double D = 40.0;
 	public static final double K = 2;
 	public static final double LSTOWHEEL = 6.55;

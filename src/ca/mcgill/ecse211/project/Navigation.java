@@ -1,8 +1,10 @@
 package ca.mcgill.ecse211.project;
 
+import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.SensorMode;
 import lejos.robotics.RegulatedMotor;
 
 /**
@@ -35,6 +37,12 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 	private static final EV3ColorSensor lightSensorLeft = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	private static final EV3ColorSensor lightSensorRight = new EV3ColorSensor(LocalEV3.get().getPort("S4"));
+	private float sampleLeft;
+	private float sampleRight;
+
+	private SensorMode idColourLeft;
+	private SensorMode idColourRight;
+	double[] lineData;
 
 	/**
 	 * Navigation constructor
@@ -44,6 +52,9 @@ public class Navigation extends Thread {
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
 
+		idColourLeft = lightSensorLeft.getRedMode(); // set the sensor light to red
+		idColourRight = lightSensorRight.getRedMode(); // set the sensor light to red
+		lineData = new double[2];
 
 
 	}
@@ -57,7 +68,7 @@ public class Navigation extends Thread {
 	 *            Y-Coordinate of destination
 	 */
 	public void travelTo(double x, double y) {
-		navigating = true;
+		
 
 		currX = odometer.getXYT()[0];
 		currY = odometer.getXYT()[1];
@@ -77,7 +88,7 @@ public class Navigation extends Thread {
 
 		// stopRobot vehicle
 		stopRobot();
-		navigating = false;
+		
 	}
 
 	/**
@@ -87,7 +98,7 @@ public class Navigation extends Thread {
 	 */
 	public void turnTo(double degrees) {
 
-		navigating = true;
+		
 		// ensures minimum angle for turning
 		degrees = degrees - odometer.getXYT()[2];
 		if (degrees > 180) {
@@ -108,7 +119,7 @@ public class Navigation extends Thread {
 			rotateByAngle(degrees, 1, -1);
 		}
 		stopRobot();
-		navigating = false;
+		
 	}
 
 	/**
@@ -118,7 +129,7 @@ public class Navigation extends Thread {
 	 *            Distance to move by
 	 */
 	public void moveBy(double distance) {
-		navigating = true;
+		
 		setSpeed(Robot.FORWARD_SPEED);
 		if (distance >= 0) {
 			rotateByDistance(distance, 1, 1);
@@ -126,7 +137,7 @@ public class Navigation extends Thread {
 			rotateByDistance(-1*distance, -1, -1);
 
 		}
-		navigating = false;
+		
 	}
 
 	/**
@@ -149,7 +160,7 @@ public class Navigation extends Thread {
 	 * Freely rotates the robot clockwise indefinitely.
 	 */
 	public void rotateClockWise() {
-		navigating = true;
+		
 		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.forward();
 		rightMotor.backward();
@@ -159,7 +170,7 @@ public class Navigation extends Thread {
 	 * Freely rotates the robot counter-clockwise indefinitely.
 	 */
 	public void rotateCounterClockWise() {
-		navigating = true;
+		
 		setSpeed(Robot.FORWARD_SPEED);
 		leftMotor.backward();
 		rightMotor.forward();
@@ -169,9 +180,10 @@ public class Navigation extends Thread {
 	 * Stops both wheels.
 	 */
 	public void stopRobot() {
+		navigating = false;
 		leftMotor.stop(true);
 		rightMotor.stop(false);
-		navigating = false;
+		
 	}
 
 	/**
@@ -185,11 +197,11 @@ public class Navigation extends Thread {
 	 *            1 for the right wheel to go forward, -1 for backward
 	 */
 	public void rotateByDistance(double dist, int leftWheelDir, int rightWheelDir) {
-		navigating = true;
+		
 		leftMotor.rotate(leftWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), true);
 		rightMotor.rotate(rightWheelDir * Robot.convertDistance(Robot.WHEEL_RAD, dist), false);
 		stopRobot();
-		navigating = false;
+		
 	}
 
 	/**
@@ -203,7 +215,7 @@ public class Navigation extends Thread {
 	 *            1 for the right wheel to go forward, -1 for backward
 	 */
 	public void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
-		navigating = true;
+		
 
 		if (leftWheelDir == 1 && rightWheelDir == -1) {
 			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), true);
@@ -214,7 +226,7 @@ public class Navigation extends Thread {
 			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), false);
 		}
 		stopRobot();
-		navigating = false;
+		
 	}
 
 	/**
@@ -232,23 +244,80 @@ public class Navigation extends Thread {
 		double[] xyt = odometer.getXYT();
 		double xloc = xyt[0];
 		double yloc = xyt[1];
-		if (yloc < y) {
-			turnTo(0);
-		}
-		else if (yloc > y ) {
-			turnTo(180);
-		}
+		boolean leftData = false;
+		boolean rightData = false;
+		double fix = 0;
+		double decimal = 0;
+//		if (yloc < y) {
+//			turnTo(0);
+//		}
+//		else if (yloc > y ) {
+//			turnTo(180);
+//		}
 		if (xloc < x) {
 			turnTo(90);
 			while (odometer.getXYT()[0]< x) {
+				sampleRight = fetchSampleRight();
+				sampleLeft = fetchSampleLeft();
 				if (navigating==false) {
 					forward();
 				}
-				
+				if (sampleLeft < 0.28) {
+					lineData[0] = odometer.getXYT()[0];
+					Sound.beepSequenceUp();
+					leftData = true;
+					fix = lineData[0]-Robot.LSTOWHEEL;
+					decimal = (fix/Robot.TILESIZE)%1;
+					if (decimal < 0.5) {
+						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
+					} else {
+						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
+					}
+				}
+				if (sampleRight < 0.28) {
+					lineData[1] = odometer.getXYT()[0];
+					Sound.beepSequenceUp();
+					rightData = true;
+					fix = lineData[0]-Robot.LSTOWHEEL;
+					decimal = (fix/Robot.TILESIZE)%1;
+					if (decimal < 0.5) {
+						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
+					} else {
+						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
+					}
+				}
+				if (leftData && rightData) {
+					fix = lineData[0] - lineData[1];
+					stopRobot();
+					turnTo(90 +  Math.asin(fix / Robot.LSTOLS) * 180 / Math.PI);
+					odometer.setTheta(90);
+					leftData = false;
+					rightData = false;
+				}
 			}
+			stopRobot();
 		}
 	}
 
+
+	/**
+	 * This method gets the colour value detected by the left light sensor
+	 */
+	private float fetchSampleLeft() {
+		float[] colorValue = new float[idColourLeft.sampleSize()];
+		idColourLeft.fetchSample(colorValue, 0);
+		return colorValue[0];
+	}
+
+	/**
+	 * This method gets the colour value detected by the right light sensor
+	 */
+	private float fetchSampleRight() {
+		float[] colorValue = new float[idColourRight.sampleSize()];
+		idColourRight.fetchSample(colorValue, 0);
+		return colorValue[0];
+	}
+	
 	/**
 	 * Update the robot's speed.
 	 * 
