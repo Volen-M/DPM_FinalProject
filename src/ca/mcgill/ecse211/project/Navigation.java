@@ -266,13 +266,13 @@ public class Navigation extends Thread {
 					lineData[0] = odometer.getXYT()[0];
 					Sound.beepSequenceUp();
 					leftData = true;
-					fix = lineData[0]-Robot.LSTOWHEEL;
-					decimal = (fix/Robot.TILESIZE)%1;
-					if (decimal < 0.5) {
-						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
-					} else {
-						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
-					}
+//					fix = lineData[0]-Robot.LSTOWHEEL;
+//					decimal = (fix/Robot.TILESIZE)%1;
+//					if (decimal < 0.5) {
+//						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
+//					} else {
+//						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
+//					}
 				}
 				if (sampleRight < 0.28) {
 					lineData[1] = odometer.getXYT()[0];
@@ -280,11 +280,11 @@ public class Navigation extends Thread {
 					rightData = true;
 					fix = lineData[0]-Robot.LSTOWHEEL;
 					decimal = (fix/Robot.TILESIZE)%1;
-					if (decimal < 0.5) {
-						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
-					} else {
-						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
-					}
+//					if (decimal < 0.5) {
+//						odometer.setX(lineData[0]-decimal*Robot.TILESIZE);
+//					} else {
+//						odometer.setX(lineData[0]+decimal*Robot.TILESIZE);
+//					}
 				}
 				if (leftData && rightData) {
 					fix = lineData[0] - lineData[1];
