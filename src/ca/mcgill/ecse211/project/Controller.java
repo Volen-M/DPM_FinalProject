@@ -161,7 +161,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 4;
+		int test = 8;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -183,12 +183,15 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			navigation.moveBy(2 * Robot.TILESIZE);
+			logger();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			navigation.moveBy(2 * Robot.TILESIZE);
+			logger();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			navigation.moveBy(2 * Robot.TILESIZE);
+			logger();
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			navigation.moveBy(4 * Robot.TILESIZE);
@@ -260,8 +263,7 @@ public class Controller {
 				;
 			odometer.setXYT(0, 0, 0);
 			
-			navigation.moveBy(Robot.TILESIZE*2);
-			navigation.travelTo(5 * Robot.TILESIZE, 3 * Robot.TILESIZE);
+			navigation.travelTo(1 * Robot.TILESIZE, 3 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);

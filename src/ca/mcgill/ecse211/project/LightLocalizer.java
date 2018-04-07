@@ -51,70 +51,21 @@ public class LightLocalizer {
 	 *            on robots location
 	 */
 	public void fullLocalize(int corner) {
-		boolean leftCheck = true;
-		boolean rightCheck = true;
 
-		navigation.forward(Robot.LOCALIZATION_SPEED);
-		while (leftCheck || rightCheck) {
-			sampleLeft = fetchSampleLeft();
-			sampleRight = fetchSampleRight();
-			if (leftCheck && sampleLeft < 0.28) {
-				navigation.leftMotor.stop();
-				Sound.beepSequenceUp();
-				leftCheck = false;
-			}
-			if (rightCheck && sampleRight < 0.28) {
-				navigation.rightMotor.stop();
-				Sound.beepSequenceUp();
-				rightCheck = false;
-			}
-		}
+		localizeYMid();
+		Controller.logger();
+		navigation.moveBy(-(odometer.getXYT()[0]%Robot.TILESIZE));
 		if (corner == 0 || corner == 1) {
-			odometer.setX(Robot.TILESIZE);
-		} else if (corner == 2 || corner == 3) {
-			odometer.setX(7 * Robot.TILESIZE);
-
-		}
-
-		if (corner == 0 || corner == 3) {
-			navigation.turnTo(90);
-			navigation.forward(Robot.LOCALIZATION_SPEED);
-
-			while (leftCheck || rightCheck) {
-				sampleLeft = fetchSampleLeft();
-				sampleRight = fetchSampleRight();
-				if (leftCheck && sampleLeft < 0.28) {
-					navigation.leftMotor.stop();
-					Sound.beepSequenceUp();
-					leftCheck = false;
-				}
-				if (rightCheck && sampleRight < 0.28) {
-					navigation.rightMotor.stop();
-					Sound.beepSequenceUp();
-					rightCheck = false;
-				}
-			}
-
 			odometer.setY(Robot.TILESIZE);
-		} else if (corner == 1 || corner == 2) {
-			navigation.turnTo(270);
-			navigation.forward(Robot.LOCALIZATION_SPEED);
+		} else if (corner == 2 || corner == 3) {
+			odometer.setY(7 * Robot.TILESIZE);
 
-			while (leftCheck || rightCheck) {
-				sampleLeft = fetchSampleLeft();
-				sampleRight = fetchSampleRight();
-				if (leftCheck && sampleLeft < 0.28) {
-					navigation.leftMotor.stop();
-					Sound.beepSequenceUp();
-					leftCheck = false;
-				}
-				if (rightCheck && sampleRight < 0.28) {
-					navigation.rightMotor.stop();
-					Sound.beepSequenceUp();
-					rightCheck = false;
-				}
-			}
 		}
+		
+		navigation.turnTo(45);
+		navigation.moveBy(Robot.LSTOLS/2);
+
+
 	}
 
 	public double roundDeci(double x) {
