@@ -19,6 +19,7 @@ public class USLocalizer {
 
 	private Odometer odometer;
 	private float[] usData;
+	private int corner;
 	private SampleProvider usDistance;
 	private double[] startingCoordinates = new double[2];
 
@@ -52,22 +53,23 @@ public class USLocalizer {
 	 *            starting corner
 	 */
 	public void setStartingCoordinates(int corner) {
+		this.corner = corner;
 		switch (corner) {
 		case 0:
-			this.startingCoordinates[0] = 0.0;
-			this.startingCoordinates[1] = 0.0;
+			this.startingCoordinates[0] = 0.75 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 0.75 * Robot.TILESIZE;
 			break;
 		case 1:
-			this.startingCoordinates[0] = 6 * Robot.TILESIZE;
-			this.startingCoordinates[1] = 0.0;
+			this.startingCoordinates[0] = 11.25 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 0.75 * Robot.TILESIZE;
 			break;
 		case 2:
-			this.startingCoordinates[0] = 6 * Robot.TILESIZE;
-			this.startingCoordinates[1] = 6 * Robot.TILESIZE;
+			this.startingCoordinates[0] = 11.25 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 11.25 * Robot.TILESIZE;
 			break;
 		case 3:
-			this.startingCoordinates[0] = 0.0;
-			this.startingCoordinates[1] = 6 * Robot.TILESIZE;
+			this.startingCoordinates[0] = 0.75 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 11.25 * Robot.TILESIZE;
 			break;
 		}
 	}
@@ -134,7 +136,7 @@ public class USLocalizer {
 		navigation.rotateByAngle(turningAngle -16 , -1, 1);
 
 		// set theta to coordinate starting corner
-		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
+		cornerSet();
 	}
 
 	/**
@@ -169,7 +171,6 @@ public class USLocalizer {
 			navigation.rotateClockWise();
 		}
 		navigation.stopRobot();
-		;
 		Sound.buzz();
 
 		angleB = odometer.getXYT()[2];
@@ -186,12 +187,30 @@ public class USLocalizer {
 
 		// rotate robot to the theta = 0.0 and we account for small error
 		navigation.rotateByAngle(turningAngle - 3, -1, 1);
-
+		
 		// set odometer to theta to starting corner
-		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
+		cornerSet();
 
 	}
 
+	private void cornerSet() {
+		// set odometer to theta to starting corner
+		switch (corner) {
+		case 0:
+			odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
+		break;
+		case 1:
+			odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 270.0);
+			break;
+		case 2:
+			odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 180.0);
+			break;
+		case 3:
+			odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 90.0);
+			break;
+		}
+	}
+	
 	/**
 	 * A method to get the distance from our sensor
 	 * 

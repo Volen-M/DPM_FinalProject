@@ -2,6 +2,7 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.RegulatedMotor;
 
 /**
@@ -32,7 +33,9 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	public static final EV3LargeRegulatedMotor backMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
-	
+	private static final EV3ColorSensor lightSensorLeft = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
+	private static final EV3ColorSensor lightSensorRight = new EV3ColorSensor(LocalEV3.get().getPort("S4"));
+
 	/**
 	 * Navigation constructor
 	 */
@@ -40,9 +43,9 @@ public class Navigation extends Thread {
 		this.odometer = Controller.getOdometerInstance();
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
-		
-		
-		
+
+
+
 	}
 
 	/**
@@ -135,7 +138,7 @@ public class Navigation extends Thread {
 		leftMotor.forward();
 		rightMotor.forward();
 	}
-	
+
 	public void forward(int speed) {
 		navigating = true;
 		setSpeed(speed);
@@ -201,7 +204,7 @@ public class Navigation extends Thread {
 	 */
 	public void rotateByAngle(double degrees, int leftWheelDir, int rightWheelDir) {
 		navigating = true;
-		
+
 		if (leftWheelDir == 1 && rightWheelDir == -1) {
 			leftMotor.rotate(leftWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), true);
 			rightMotor.rotate(rightWheelDir * Robot.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, degrees + 0), false);
@@ -223,6 +226,27 @@ public class Navigation extends Thread {
 	public static void setAcceleration(int acc) {
 		leftMotor.setAcceleration(acc);
 		rightMotor.setAcceleration(acc);
+	}
+
+	public void travelToLoc(double x, double y) {
+		double[] xyt = odometer.getXYT();
+		double xloc = xyt[0];
+		double yloc = xyt[1];
+		if (yloc < y) {
+			turnTo(0);
+		}
+		else if (yloc > y ) {
+			turnTo(180);
+		}
+		if (xloc < x) {
+			turnTo(90);
+			while (odometer.getXYT()[0]< x) {
+				if (navigating==false) {
+					forward();
+				}
+				
+			}
+		}
 	}
 
 	/**
