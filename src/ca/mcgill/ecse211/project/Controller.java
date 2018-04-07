@@ -161,7 +161,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 9;
+		int test = 4;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -259,6 +259,8 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
 			odometer.setXYT(0, 0, 0);
+			
+			navigation.moveBy(Robot.TILESIZE*2);
 			navigation.travelTo(5 * Robot.TILESIZE, 3 * Robot.TILESIZE);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
@@ -275,6 +277,28 @@ public class Controller {
 
 		} else if (test == 4) { // This is test 3 but with Odometer and without reseting anything to check if
 			// Odometer works....Constants: None -> (for Coding)
+			
+			
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
+			
+			navigation.moveBy(Robot.TILESIZE*2);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
+			
+			navigation.moveBy(Robot.TILESIZE*3);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
+			
+			navigation.moveBy(Robot.TILESIZE*2);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(0, 0, 0);
+			
+			navigation.moveBy(Robot.TILESIZE*3);
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
@@ -571,6 +595,37 @@ public class Controller {
 				;
 			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 180);
 			lightLocalizer.localizeYMid();
+		} else if(test == 16) {
+			
+			while(Button.waitForAnyPress() != Button.ID_DOWN);
+			logger();
+			
+			usLocalizer.localize();
+			lightLocalizer.fullLocalize(0);
+			logger();
+			
+			while(Button.waitForAnyPress() != Button.ID_DOWN);
+			logger();
+			
+			usLocalizer.localize();
+			lightLocalizer.fullLocalize(1);
+			logger();
+			
+			while(Button.waitForAnyPress() != Button.ID_DOWN);
+			logger();
+			
+			usLocalizer.localize();
+			lightLocalizer.fullLocalize(2);
+			logger();
+			
+			while(Button.waitForAnyPress() != Button.ID_DOWN);
+			logger();
+			
+			usLocalizer.localize();
+			lightLocalizer.fullLocalize(3);
+			logger();
+			
+			
 		}
 	}
 
