@@ -33,10 +33,10 @@ public class ColourCalibration {
 	public boolean isFieldSearching = false;
 
 	/*
-	 * 0 == blue, 1 == red, 2 == yellow, 3 == white
+	 * 0 == red, 1 == blue, 2 == yellow, 3 == white
 	 */
 	public static enum colour {
-		BLUE, RED, YELLOW, WHITE
+		RED, BLUE, YELLOW, WHITE
 	}
 
 	/**

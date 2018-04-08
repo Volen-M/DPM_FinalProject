@@ -202,6 +202,10 @@ public class Controller {
 			
 		}
 		else if (test == 2) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			searchAndLocalize.testMethod(1);
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			searchAndLocalize.testMethod(1);
 		}
 	}

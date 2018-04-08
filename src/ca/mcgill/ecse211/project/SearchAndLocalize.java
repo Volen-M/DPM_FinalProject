@@ -303,8 +303,12 @@ public class SearchAndLocalize {
 				}
 			}
 			navigation.stopRobot();
+			lightLocalizer.localizeYBryan();
 			navigation.turnTo(90);
+			while (navigation.isNavigating()) {}
 			lightLocalizer.localizeXBryan();
+			navigation.turnTo(odometer.getXYT()[2]-5);
+			odometer.setTheta(odometer.getXYT()[2]+5);
 			while (odometer.getXYT()[0] <= limiter[1]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
@@ -316,7 +320,11 @@ public class SearchAndLocalize {
 			}
 			
 			navigation.stopRobot();
+			lightLocalizer.localizeXBryan();
 			navigation.turnTo(180);
+			navigation.turnTo(odometer.getXYT()[2]-5);
+			odometer.setTheta(odometer.getXYT()[2]+5);
+			while (navigation.isNavigating()) {}
 			lightLocalizer.localizeYBryan();
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				if (!navigation.isNavigating()) {
@@ -328,7 +336,12 @@ public class SearchAndLocalize {
 				}
 			}
 			navigation.stopRobot();
+			lightLocalizer.localizeYBryan();
 			navigation.turnTo(270);
+			lightLocalizer.localizeYBryan();
+			navigation.turnTo(odometer.getXYT()[2]-5);
+			odometer.setTheta(odometer.getXYT()[2]+5);
+			while (navigation.isNavigating()) {}
 			lightLocalizer.localizeXBryan();
 			while (odometer.getXYT()[0] >= limiter[3]) {
 				if (!navigation.isNavigating()) {
@@ -344,27 +357,32 @@ public class SearchAndLocalize {
 
 	}
 
+	public int fetchUS() {
+		usDistance.fetchSample(usData, 0);
+		return (int) (usData[0] * 100);
+	}
+	
 	/**
 	 * A method to get the distance from our sensor
 	 * 
 	 * @return
 	 */
-	public int fetchUS() {
-		float[] data = new float[5];
-		float distance;
-		for (int i = 0; i < data.length; i++) {
-			usDistance.fetchSample(usData, 0);
-			distance = (int) ((usData[0] * 100));
-			data[i] = distance;
-		}
-
-		float average = 0;
-		for (int i = 1; i < data.length; i++) {
-			average = average + data[i];
-		}
-		average = average / (data.length - 1);
-		return (int) average;
-	}
+//	public int fetchUS() {
+//		float[] data = new float[5];
+//		float distance;
+//		for (int i = 0; i < data.length; i++) {
+//			usDistance.fetchSample(usData, 0);
+//			distance = (int) ((usData[0] * 100));
+//			data[i] = distance;
+//		}
+//
+//		float average = 0;
+//		for (int i = 1; i < data.length; i++) {
+//			average = average + data[i];
+//		}
+//		average = average / (data.length - 1);
+//		return (int) average;
+//	}
 
 	/**
 	 * Class Area stores the coordinates of an identified cube

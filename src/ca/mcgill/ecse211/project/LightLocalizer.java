@@ -250,7 +250,7 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35) {
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 						
 					}
