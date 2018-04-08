@@ -175,7 +175,7 @@ public class LightLocalizer {
 			if (sampleLeft < 0.28) {
 				odometer.setX(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1);
+				navigation.moveBy(-1.25);
 				while (true) {
 					sampleRight = fetchSampleRight();
 					if (sampleRight < 0.28) {
@@ -197,7 +197,7 @@ public class LightLocalizer {
 			if (sampleRight < 0.28) {
 				odometer.setX(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1);
+				navigation.moveBy(-1.25);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {
@@ -237,7 +237,7 @@ public class LightLocalizer {
 			if (sampleLeft < 0.28) {
 				odometer.setY(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1);
+				navigation.moveBy(-1.25);
 				while (true) {
 					sampleRight = fetchSampleRight();
 					if (sampleRight < 0.28) {
@@ -259,7 +259,7 @@ public class LightLocalizer {
 			if (sampleRight < 0.28) {
 				odometer.setY(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1);
+				navigation.moveBy(-1.25);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {

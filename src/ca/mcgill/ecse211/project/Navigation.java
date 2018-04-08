@@ -168,7 +168,7 @@ public class Navigation extends Thread {
 	 * @param degrees desired orientation
 	 */
 	public void turnTo(double degrees) {
-
+		navigating = true;
 		// ensures minimum angle for turning
 		degrees = degrees - odometer.getXYT()[2];
 		if (degrees > 180) {

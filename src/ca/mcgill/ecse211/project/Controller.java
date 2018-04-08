@@ -162,7 +162,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 1;
+		int test = 2;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -200,6 +200,9 @@ public class Controller {
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			navigation.travelToAdv(3, 3);
 			
+		}
+		else if (test == 2) {
+			searchAndLocalize.testMethod(1);
 		}
 	}
 
