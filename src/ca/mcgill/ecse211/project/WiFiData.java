@@ -68,38 +68,30 @@ public class WiFiData {
 			brLLY = ((Long) data.get("BR_LL_y")).intValue();
 			brURX = ((Long) data.get("BR_UR_x")).intValue();
 			brURY = ((Long) data.get("BR_UR_y")).intValue();
+			og = ((Long) data.get("OG")).intValue();
+			or = ((Long) data.get("OR")).intValue();
+			srLLX = ((Long) data.get("SR_LL_x")).intValue();
+			srLLY = ((Long) data.get("SR_LL_y")).intValue();
+			srURX = ((Long) data.get("SR_UR_x")).intValue();
+			srURY = ((Long) data.get("SR_UR_y")).intValue();
+			sgLLX = ((Long) data.get("SG_LL_x")).intValue();
+			sgLLY = ((Long) data.get("SG_LL_y")).intValue();
+			sgURX = ((Long) data.get("SG_UR_x")).intValue();
+			sgURY = ((Long) data.get("SG_UR_y")).intValue();
 
-			if (!Controller.betaDemo) {
-				// ----------------------------------------------
-				// Values to be used after the beta demo
-				og = ((Long) data.get("OG")).intValue();
-				or = ((Long) data.get("OR")).intValue();
-				srLLX = ((Long) data.get("SR_LL_x")).intValue();
-				srLLY = ((Long) data.get("SR_LL_y")).intValue();
-				srURX = ((Long) data.get("SR_UR_x")).intValue();
-				srURY = ((Long) data.get("SR_UR_y")).intValue();
-				sgLLX = ((Long) data.get("SG_LL_x")).intValue();
-				sgLLY = ((Long) data.get("SG_LL_y")).intValue();
-				sgURX = ((Long) data.get("SG_UR_x")).intValue();
-				sgURY = ((Long) data.get("SG_UR_y")).intValue();
-
-				if (TEAM_NUMBER == redTeam) {
-					Controller.setCurrentTeam("red");
-					// Navigation.setCurrentZone("red");
-					// Navigation.setStartingCorner(redCorner);
-				} else if (TEAM_NUMBER == greenTeam) {
-					Controller.setCurrentTeam("green");
-					// Navigation.setCurrentZone("green");
-					// Navigation.setStartingCorner(greenCorner);
-				}
-
-				// ----------------------------------------------
-			} else {
+			if (TEAM_NUMBER == redTeam) {
+				Controller.setCurrentTeam("red");
+				Controller.setTargetBlock(og);
+				int[] targetSearchArea = {sgLLX, sgLLY, sgURX, sgURY};
+				Controller.setSearchAreaCoords(targetSearchArea);
+			} else if (TEAM_NUMBER == greenTeam) {
 				Controller.setCurrentTeam("green");
-				// Navigation.setCurrentZone("green");
-				// Navigation.setStartingCorner(greenCorner);
+				Controller.setTargetBlock(or);
+				int[] targetSearchArea = {srLLX, srLLY, srURX, srURY};
+				Controller.setSearchAreaCoords(targetSearchArea);
 			}
 
+			// ----------------------------------------------
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}

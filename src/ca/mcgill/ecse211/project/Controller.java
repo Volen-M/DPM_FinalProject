@@ -31,7 +31,8 @@ public class Controller {
 	private static SearchAndLocalize searchAndLocalize;
 
 	// Constants for part 2
-	private static int targetBlock = 3;
+	private static int targetBlock = 0;
+	private static int[] searchAreaCoords;
 	private static String currentTeam;
 
 	// Set to true when testing, allows for beta demo behaviour not to happen
@@ -42,7 +43,8 @@ public class Controller {
 	 * Main method. Initial entry point of the code for this lab. Instantiates
 	 * necessary objects and runs testing or demo behaviour.
 	 * 
-	 * @param args Standard main method input
+	 * @param args
+	 *            Standard main method input
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
@@ -62,19 +64,20 @@ public class Controller {
 		Thread odoThread = new Thread(odometer); // Start odometer thread.
 		odoThread.start();
 
-		// Create other necessary class instances.
-		usLocalizer = new USLocalizer(usDistance, 0);
-		navigation.usLoc = usLocalizer;
-		lightLocalizer = new LightLocalizer();
-		colourCalibration = new ColourCalibration(targetBlock);
-		searchAndLocalize = new SearchAndLocalize(usDistance, 5, 3, 1, 1, 0);
-		navigation.intializeLL();
-		
 		if (!testing) {
 			WiFiData.processData();
 		} else {
 			runTests();
 		}
+
+		// Create other necessary class instances.
+		usLocalizer = new USLocalizer(usDistance, 0);
+		navigation.usLoc = usLocalizer;
+		lightLocalizer = new LightLocalizer();
+		colourCalibration = new ColourCalibration(targetBlock);
+		searchAndLocalize = new SearchAndLocalize(usDistance, searchAreaCoords[0], searchAreaCoords[1],
+				searchAreaCoords[2], searchAreaCoords[3], 0);
+		navigation.intializeLL();
 
 		if (betaDemo && !testing) {
 			if (currentTeam.equals("Green")) {
@@ -157,6 +160,7 @@ public class Controller {
 
 	/**
 	 * Used to run various tests.
+	 * 
 	 * @throws OdometerExceptions
 	 */
 	@SuppressWarnings("static-access")
@@ -170,34 +174,35 @@ public class Controller {
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 0);
-			lightLocalizer.localizeY();
-			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 90);
-			lightLocalizer.localizeX();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 180);
+			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 0);
 			lightLocalizer.localizeY();
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 270);
+			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 90);
 			lightLocalizer.localizeX();
-			
-			
-		}
-		else if (test == 1) {
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 180);
+			lightLocalizer.localizeY();
+
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
+			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 270);
+			lightLocalizer.localizeX();
+
+		} else if (test == 1) {
 			odometer.setXYT(0.5, 0.5, 0);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			navigation.travelToAdv(6, 5);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			odometer.setXYT(0.5, 0.5, 0);
 			navigation.travelToAdv(6, 5);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			navigation.travelToAdv(3, 3);
 			
 		}
@@ -218,7 +223,6 @@ public class Controller {
 		System.out.println("Deg: " + Math.round(xyt[2]));
 	}
 
-	
 	/**
 	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
 	 * 
@@ -251,5 +255,13 @@ public class Controller {
 
 	public static SearchAndLocalize getSearchAndLocalizeInstance() {
 		return searchAndLocalize;
+	}
+
+	public static void setTargetBlock(int block) {
+		targetBlock = block;
+	}
+
+	public static void setSearchAreaCoords(int[] coords) {
+		searchAreaCoords = coords;
 	}
 }
