@@ -259,7 +259,7 @@ public class SearchAndLocalize {
 		yDist = Math.abs(limiter[0] - limiter[2]) / 2 - 4;
 		if (test == 0) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
-			logger();
+			
 			while (odometer.getXYT()[1] <= limiter[0]) {
 				if (navigation.isNavigating() == false) {
 					navigation.forward();
@@ -269,8 +269,7 @@ public class SearchAndLocalize {
 			navigation.turnTo(90);
 			while (navigation.isNavigating()) {
 			}
-			;
-			logger();
+			
 			lightLocalizer.localizeXMid();
 			while (navigation.isNavigating()) {
 			}
@@ -284,12 +283,10 @@ public class SearchAndLocalize {
 			navigation.turnTo(180);
 			while (navigation.isNavigating()) {
 			}
-			;
-			logger();
+			
 			lightLocalizer.localizeYMid();
 			while (navigation.isNavigating()) {
 			}
-			;
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				if (navigation.isNavigating() == false) {
 					navigation.forward();
@@ -299,12 +296,10 @@ public class SearchAndLocalize {
 			navigation.turnTo(270);
 			while (navigation.isNavigating()) {
 			}
-			;
-			logger();
+			
 			lightLocalizer.localizeXMid();
 			while (navigation.isNavigating()) {
 			}
-			;
 			while (odometer.getXYT()[0] >= limiter[3]) {
 				if (navigation.isNavigating() == false) {
 					navigation.forward();

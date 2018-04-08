@@ -68,7 +68,8 @@ public class Controller {
 		lightLocalizer = new LightLocalizer();
 		colourCalibration = new ColourCalibration(targetBlock);
 		searchAndLocalize = new SearchAndLocalize(usDistance, 5, 3, 1, 1, 0);
-
+		navigation.intializeLL();
+		
 		if (!testing) {
 			WiFiData.processData();
 		} else {
@@ -161,7 +162,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions {
 		odometer.setXYT(0, 0, 0);
-		int test = 8;
+		int test = 1;
 		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
 			// they have to rotate (you dont want to over rotate or under
 			// You know you over wroted due to screeching sound.... Constant to set:Angle in
@@ -169,464 +170,35 @@ public class Controller {
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.landingGearOn();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.landingGearOff();
-
-		} else if (test == 1) { // Test for wheel radius (get by what percentage it is off on average so
-			// (Distancetravelled+offset)/Distancetravelled
-			// and change the WHEEL_RAD by that.... Constant to set: Robot.WHEEL_RAD
-			//
-			//
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(2 * Robot.TILESIZE);
-			logger();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(2 * Robot.TILESIZE);
-			logger();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(2 * Robot.TILESIZE);
-			logger();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(4 * Robot.TILESIZE);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(4 * Robot.TILESIZE);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.moveBy(4 * Robot.TILESIZE);
-
-		} else if (test == 2) { // Test for track length by checking turning. Get it as close as possible then
-			// just add constant to turning as
-			// chances are it wont turn as nicely both ways compare angles to black lines
-			// for ease (make sure to replace exactly the cross in the middle of the axis of
-			// both wheels after each trial)
-			// .... Constants to change: Robot.TRACK, then Navigation constants on line
-			// 233-234, 238, 239 (for now they are +2, +2 , +0. +0)
-
-//			while (Button.waitForAnyPress() != Button.ID_DOWN)
-//				;
-//			odometer.setXYT(0, 0, 0);
-//			navigation.turnTo(90);
-//			while (Button.waitForAnyPress() != Button.ID_DOWN)
-//				;
-//			odometer.setXYT(0, 0, 0);
-//			navigation.turnTo(-90);
-//			while (Button.waitForAnyPress() != Button.ID_DOWN)
-//				;
-//			odometer.setXYT(0, 0, 0);
-//			navigation.turnTo(90);
-//			while (Button.waitForAnyPress() != Button.ID_DOWN)
-//				;
-//			odometer.setXYT(0, 0, 0);
-//			navigation.turnTo(-90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(180);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-180);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(180);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-179.9);
-			 while (Button.waitForAnyPress() != Button.ID_DOWN)
-			 ;
-			 navigation.turnTo(180);
-			 while (Button.waitForAnyPress() != Button.ID_DOWN)
-			 ;
-			 navigation.turnTo(-180);
-			 while (Button.waitForAnyPress() != Button.ID_DOWN)
-			 ;
-			 navigation.turnTo(270);
-			 while (Button.waitForAnyPress() != Button.ID_DOWN)
-			 ;
-			 navigation.turnTo(-270);
-
-		} else if (test == 3) { // This is just to check Test 1 and 2 are successful together first makes the
-			// robot go to (5,3) then (2,2) then (3,2) and then (4,1)
-			// Please note since at this point the odometer has not been tested it resets it
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			
-			navigation.travelTo(1 * Robot.TILESIZE, 3 * Robot.TILESIZE);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(2 * Robot.TILESIZE, 2 * Robot.TILESIZE);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(3 * Robot.TILESIZE, 2 * Robot.TILESIZE);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(4 * Robot.TILESIZE, 1 * Robot.TILESIZE);
-
-		} else if (test == 4) { // This is test 3 but with Odometer and without reseting anything to check if
-			// Odometer works....Constants: None -> (for Coding)
-			
-			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			
-			navigation.moveBy(Robot.TILESIZE*2);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			
-			navigation.moveBy(Robot.TILESIZE*3);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			
-			navigation.moveBy(Robot.TILESIZE*2);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			
-			navigation.moveBy(Robot.TILESIZE*3);
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(0 * Robot.TILESIZE, 2 * Robot.TILESIZE);
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(2 * Robot.TILESIZE, 3 * Robot.TILESIZE);
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(3 * Robot.TILESIZE, 2 * Robot.TILESIZE);
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.travelTo(4 * Robot.TILESIZE, 1 * Robot.TILESIZE);
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-		} else if (test == 5) { // Light Sensor test, put it on a 3 line cross and see if it works
-			// Constants to change: Robot.LSTOLS (distance between both Light sensors) and
-			// Robot.LSTOWHEEL (distance between wheel and odo
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 90);
-			lightLocalizer.localizeX();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 90);
-			lightLocalizer.localizeX();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 90);
-			lightLocalizer.localizeX();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
+			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 0);
 			lightLocalizer.localizeY();
+			
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(0, 0, 0);
-			lightLocalizer.localizeY();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			lightLocalizer.localizeY();
-		} else if (test == 6) {// US Sensor Test check if it works
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-
-		} else if (test == 7) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			navigation.turnTo(-90);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				navigation.rotateByDistance(2 * Robot.TILESIZE, 1, 1);
-		} else if (test == 8) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			usLocalizer.localize();
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 0);
-			lightLocalizer.localizeY();
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0, 0, 90);
-			lightLocalizer.localizeX();
-			System.out.println("X: " + odometer.getXYT()[0]);
-			System.out.println("Y: " + odometer.getXYT()[1]);
-			System.out.println("Theta: " + odometer.getXYT()[2]);
-
-		} else if (test == 9) {
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
+			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 90);
 			lightLocalizer.localizeX();
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
+			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 180);
 			lightLocalizer.localizeY();
 
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
-
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
+			odometer.setXYT(6.5*Robot.TILESIZE, 6.5*Robot.TILESIZE, 270);
 			lightLocalizer.localizeX();
 			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
 			
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-
-			odometer.setXYT(0, 0, 0);
-			navigation.landingGearOn();
-
-			navigation.moveBy(4 * Robot.TILESIZE);
-			navigation.landingGearOff();
-
-			lightLocalizer.localizeY();
-
-			navigation.turnTo(270);
-			lightLocalizer.localizeX();
-
-		} else if (test == 10) {
-
-			// should make beep.upsequence if it is the target block
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			System.out.println(colourCalibration.colourDetection());
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			System.out.println(colourCalibration.colourDetection());
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			System.out.println(colourCalibration.colourDetection());
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			System.out.println(colourCalibration.colourDetection());
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			System.out.println(colourCalibration.colourDetection());
-		} else if (test == 11) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-		} else if (test == 12) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-		} else if (test == 13) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-		} else if (test == 14) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			searchAndLocalize.testMethod(test - 11);
-		} else if (test == 15) {
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 90);
-			lightLocalizer.localizeXMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 90);
-			lightLocalizer.localizeXMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 270);
-			lightLocalizer.localizeXMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 270);
-			lightLocalizer.localizeXMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 0);
-			lightLocalizer.localizeYMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 0);
-			lightLocalizer.localizeYMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 180);
-			lightLocalizer.localizeYMid();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(2.5 * Robot.TILESIZE, 3.5 * Robot.TILESIZE, 180);
-			lightLocalizer.localizeYMid();
-		} else if(test == 16) {
-			
-			while(Button.waitForAnyPress() != Button.ID_DOWN);
-			logger();
-			
-			usLocalizer.localize();
-			lightLocalizer.fullLocalize(0);
-			logger();
-			
-			while(Button.waitForAnyPress() != Button.ID_DOWN);
-			logger();
-			
-			usLocalizer.localize();
-			lightLocalizer.fullLocalize(1);
-			logger();
-			
-			while(Button.waitForAnyPress() != Button.ID_DOWN);
-			logger();
-			
-			usLocalizer.localize();
-			lightLocalizer.fullLocalize(2);
-			logger();
-			
-			while(Button.waitForAnyPress() != Button.ID_DOWN);
-			logger();
-			
-			usLocalizer.localize();
-			lightLocalizer.fullLocalize(3);
-			logger();
-			
+		}
+		else if (test == 1) {
+			odometer.setXYT(0.5, 0.5, 0);
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			navigation.travelToAdv(6, 5);
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			odometer.setXYT(0.5, 0.5, 0);
+			navigation.travelToAdv(6, 5);
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			navigation.travelToAdv(3, 3);
 			
 		}
 	}

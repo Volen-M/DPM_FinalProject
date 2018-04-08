@@ -61,7 +61,7 @@ public class LightLocalizer {
 			odometer.setY(7 * Robot.TILESIZE);
 
 		}
-		
+
 		navigation.turnTo(45);
 		navigation.moveBy(Robot.LSTOLS/2);
 
@@ -106,10 +106,19 @@ public class LightLocalizer {
 	 * light sensors and the front wheel axle
 	 */
 	public void localizeX() {
+		Controller.logger();
 		boolean leftCheck = true;
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[0];
 		double oriTheta = odometer.getXYT()[2];
+		double goal = 0;
+		if (oriTheta >= 0 && oriTheta <=180) {
+			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+		}
+		else {
+			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+
+		}
 		lineData = new double[2];
 		navigation.forward(Robot.LOCALIZATION_SPEED);
 		while (leftCheck || rightCheck) {
@@ -119,23 +128,18 @@ public class LightLocalizer {
 				lineData[0] = odometer.getXYT()[0];
 				Sound.beepSequenceUp();
 				leftCheck = false;
+				odometer.setX(goal);
 			}
 			if (rightCheck && sampleRight < 0.28) {
 				lineData[1] = odometer.getXYT()[0];
 				Sound.beepSequenceUp();
 				rightCheck = false;
+				odometer.setX(goal);
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[0]) > Robot.TILESIZE * 1.1) {
-				double fix = rightCheck == false ? lineData[1] : lineData[0];
-				double xLoc = odometer.getXYT()[0];
-				if (oriTheta >= 0 && oriTheta <= 180) {
-					odometer.setX(Math.floor(xLoc / Robot.TILESIZE) + (xLoc - fix) + Robot.LSTOWHEEL);
-					Controller.logger();
-				} else {
-					odometer.setX(Math.ceil(xLoc / Robot.TILESIZE) + (fix - xLoc) - Robot.LSTOWHEEL);
-				}
+			if ((rightCheck ^ leftCheck) && Math.abs(odometer.getXYT()[0]-goal) >= Robot.TILESIZE/2) {
 				navigation.stopRobot();
 				Sound.beepSequence();
+				Controller.logger();
 				return;
 			}
 		}
@@ -146,11 +150,134 @@ public class LightLocalizer {
 		navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 		odometer.setTheta(oriTheta);
 		if (oriTheta >= 0 && oriTheta <= 180) {
-			odometer.setX(Math.floor(xLoc / Robot.TILESIZE) * Robot.TILESIZE
-					+ Math.abs(deltaOdo) / 2 * Robot.TRACKOVERLS + Robot.LSTOWHEEL);
+			odometer.setX(xLoc-Math.abs(deltaOdo/2));
 		} else {
-			odometer.setX(Math.ceil(xLoc / Robot.TILESIZE) * Robot.TILESIZE - Math.abs(deltaOdo) / 2 * Robot.TRACKOVERLS
-					- Robot.LSTOWHEEL);
+			odometer.setX(xLoc + Math.abs(deltaOdo/2));
+		}
+		Controller.logger();
+	}
+
+	public void localizeXBryan() throws OdometerExceptions {
+		double oriCoord = odometer.getXYT()[0];
+		double oriTheta = odometer.getXYT()[2];
+		double goal = 0;
+		if (oriTheta >= 0 && oriTheta <=180) {
+			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+		}
+		else {
+			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+
+		}
+		navigation.forward(Robot.LOCALIZATION_SPEED);
+		while(true){
+			sampleLeft = fetchSampleLeft();
+			sampleRight = fetchSampleRight();
+			if (sampleLeft < 0.28) {
+				odometer.setX(goal);
+				navigation.stopRobot();
+				navigation.moveBy(-1);
+				while (true) {
+					sampleRight = fetchSampleRight();
+					if (sampleRight < 0.28) {
+						if (navigation.isNavigating()) {
+							navigation.stopRobot();
+						}
+						odometer.setTheta(oriTheta);
+						return;
+					}
+					if (!navigation.isNavigating()) {
+						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
+					}
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35) {
+						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
+						
+					}
+				}
+			}
+			if (sampleRight < 0.28) {
+				odometer.setX(goal);
+				navigation.stopRobot();
+				navigation.moveBy(-1);
+				while (true) {
+					sampleLeft = fetchSampleLeft();
+					if (sampleLeft < 0.28) {
+						if (navigation.isNavigating()) {
+							navigation.stopRobot();
+						}
+						odometer.setTheta(oriTheta);
+						return;
+					}
+					if (!navigation.isNavigating()) {
+						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
+					}
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35) {
+						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
+						
+					}
+				}
+			}
+		}
+	}
+
+	public void localizeYBryan() throws OdometerExceptions {
+		double oriCoord = odometer.getXYT()[1];
+		double oriTheta = odometer.getXYT()[2];
+		double goal = 0;
+		if (oriTheta >= 270 || oriTheta <=90) {
+			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+		}
+		else {
+			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+
+		}
+		navigation.forward(Robot.LOCALIZATION_SPEED);
+		while(true){
+			sampleLeft = fetchSampleLeft();
+			sampleRight = fetchSampleRight();
+			if (sampleLeft < 0.28) {
+				odometer.setY(goal);
+				navigation.stopRobot();
+				navigation.moveBy(-1);
+				while (true) {
+					sampleRight = fetchSampleRight();
+					if (sampleRight < 0.28) {
+						if (navigation.isNavigating()) {
+							navigation.stopRobot();
+						}
+						odometer.setTheta(oriTheta);
+						return;
+					}
+					if (!navigation.isNavigating()) {
+						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
+					}
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35) {
+						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
+						
+					}
+				}
+			}
+			if (sampleRight < 0.28) {
+				odometer.setY(goal);
+				navigation.stopRobot();
+				navigation.moveBy(-1);
+				while (true) {
+					sampleLeft = fetchSampleLeft();
+					if (sampleLeft < 0.28) {
+						if (navigation.isNavigating()) {
+							navigation.stopRobot();
+						}
+						odometer.setTheta(oriTheta);
+						return;
+					}
+					if (!navigation.isNavigating()) {
+						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
+					}
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
+						
+					}
+				}
+			}
 		}
 	}
 
@@ -159,35 +286,39 @@ public class LightLocalizer {
 	 * at a distance from the line of at maximum 1.1 times the Tilesize
 	 */
 	public void localizeY() {
+		Controller.logger();
 		boolean leftCheck = true;
 		boolean rightCheck = true;
 		double oriCoord = odometer.getXYT()[1];
 		double oriTheta = odometer.getXYT()[2];
-		lineData = new double[2];
+		double goal = 0;
+		if (oriTheta >= 270 || oriTheta <=90) {
+			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+		}
+		else {
+			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+		}
+		lineData = new double[2]; 
 		navigation.forward(Robot.LOCALIZATION_SPEED);
 		while (leftCheck || rightCheck) {
 			sampleLeft = fetchSampleLeft();
 			sampleRight = fetchSampleRight();
 			if (leftCheck && sampleLeft < 0.28) {
 				lineData[0] = odometer.getXYT()[1];
+				odometer.setY(goal);
 				Sound.beepSequenceUp();
 				leftCheck = false;
 			}
 			if (rightCheck && sampleRight < 0.28) {
 				lineData[1] = odometer.getXYT()[1];
+				odometer.setY(goal);
 				Sound.beepSequenceUp();
 				rightCheck = false;
 			}
-			if (Math.abs(oriCoord - odometer.getXYT()[1]) > Robot.TILESIZE * 1.1) {
-				double fix = rightCheck == false ? lineData[1] : lineData[0];
-				double yLoc = odometer.getXYT()[1];
-				if (oriTheta >= 270 && oriTheta <= 90) {
-					odometer.setX(Math.floor(yLoc / Robot.TILESIZE) + (yLoc - fix) + Robot.LSTOWHEEL);
-				} else {
-					odometer.setX(Math.ceil(yLoc / Robot.TILESIZE) + (fix - yLoc) - Robot.LSTOWHEEL);
-				}
+			if ((rightCheck ^ leftCheck) && Math.abs(odometer.getXYT()[1]-goal) >= Robot.TILESIZE/2) {
 				navigation.stopRobot();
 				Sound.beepSequence();
+				Controller.logger();
 				return;
 			}
 		}
@@ -199,12 +330,14 @@ public class LightLocalizer {
 		navigation.turnTo(odometer.getXYT()[2] + deltaDeg);
 		odometer.setTheta(oriTheta);
 		if (oriTheta >= 270 || oriTheta <= 90) {
-			odometer.setY(
-					Math.floor(yLoc / Robot.TILESIZE) * Robot.TILESIZE + Math.abs(deltaOdo) / 2 + Robot.LSTOWHEEL);
+			odometer.setX(yLoc-Math.abs(deltaOdo/2));
 		} else {
-			odometer.setY(Math.ceil(yLoc / Robot.TILESIZE) * Robot.TILESIZE - Math.abs(deltaOdo) / 2 - Robot.LSTOWHEEL);
+			odometer.setX(yLoc + Math.abs(deltaOdo/2));
 		}
+		Controller.logger();
 	}
+
+
 
 	/**
 	 * This method gets the colour value detected by the left light sensor

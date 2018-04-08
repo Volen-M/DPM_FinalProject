@@ -9,17 +9,17 @@ package ca.mcgill.ecse211.project;
  *
  */
 public final class Robot {
-	public static final int FORWARD_SPEED = 250;
+	public static final int FORWARD_SPEED = 160; //250
 	public static final int ROTATE_SPEED = 100;
-	public static final int LOCALIZATION_SPEED = 135;
+	public static final int LOCALIZATION_SPEED = 160; //135
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 500;
 	public static final int GEAR_ACCELERATION = 500;
 	public static final double WHEEL_RAD = 2.1;
-	public static final double TRACK = 12.9*180/140;//12.7*180/165;
+	public static final double TRACK = 13.447;
 	public static final double D = 40.0;
 	public static final double K = 2;
-	public static final double LSTOWHEEL = 6.55;
+	public static final double LSTOWHEEL = 7.5;
 	public static final double LSTOLS = 14.65;
 	public static final double TRACKOVERLS = TRACK / LSTOLS;
 	public static final double TILESIZE = 30.48;

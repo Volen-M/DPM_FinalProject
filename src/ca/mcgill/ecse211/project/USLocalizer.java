@@ -131,7 +131,7 @@ public class USLocalizer {
 
 		// rotate robot to the theta = 0.0 using turning angle and we account for small
 		// error
-		navigation.rotateByAngle(turningAngle -16 , -1, 1);
+		navigation.rotateByAngle(turningAngle -8 , -1, 1);
 
 		// set theta to coordinate starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
@@ -185,7 +185,7 @@ public class USLocalizer {
 		turningAngle = deltaTheta + odometer.getXYT()[2];
 
 		// rotate robot to the theta = 0.0 and we account for small error
-		navigation.rotateByAngle(turningAngle - 3, -1, 1);
+		navigation.rotateByAngle(turningAngle +2, -1, 1);
 
 		// set odometer to theta to starting corner
 		odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 0.0);
