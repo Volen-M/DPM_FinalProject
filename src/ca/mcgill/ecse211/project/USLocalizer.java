@@ -34,13 +34,11 @@ public class USLocalizer {
 	 * @param corner
 	 *            starting corner
 	 */
-	public USLocalizer(SampleProvider usDistance, int corner) {
+	public USLocalizer(SampleProvider usDistance) {
 		this.odometer = Controller.getOdometerInstance();
 		this.usDistance = usDistance;
 		this.usData = new float[this.usDistance.sampleSize()];
 		navigation = Controller.getNavigationInstance();
-
-		setStartingCoordinates(corner);
 
 	}
 
@@ -78,8 +76,9 @@ public class USLocalizer {
 	 * A method to determine which localization method to use
 	 * 
 	 */
-	public void localize() {
+	public void localize(int corner) {
 		// if we are facing a wall we use our rising edge localization
+		setStartingCoordinates(corner);
 		if (fetchUS() < 40) {
 			localizeRisingEdge();
 		} else {
