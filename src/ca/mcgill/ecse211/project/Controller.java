@@ -64,21 +64,23 @@ public class Controller {
 		Thread odoThread = new Thread(odometer); // Start odometer thread.
 		odoThread.start();
 
-		if (!testing) {
-			WiFiData.processData();
-		} else {
-			runTests();
-		}
-
 		// Create other necessary class instances.
 		usLocalizer = new USLocalizer(usDistance, 0);
 		navigation.usLoc = usLocalizer;
 		lightLocalizer = new LightLocalizer();
 		colourCalibration = new ColourCalibration(targetBlock);
-		searchAndLocalize = new SearchAndLocalize(usDistance, searchAreaCoords[0], searchAreaCoords[1],
-				searchAreaCoords[2], searchAreaCoords[3], 0);
 		navigation.intializeLL();
+		searchAndLocalize = new SearchAndLocalize(usDistance, 5, 3, 1, 1, 0);
+		//searchAndLocalize = new SearchAndLocalize(usDistance, searchAreaCoords[0], searchAreaCoords[1],
+//				searchAreaCoords[2], searchAreaCoords[3], 0);
 
+		if (!testing) {
+			WiFiData.processData();
+		} else {
+			runTests();
+		}
+		
+		
 		if (betaDemo && !testing) {
 			if (currentTeam.equals("Green")) {
 				usLocalizer.localize();
@@ -162,36 +164,19 @@ public class Controller {
 	 * Used to run various tests.
 	 * 
 	 * @throws OdometerExceptions
+	 * @throws InterruptedException 
 	 */
 	@SuppressWarnings("static-access")
-	public static void runTests() throws OdometerExceptions {
-		odometer.setXYT(0, 0, 0);
+	public static void runTests() throws OdometerExceptions, InterruptedException {
 		int test = 2;
-		if (test == 0) { // Test for the back wheel to go up or down need to set the angle by how much
-			// they have to rotate (you dont want to over rotate or under
-			// You know you over wroted due to screeching sound.... Constant to set:Angle in
-			// navigation.landingGearOn() and navigation.landingGearoff()
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 0);
-			lightLocalizer.localizeY();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 90);
-			lightLocalizer.localizeX();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 180);
-			lightLocalizer.localizeY();
-
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(6.5 * Robot.TILESIZE, 6.5 * Robot.TILESIZE, 270);
-			lightLocalizer.localizeX();
-
+		if (test == 0) { 
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+				startLocalization();
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+				startLocalization();
+			while (Button.waitForAnyPress() != Button.ID_DOWN);
+				startLocalization();
+			
 		} else if (test == 1) {
 			odometer.setXYT(0.5, 0.5, 0);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
@@ -208,10 +193,10 @@ public class Controller {
 		}
 		else if (test == 2) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			searchAndLocalize.testMethod(1);
+			searchAndLocalize.testMethod(4);
 
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			searchAndLocalize.testMethod(1);
+			searchAndLocalize.testMethod(4);
 		}
 	}
 
@@ -222,7 +207,49 @@ public class Controller {
 		System.out.println("Y: " + Math.round(xyt[1]));
 		System.out.println("Deg: " + Math.round(xyt[2]));
 	}
+	
+	@SuppressWarnings("static-access")
+	public static void startLocalization() throws OdometerExceptions, InterruptedException {
+		navigation.setAcceleration(500);
+		usLocalizer.localize();
+		navigation.setAcceleration(2000);
+		Thread.sleep(500);
+		navigation.moveByGrid(0.5);
+		Thread.sleep(500);
+		navigation.turnTo(90);
+		Thread.sleep(500);
+		lightLocalizer.localizeXBryan();
+		Thread.sleep(500);
+		navigation.moveBy(-1*Robot.LSTOWHEEL, 200);
+		Thread.sleep(500);
+		navigation.turnTo(0);
+		Thread.sleep(500);
+		lightLocalizer.localizeYBryan();
+		Thread.sleep(500);
+		navigation.moveBy(-1*Robot.LSTOWHEEL, 200);
+		Thread.sleep(500);
+		cornerSet(0);
+		logger();
+		
+	}
 
+	public static void cornerSet(int corner) {
+		switch (corner) {
+		case 0:
+			odometer.setXYT(Robot.TILESIZE*1, Robot.TILESIZE*1, odometer.getXYT()[2]);
+			break;
+		case 1:
+			odometer.setXYT(Robot.TILESIZE*11,Robot.TILESIZE*1, odometer.getXYT()[2]);
+			break;
+		case 2:
+			odometer.setXYT(Robot.TILESIZE*11,Robot.TILESIZE*11, odometer.getXYT()[2]);
+			break;
+		case 3:
+			odometer.setXYT(Robot.TILESIZE*1,Robot.TILESIZE*11, odometer.getXYT()[2]);
+			break;
+		}
+	}
+	
 	/**
 	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
 	 * 

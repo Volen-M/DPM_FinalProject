@@ -162,10 +162,10 @@ public class LightLocalizer {
 		double oriTheta = odometer.getXYT()[2];
 		double goal = 0;
 		if (oriTheta >= 0 && oriTheta <=180) {
-			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
 		}
 		else {
-			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.floor(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.LOCALIZATION_SPEED);
@@ -175,7 +175,7 @@ public class LightLocalizer {
 			if (sampleLeft < 0.28) {
 				odometer.setX(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1.25);
+				navigation.moveBy(-1.00);
 				while (true) {
 					sampleRight = fetchSampleRight();
 					if (sampleRight < 0.28) {
@@ -197,7 +197,7 @@ public class LightLocalizer {
 			if (sampleRight < 0.28) {
 				odometer.setX(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1.25);
+				navigation.moveBy(-1.00);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {
@@ -224,10 +224,10 @@ public class LightLocalizer {
 		double oriTheta = odometer.getXYT()[2];
 		double goal = 0;
 		if (oriTheta >= 270 || oriTheta <=90) {
-			goal = Math.ceil((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
 		}
 		else {
-			goal = Math.floor((oriCoord/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.floor(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.LOCALIZATION_SPEED);
@@ -237,7 +237,7 @@ public class LightLocalizer {
 			if (sampleLeft < 0.28) {
 				odometer.setY(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1.25);
+				navigation.moveBy(-1.00);
 				while (true) {
 					sampleRight = fetchSampleRight();
 					if (sampleRight < 0.28) {
@@ -259,7 +259,7 @@ public class LightLocalizer {
 			if (sampleRight < 0.28) {
 				odometer.setY(goal);
 				navigation.stopRobot();
-				navigation.moveBy(-1.25);
+				navigation.moveBy(-1.00);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {

@@ -63,7 +63,6 @@ public class ColourCalibration {
 			Sound.beepSequenceUp();
 			return true;
 		} else {
-			Sound.beep();
 			return false;
 		}
 	}

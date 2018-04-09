@@ -249,17 +249,95 @@ public class SearchAndLocalize {
 		System.out.println("Deg: " + Math.round(xyt[2]));
 	}
 
-	public void testMethod(int test) throws OdometerExceptions {
-		double xDist;
-		double yDist;
-		double distToCube;
-		boolean checkCube;
+	public void testMethod(int test) throws OdometerExceptions, InterruptedException {
+		double xDist = 0;
+		double yDist = 0;
+		double distToCube = 0;
+		boolean checkCube = true;
+		double startLoc = 0;
+		double fix = 0;
 		Area tempArea;
 		xDist = Math.abs(limiter[1] - limiter[3]) / 2 - 4;
 		yDist = Math.abs(limiter[0] - limiter[2]) / 2 - 4;
-		if (test == 0) {
+		odometer.setXYT(limiter[3], limiter[2], 0);
+		if (test == 4) {
+			int xAmt = (int) (Math.abs(limiter[1]-limiter[3])*3/Robot.TILESIZE);
+			int yAmt = (int) (Math.abs(limiter[0]-limiter[2])*3/Robot.TILESIZE);
+			startLoc = odometer.getXYT()[1];
+			for (int i =1; i<=yAmt; i++) {
+				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
+				navigation.moveBy(fix);
+				distToCube = fetchUS2();
+				if (distToCube < xDist) {
+					Sound.beep();
+				}
+				if (i%3==0) {
+					lightLocalizer.localizeYBryan();
+				}
+				Thread.sleep(500);
+			}
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
+			navigation.turnTo(90);
+			Thread.sleep(500);
+			lightLocalizer.localizeXBryan();
+			startLoc = odometer.getXYT()[0];
+			for (int i =1; i<=xAmt; i++) {
+				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
+				navigation.moveBy(fix);
+				distToCube = fetchUS2();
+				if (distToCube < yDist) {
+					Sound.beep();
+				}
+				if (i%3==0) {
+					lightLocalizer.localizeXBryan();
+				}
+				Thread.sleep(500);
+			}
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
+			navigation.turnTo(180);
+			Thread.sleep(500);
+			lightLocalizer.localizeYBryan();
+			startLoc = odometer.getXYT()[1];
+			for (int i =1; i<=yAmt; i++) {
+				fix =Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
+				navigation.moveBy(fix);
+				distToCube = fetchUS2();
+				if (distToCube < xDist) {
+					Sound.beep();
+				}
+				if (i%3==0 ) {
+					lightLocalizer.localizeYBryan();
+				}
+				Thread.sleep(500);
+			}
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
+			navigation.turnTo(270);
+			Thread.sleep(500);
+			lightLocalizer.localizeXBryan();
+			startLoc = odometer.getXYT()[0];
+			for (int i =1; i<=xAmt; i++) {
+				fix = Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
+				navigation.moveBy(fix);
+				distToCube = fetchUS2();
+				if (distToCube < yDist) {
+					Sound.beep();
+				}
+				if (i%3==0) {
+					lightLocalizer.localizeXBryan();
+				}
+				Thread.sleep(500);
+			}
+			Controller.logger();
+		}
+		else if (test == 0) {
 			odometer.setXYT(limiter[3], limiter[2], 0);
-			
+
 			while (odometer.getXYT()[1] <= limiter[0]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
@@ -274,7 +352,7 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(180);
-			
+
 			lightLocalizer.localizeYBryan();
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				if (!navigation.isNavigating()) {
@@ -318,7 +396,7 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 			}
-			
+
 			navigation.stopRobot();
 			lightLocalizer.localizeXBryan();
 			navigation.turnTo(180);
@@ -361,28 +439,28 @@ public class SearchAndLocalize {
 		usDistance.fetchSample(usData, 0);
 		return (int) (usData[0] * 100);
 	}
-	
+
 	/**
 	 * A method to get the distance from our sensor
 	 * 
 	 * @return
 	 */
-//	public int fetchUS() {
-//		float[] data = new float[5];
-//		float distance;
-//		for (int i = 0; i < data.length; i++) {
-//			usDistance.fetchSample(usData, 0);
-//			distance = (int) ((usData[0] * 100));
-//			data[i] = distance;
-//		}
-//
-//		float average = 0;
-//		for (int i = 1; i < data.length; i++) {
-//			average = average + data[i];
-//		}
-//		average = average / (data.length - 1);
-//		return (int) average;
-//	}
+	public int fetchUS2() {
+		float[] data = new float[5];
+		float distance;
+		for (int i = 0; i < data.length; i++) {
+			usDistance.fetchSample(usData, 0);
+			distance = (int) ((usData[0] * 100));
+			data[i] = distance;
+		}
+
+		float average = 0;
+		for (int i = 1; i < data.length; i++) {
+			average = average + data[i];
+		}
+		average = average / (data.length - 1);
+		return (int) average;
+	}
 
 	/**
 	 * Class Area stores the coordinates of an identified cube
@@ -423,8 +501,8 @@ public class SearchAndLocalize {
 		}
 
 		public boolean isIn(Area area) {
-			return Math.hypot(area.x - this.x, area.y - this.y) <= 14.14; // Sum of radii has to be less than distance
-																			// between centers
+			return Math.hypot(area.x - this.x, area.y - this.y) <= Robot.TILESIZE; // Sum of radii has to be less than distance
+			// between centers
 		}
 	}
 }

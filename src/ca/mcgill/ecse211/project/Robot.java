@@ -13,7 +13,7 @@ public final class Robot {
 	public static final int ROTATE_SPEED = 100;
 	public static final int LOCALIZATION_SPEED = 160; //135
 	public static final int GEAR_SPEED = 125;
-	public static final int ACCELERATION = 500;
+	public static final int ACCELERATION = 2000;
 	public static final int GEAR_ACCELERATION = 500;
 	public static final double WHEEL_RAD = 2.1;
 	public static final double TRACK = 13.447;

@@ -246,9 +246,19 @@ public class Navigation extends Thread {
 	 */
 	public void rotateClockWise() {
 		navigating = true;
-		setSpeed(Robot.FORWARD_SPEED);
+		setSpeed(250);
 		leftMotor.forward();
 		rightMotor.backward();
+	}
+	
+	/**
+	 * Freely rotates the robot counter-clockwise indefinitely.
+	 */
+	public void rotateCounterClockWise() {
+		navigating = true;
+		setSpeed(250);
+		leftMotor.backward();
+		rightMotor.forward();
 	}
 
 	public void rotateLeftWheel(int speed) {
@@ -273,16 +283,6 @@ public class Navigation extends Thread {
 		navigating = true;
 		setSpeed(speed);
 		rightMotor.backward();
-	}
-	
-	/**
-	 * Freely rotates the robot counter-clockwise indefinitely.
-	 */
-	public void rotateCounterClockWise() {
-		navigating = true;
-		setSpeed(Robot.FORWARD_SPEED);
-		leftMotor.backward();
-		rightMotor.forward();
 	}
 
 	/**
