@@ -840,12 +840,12 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, false);
+					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgURY, false);
 					Thread.sleep(500);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					} else {
-						navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgURY, false);
+						navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, false);
 						for (int i = 0; i < 6; i++)
 							Sound.beep();
 					}
