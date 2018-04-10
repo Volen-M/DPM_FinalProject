@@ -37,8 +37,8 @@ public class Controller {
 	private static String currentTeam;
 
 	// Set to true when testing, allows for beta demo behaviour not to happen
-	private static boolean testing = true;
-	private static boolean flagSearch = true;
+	private static boolean testing = false;
+	private static boolean flagSearch = false;
 
 	/**
 	 * Main method. Initial entry point of the code for this lab. Instantiates
@@ -72,8 +72,6 @@ public class Controller {
 		colourCalibration = new ColourCalibration();
 		navigation.intializeLL();
 		searchAndLocalize = new SearchAndLocalize(usDistance);
-		//searchAndLocalize = new SearchAndLocalize(usDistance, searchAreaCoords[0], searchAreaCoords[1],
-		//				searchAreaCoords[2], searchAreaCoords[3], 0);
 
 		if (!testing) {
 			WiFiData.processData();
@@ -105,17 +103,17 @@ public class Controller {
 			startLocalization(3);
 
 		} else if (test == 1) {
-			odometer.setXYT(0.5, 0.5, 0);
+			odometer.setXYT(1*Robot.TILESIZE, 1*Robot.TILESIZE, 0);
+			Thread.sleep(500);
+			navigation.travelToAdvGrid(6, 5, true);
+			logger();
+			Thread.sleep(500);
+			logger();
+			navigation.travelToAdvGrid(3, 3, true);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			navigation.travelToAdv(6, 5);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			odometer.setXYT(0.5, 0.5, 0);
-			navigation.travelToAdv(6, 5);
-			while (Button.waitForAnyPress() != Button.ID_DOWN)
-				;
-			navigation.travelToAdv(3, 3);
+			odometer.setXYT(1*Robot.TILESIZE, 1*Robot.TILESIZE, 0);
+			navigation.travelToAdvGrid(6, 5, true);
 
 		}
 		else if (test == 2) {
@@ -134,244 +132,407 @@ public class Controller {
 			if (currentTeam.equals("green")) {
 				if (WiFiData.greenCorner == 0) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY - 1 , true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(0);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srLLY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
-					Thread.sleep(250);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY+1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 1, 1, false);
 
 				} else if (WiFiData.greenCorner == 1) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY - 1 , true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(0);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srLLY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
-					Thread.sleep(250);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY+1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 11, 1, false);
 					
 				} else if (WiFiData.greenCorner == 2) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY + 1 , true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY-1, true);
+					Thread.sleep(500);
+					navigation.turnTo(0);
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
+					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 11, 11, false);
+					
 				} else if (WiFiData.greenCorner == 3) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY + 1 , true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY-1, true);
+					Thread.sleep(500);
+					navigation.turnTo(0);
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
+					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 1, 11, false);
 				}
 
 			}
 			else {
 				if (WiFiData.redCorner == 0) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY - 1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(0);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					}
 					else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
-					Thread.sleep(250);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY+1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY+1, true);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 1, 1, false);
+					
 				} else if (WiFiData.redCorner == 1) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY - 1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(0);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					}
 					else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
-					Thread.sleep(250);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY+1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY+1, true);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 11, 1, false);
+					
 				} else if (WiFiData.redCorner == 2) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY-1, true);
+					Thread.sleep(500);
+					navigation.turnTo(0);
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
+					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 11, 11, false);
+					
 				} else if (WiFiData.redCorner == 3) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.turnTo(180);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOn();
+					Thread.sleep(500);
 					navigation.moveByGrid(4);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.landingGearOff();
+					Thread.sleep(500);
 					lightLocalizer.localizeY();
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.moveBy(-1*Robot.LSTOWHEEL);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
-					Thread.sleep(250);
+					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 3);
 					}else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
+						Sound.beep();
 					}
-					Thread.sleep(250);
+					Thread.sleep(500);
+					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY-1, true);
+					Thread.sleep(500);
+					navigation.turnTo(0);
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.landingGearOn();
+					Thread.sleep(500);
+					navigation.moveByGrid(4);
+					Thread.sleep(500);
+					navigation.landingGearOff();
+					Thread.sleep(500);
+					lightLocalizer.localizeY();
+					Thread.sleep(500);
+					navigation.travelToAdvGrid( 1, 11, false);
 				}
 
 			}
@@ -380,19 +541,19 @@ public class Controller {
 			if (currentTeam.equals("green")) {
 				if (WiFiData.greenCorner == 0) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.greenCorner == 1) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.greenCorner == 2) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.greenCorner == 3) {
 					startLocalization(WiFiData.greenCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				}
 
@@ -400,19 +561,19 @@ public class Controller {
 			else {
 				if (WiFiData.redCorner == 0) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.redCorner == 1) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.redCorner == 2) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				} else if (WiFiData.redCorner == 3) {
 					startLocalization(WiFiData.redCorner);
-					Thread.sleep(250);
+					Thread.sleep(500);
 
 				}
 
@@ -443,7 +604,7 @@ public class Controller {
 
 	@SuppressWarnings("static-access")
 	public static void startLocalization(int corner) throws OdometerExceptions, InterruptedException {
-		navigation.setAcceleration(250);
+		navigation.setAcceleration(500);
 		usLocalizer.localize(corner);
 		navigation.setAcceleration(2000);
 		Thread.sleep(250);
@@ -481,13 +642,13 @@ public class Controller {
 			odometer.setXYT(Robot.TILESIZE*1, Robot.TILESIZE*1, odometer.getXYT()[2]);
 			break;
 		case 1:
-			odometer.setXYT(Robot.TILESIZE*11,Robot.TILESIZE*1, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE*7,Robot.TILESIZE*1, odometer.getXYT()[2]);
 			break;
 		case 2:
-			odometer.setXYT(Robot.TILESIZE*11,Robot.TILESIZE*11, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE*7,Robot.TILESIZE*7, odometer.getXYT()[2]);
 			break;
 		case 3:
-			odometer.setXYT(Robot.TILESIZE*1,Robot.TILESIZE*11, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE*1,Robot.TILESIZE*7, odometer.getXYT()[2]);
 			break;
 		}
 	}

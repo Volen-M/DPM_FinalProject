@@ -161,13 +161,11 @@ public class LightLocalizer {
 		double oriCoord = odometer.getXYT()[0];
 		double oriTheta = odometer.getXYT()[2];
 		double goal = 0;
-		double turnOverDeg = 0;
-		boolean turnOver = false;
 		if (oriTheta >= 0 && oriTheta <=180) {
-			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
 		}
 		else {
-			goal = Math.floor(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
+			goal = Math.floor(((oriCoord+(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.FORWARD_SPEED);
@@ -190,17 +188,10 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && !turnOver) {
-						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
-						turnOverDeg = odometer.getXYT()[2];
-						turnOver = true;
-					}
-					else if (Math.abs(odometer.getXYT()[2]-turnOverDeg)> 40 && turnOver) {
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.stopRobot();
 						Thread.sleep(250);
-						navigation.moveBy(3);
-						Thread.sleep(250);
-						navigation.turnTo(odometer.getXYT()[2]+5);
+						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 					}
 				}
 			}
@@ -220,33 +211,26 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35) {
-						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
-						turnOverDeg = odometer.getXYT()[2];
-						turnOver = true;
-
-					}
-					else if (Math.abs(odometer.getXYT()[2]-turnOverDeg)> 40 && turnOver) {
+					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.stopRobot();
 						Thread.sleep(250);
-						navigation.moveBy(3);
-						Thread.sleep(250);
-						navigation.turnTo(odometer.getXYT()[2]-5);
+						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
+
 					}
 				}
 			}
 		}
 	}
 
-	public void localizeYBryan() throws OdometerExceptions {
+	public void localizeYBryan() throws OdometerExceptions, InterruptedException {
 		double oriCoord = odometer.getXYT()[1];
 		double oriTheta = odometer.getXYT()[2];
 		double goal = 0;
 		if (oriTheta >= 270 || oriTheta <=90) {
-			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
+			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
 		}
 		else {
-			goal = Math.floor(((oriCoord-(Robot.LSTOWHEEL+2.5))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
+			goal = Math.floor(((oriCoord+(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.FORWARD_SPEED);
@@ -270,6 +254,8 @@ public class LightLocalizer {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
 					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.stopRobot();
+						Thread.sleep(250);
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 
 					}
@@ -292,6 +278,8 @@ public class LightLocalizer {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
 					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.stopRobot();
+						Thread.sleep(250);
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
 
 					}

@@ -124,7 +124,6 @@ public class Navigation extends Thread {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
-			stopRobot();
 		}
 		else if (currY > gridY*Robot.TILESIZE) {
 			turnTo(180);
