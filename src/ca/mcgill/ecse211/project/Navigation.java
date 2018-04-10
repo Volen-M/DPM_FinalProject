@@ -448,10 +448,9 @@ public class Navigation extends Thread {
 
 	public static void motorSearch(boolean flagSearch) {
 		if (flagSearch) {
-			usMotor.rotate(92);
-		}else {
 			usMotor.rotate(-92);
-			
+		}else {
+			usMotor.rotate(92);
 		}
 	}
 	/**

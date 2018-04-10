@@ -4,8 +4,6 @@ package ca.mcgill.ecse211.project;
  * 
  * Class that tracks position of the robot
  * 
- * @author Volen Mihaylov
- * @author Bryan Jay
  * @author Patrick Ghazal
  *
  */
