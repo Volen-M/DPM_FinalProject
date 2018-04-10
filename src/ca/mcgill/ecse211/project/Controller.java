@@ -142,7 +142,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -172,7 +172,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -196,7 +196,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -227,7 +227,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -251,7 +251,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -282,7 +282,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -304,7 +304,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -335,7 +335,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -361,7 +361,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -393,7 +393,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -418,7 +418,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -450,7 +450,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -474,7 +474,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -505,7 +505,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -528,7 +528,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -559,7 +559,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(3.5);
+					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -633,7 +633,7 @@ public class Controller {
 	 * True is upwards, false is sideways field setup (in relation to full course)
 	 */
 	public static  boolean courseIsUpwards() {
-		if (WiFiData.brURX-WiFiData.brLLX == 2) {
+		if (WiFiData.brURX-WiFiData.brLLX > 1) {
 			return false;
 		}
 		return true;
