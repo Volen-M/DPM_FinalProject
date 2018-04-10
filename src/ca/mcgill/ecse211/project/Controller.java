@@ -1020,7 +1020,7 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeXBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL/2, 200);
 		Thread.sleep(250);
 		if (corner == 0 || corner == 1) {
 			navigation.turnTo(0);
@@ -1030,11 +1030,11 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeYBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL/2, 200);
 		Sound.beepSequenceUp();
 		Thread.sleep(250);
 		cornerSet(corner);
-		logger();
+		
 
 	}
 
@@ -1044,13 +1044,13 @@ public class Controller {
 			odometer.setXYT(Robot.TILESIZE * 1, Robot.TILESIZE * 1, odometer.getXYT()[2]);
 			break;
 		case 1:
-			odometer.setXYT(Robot.TILESIZE * 7, Robot.TILESIZE * 1, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 11, Robot.TILESIZE * 1, odometer.getXYT()[2]);
 			break;
 		case 2:
-			odometer.setXYT(Robot.TILESIZE * 7, Robot.TILESIZE * 7, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 11, Robot.TILESIZE * 11, odometer.getXYT()[2]);
 			break;
 		case 3:
-			odometer.setXYT(Robot.TILESIZE * 1, Robot.TILESIZE * 7, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 1, Robot.TILESIZE * 11, odometer.getXYT()[2]);
 			break;
 		}
 	}
