@@ -9,9 +9,9 @@ package ca.mcgill.ecse211.project;
  *
  */
 public final class Robot {
-	public static final int FORWARD_SPEED = 160; //250
-	public static final int ROTATE_SPEED = 100;
-	public static final int LOCALIZATION_SPEED = 160; //135
+	public static final int FORWARD_SPEED = 210; //250
+	public static final int ROTATE_SPEED = 160;
+	public static final int LOCALIZATION_SPEED = 210; //135
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 2000;
 	public static final int GEAR_ACCELERATION = 500;

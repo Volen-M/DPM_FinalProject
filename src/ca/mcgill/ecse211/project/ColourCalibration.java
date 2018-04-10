@@ -46,10 +46,12 @@ public class ColourCalibration {
 	 * @param flag
 	 *            int value of the target flag
 	 */
-	public ColourCalibration(int flag) {
+	public ColourCalibration() {
 		lightSensor.setCurrentMode("Red"); // set the sensor floodlight to white
+	}
+	
+	public void setFlag(int flag) {
 		this.flag = flag;
-
 	}
 
 	/**

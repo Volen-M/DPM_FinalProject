@@ -26,21 +26,23 @@ public class SearchAndLocalize {
 	private double constant = 4;
 	private ArrayList<Area> foundCubes;
 
-	public SearchAndLocalize(SampleProvider usDistance, double ur_x, double ur_y, double ll_x, double ll_y,
-			int cornerOfZone) {
+	public SearchAndLocalize(SampleProvider usDistance) {
 		this.navigation = Controller.getNavigationInstance();
 		this.colourCalib = Controller.getColourCalibrationInstance();
 		this.lightLocalizer = Controller.getLightLocalizerInstance();
+		this.odometer = Controller.getOdometerInstance();
+		this.usDistance = usDistance;
+		this.usData = new float[this.usDistance.sampleSize()];
+		this.foundCubes = new ArrayList<Area>();
+	}
+
+	private void limiterSet(double ur_x, double ur_y, double ll_x, double ll_y,	int cornerOfZone) {
 		this.lowerLeftX = ll_x;
 		this.lowerLeftY = ll_y;
 		this.upperRightX = ur_x;
 		this.upperRightX = ur_y;
 		this.limiter = new double[4];
 		this.corner = cornerOfZone;
-		this.odometer = Controller.getOdometerInstance();
-		this.usDistance = usDistance;
-		this.usData = new float[this.usDistance.sampleSize()];
-		this.foundCubes = new ArrayList<Area>();
 		switch (cornerOfZone) {
 		case 0:
 			limiter[0] = ur_y * Robot.TILESIZE;
@@ -67,9 +69,10 @@ public class SearchAndLocalize {
 			limiter[2] = ll_x * Robot.TILESIZE - Robot.TILESIZE * 0.5;
 			break;
 		}
+		
 	}
-
-	public int findFlag() throws OdometerExceptions { // Int return is where robot ended, so 0=North, 1=East, 2=South, 3=West
+	public int findFlag(double ll_x, double ll_y,double ur_x, double ur_y, int cornerOfZone) throws OdometerExceptions, InterruptedException { // Int return is where robot ended, so 0=North, 1=East, 2=South, 3=West
+		limiterSet( ur_x, ur_y, ll_x, ll_y, cornerOfZone);
 		double xDist;
 		double yDist;
 		double distToCube;
@@ -249,7 +252,8 @@ public class SearchAndLocalize {
 		System.out.println("Deg: " + Math.round(xyt[2]));
 	}
 
-	public void testMethod(int test) throws OdometerExceptions, InterruptedException {
+	public void testMethod(int test,double ll_x, double ll_y, double ur_x, double ur_y, int cornerOfZone) throws OdometerExceptions, InterruptedException {
+		limiterSet( ur_x, ur_y, ll_x, ll_y, cornerOfZone);
 		double xDist = 0;
 		double yDist = 0;
 		double distToCube = 0;

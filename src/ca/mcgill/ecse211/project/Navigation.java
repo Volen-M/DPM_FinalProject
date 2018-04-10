@@ -46,78 +46,192 @@ public class Navigation extends Thread {
 	public void intializeLL() {
 		lightLocalizer = Controller.getLightLocalizerInstance();
 	}
-	
-	public void travelToAdv(double gridX, double gridY) throws OdometerExceptions {
+
+	public void travelToAdvGrid(double gridX, double gridY, boolean firstY) throws OdometerExceptions, InterruptedException {
 		double[] xyt = odometer.getXYT();
 		double currX = xyt[0];
 		double currY = xyt[1];
-		double lineSpot = xyt[2];
+		if  (firstY) {
+			travelToAdvGridY(gridY, currY);
+			Thread.sleep(250);
+			travelToAdvGridX(gridX, currX);
+		} else {
+			travelToAdvGridX(gridX, currX);
+			Thread.sleep(250);
+			travelToAdvGridY(gridY, currY);
+		}
+	}
+	
+	public void travelToAdvGridX(double gridX, double currX) throws OdometerExceptions, InterruptedException {
+		double lineSpot = 0;
+		if (currX < gridX*Robot.TILESIZE) {
+			turnTo(90);
+			Thread.sleep(250);
+			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
+				lightLocalizer.localizeXBryan();
+				lineSpot = odometer.getXYT()[0];
+				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+					if (!navigating) {
+						forward(Robot.FORWARD_SPEED);
+					}
+				}
+			}
+			while (odometer.getXYT()[0] < gridX*Robot.TILESIZE) {
+				if (!navigating) {
+					forward(Robot.FORWARD_SPEED);
+				}
+			}
+		}
+		else if (currX > gridX*Robot.TILESIZE) {
+			turnTo(270);
+			Thread.sleep(250);
+			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
+				lightLocalizer.localizeXBryan();
+				lineSpot = odometer.getXYT()[0];
+				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+					if (!navigating) {
+						forward(Robot.FORWARD_SPEED);
+					}
+				}
+			}
+			while (odometer.getXYT()[0] > gridX*Robot.TILESIZE) {
+				if (!navigating) {
+					forward(Robot.FORWARD_SPEED);
+				}
+			}
+		}
+		stopRobot();
+
+	}
+
+	public void travelToAdvGridY(double gridY, double currY) throws OdometerExceptions, InterruptedException {
+		double lineSpot = 0;
 		if (currY < gridY*Robot.TILESIZE) {
 			turnTo(0);
+			Thread.sleep(250);
 			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
 				lightLocalizer.localizeYBryan();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
-						forward(Robot.LOCALIZATION_SPEED);
+						forward(Robot.FORWARD_SPEED);
 					}
 				}
-//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
 			while (odometer.getXYT()[1] < gridY*Robot.TILESIZE) {
 				if (!navigating) {
-					forward();
+					forward(Robot.FORWARD_SPEED);
 				}
 			}
 			stopRobot();
 		}
 		else if (currY > gridY*Robot.TILESIZE) {
 			turnTo(180);
+			Thread.sleep(250);
 			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
 				lightLocalizer.localizeYBryan();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
-						forward(Robot.LOCALIZATION_SPEED);
+						forward(Robot.FORWARD_SPEED);
 					}
 				}
-//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
 			while (odometer.getXYT()[1] > gridY*Robot.TILESIZE) {
 				if (!navigating) {
-					forward();
+					forward(Robot.FORWARD_SPEED);
 				}
 			}
 		}
+		stopRobot();
+	}	
+	
+/**
+ * 
+ * @param gridX
+ * @param gridY
+ * @deprecated Since version 06.07.00
+ * @throws OdometerExceptions
+ * @throws InterruptedException
+ */
+	public void travelToAdv(double gridX, double gridY) throws OdometerExceptions, InterruptedException {
+		double[] xyt = odometer.getXYT();
+		double currX = xyt[0];
+		double currY = xyt[1];
+		double lineSpot = xyt[2];
+		if (currY < gridY*Robot.TILESIZE) {
+			turnTo(0);
+			Thread.sleep(250);
+			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
+				lightLocalizer.localizeYBryan();
+				lineSpot = odometer.getXYT()[1];
+				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+					if (!navigating) {
+						forward(Robot.FORWARD_SPEED);
+					}
+				}
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+			}
+			while (odometer.getXYT()[1] < gridY*Robot.TILESIZE) {
+				if (!navigating) {
+					forward(Robot.FORWARD_SPEED);
+				}
+			}
+			stopRobot();
+		}
+		else if (currY > gridY*Robot.TILESIZE) {
+			turnTo(180);
+			Thread.sleep(250);
+			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
+				lightLocalizer.localizeYBryan();
+				lineSpot = odometer.getXYT()[1];
+				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+					if (!navigating) {
+						forward(Robot.FORWARD_SPEED);
+					}
+				}
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+			}
+			while (odometer.getXYT()[1] > gridY*Robot.TILESIZE) {
+				if (!navigating) {
+					forward(Robot.FORWARD_SPEED);
+				}
+			}
+		}
+		Thread.sleep(250);
 		if (currX < gridX*Robot.TILESIZE) {
 			turnTo(90);
+			Thread.sleep(250);
 			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
 				lightLocalizer.localizeXBryan();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
-						forward(Robot.LOCALIZATION_SPEED);
+						forward(Robot.FORWARD_SPEED);
 					}
 				}
-//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
 			while (odometer.getXYT()[0] < gridX*Robot.TILESIZE) {
 				if (!navigating) {
-					forward();
+					forward(Robot.FORWARD_SPEED);
 				}
 			}
 		}
 		else if (currX > gridX*Robot.TILESIZE) {
 			turnTo(270);
+			Thread.sleep(250);
 			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
 				lightLocalizer.localizeXBryan();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
-						forward(Robot.LOCALIZATION_SPEED);
+						forward(Robot.FORWARD_SPEED);
 					}
 				}
-//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
 			while (odometer.getXYT()[0] > gridX*Robot.TILESIZE) {
 				if (!navigating) {
@@ -206,7 +320,7 @@ public class Navigation extends Thread {
 
 		}
 	}
-	
+
 	public void moveBy(double distance, int speed) {
 		setSpeed(speed);
 		if (distance >= 0) {
@@ -216,11 +330,11 @@ public class Navigation extends Thread {
 
 		}
 	}
-	
+
 	public void moveByGrid(double grids) {
 		moveBy(grids*Robot.TILESIZE);
 	}
-	
+
 	public void moveByGrid(double grids, int speed) {
 		moveBy(grids*Robot.TILESIZE, speed);
 	}
@@ -250,7 +364,7 @@ public class Navigation extends Thread {
 		leftMotor.forward();
 		rightMotor.backward();
 	}
-	
+
 	/**
 	 * Freely rotates the robot counter-clockwise indefinitely.
 	 */
@@ -278,7 +392,7 @@ public class Navigation extends Thread {
 		setSpeed(speed);
 		rightMotor.forward();
 	}
-	
+
 	public void rotateRightWheelBack(int speed) {
 		navigating = true;
 		setSpeed(speed);
@@ -333,6 +447,14 @@ public class Navigation extends Thread {
 		stopRobot();
 	}
 
+	public static void motorSearch(boolean flagSearch) {
+		if (flagSearch) {
+			usMotor.rotate(92);
+		}else {
+			usMotor.rotate(-92);
+			
+		}
+	}
 	/**
 	 * Update the robot's acceleration
 	 * 
