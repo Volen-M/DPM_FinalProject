@@ -141,7 +141,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -171,7 +171,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -190,7 +190,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -221,7 +221,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -240,7 +240,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -271,7 +271,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -290,7 +290,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -321,7 +321,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -343,7 +343,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -375,7 +375,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -394,7 +394,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -426,7 +426,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -445,7 +445,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -476,7 +476,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -495,7 +495,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -526,7 +526,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(4);
+					navigation.moveByGrid(3);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
