@@ -81,19 +81,18 @@ public class Controller {
 			runTests();
 		}
 
-
 	}
 
 	/**
 	 * Used to run various tests.
 	 * 
 	 * @throws OdometerExceptions
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions, InterruptedException {
 		int test = 1;
-		if (test == 0) { 
+		if (test == 0) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
 			startLocalization(0);
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
@@ -104,7 +103,7 @@ public class Controller {
 			startLocalization(3);
 
 		} else if (test == 1) {
-			odometer.setXYT(1*Robot.TILESIZE, 1*Robot.TILESIZE, 0);
+			odometer.setXYT(1 * Robot.TILESIZE, 1 * Robot.TILESIZE, 0);
 			Thread.sleep(500);
 			navigation.travelToAdvGrid(6, 5, true);
 			logger();
@@ -113,28 +112,31 @@ public class Controller {
 			navigation.travelToAdvGrid(3, 3, true);
 			while (Button.waitForAnyPress() != Button.ID_DOWN)
 				;
-			odometer.setXYT(1*Robot.TILESIZE, 1*Robot.TILESIZE, 0);
+			odometer.setXYT(1 * Robot.TILESIZE, 1 * Robot.TILESIZE, 0);
 			navigation.travelToAdvGrid(6, 5, true);
 
-		}
-		else if (test == 2) {
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+		} else if (test == 2) {
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			searchAndLocalize.testMethod(4, 1, 1, 5, 3, 0);
 
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
+			while (Button.waitForAnyPress() != Button.ID_DOWN)
+				;
 			searchAndLocalize.testMethod(4, 1, 1, 5, 3, 0);
 		}
 	}
+
 	@SuppressWarnings("static-access")
 	public static void fullSystemRun() throws OdometerExceptions, InterruptedException {
-		boolean isUpwards = courseIsUpwards(); //True is upwards, false is sideways field setup (in relation to full course)
+		boolean isUpwards = courseIsUpwards(); // True is upwards, false is sideways field setup (in relation to full
+												// course)
 		colourCalibration.setFlag(targetBlock);
 		if (isUpwards) {
 			if (currentTeam.equals("green")) {
 				if (WiFiData.greenCorner == 0) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY - 1 , true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -142,13 +144,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srLLY, true);
 					Thread.sleep(500);
@@ -156,15 +158,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -172,25 +170,24 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 1, 1, false);
-					}
-					else {
-						navigation.travelToAdvGrid( 1, 1, false);
+						navigation.travelToAdvGrid(1, 1, false);
+					} else {
+						navigation.travelToAdvGrid(1, 1, false);
 
 					}
 				} else if (WiFiData.greenCorner == 1) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY - 1 , true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -198,13 +195,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srLLY, true);
 					Thread.sleep(500);
@@ -213,15 +210,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -229,25 +222,25 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 7, 1, false);
+						navigation.travelToAdvGrid(7, 1, false);
 					} else {
-						navigation.travelToAdvGrid( 11, 1, false);
+						navigation.travelToAdvGrid(11, 1, false);
 
 					}
 
 				} else if (WiFiData.greenCorner == 2) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY + 1 , true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -255,13 +248,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
 					Thread.sleep(500);
@@ -270,15 +263,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srURY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY-1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -286,23 +275,23 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 7, 7, false);
+						navigation.travelToAdvGrid(7, 7, false);
 					} else {
-						navigation.travelToAdvGrid( 11, 11, false);
+						navigation.travelToAdvGrid(11, 11, false);
 					}
 				} else if (WiFiData.greenCorner == 3) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY + 1 , true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -310,13 +299,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srURY, true);
 					Thread.sleep(500);
@@ -325,15 +314,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srURY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY-1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -341,27 +326,26 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 1, 7, false);
+						navigation.travelToAdvGrid(1, 7, false);
 					} else {
-						navigation.travelToAdvGrid( 1, 11, false);
+						navigation.travelToAdvGrid(1, 11, false);
 					}
 				}
 
-			}
-			else {
+			} else {
 				if (WiFiData.redCorner == 0) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY - 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -369,31 +353,26 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, true);
 					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
-					}
-					else {
+					} else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY+1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -401,26 +380,25 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 1, 1, false);
-					}
-					else {
-						navigation.travelToAdvGrid( 1, 1, false);
+						navigation.travelToAdvGrid(1, 1, false);
+					} else {
+						navigation.travelToAdvGrid(1, 1, false);
 
 					}
 
 				} else if (WiFiData.redCorner == 1) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brLLY - 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -428,31 +406,26 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgLLY, true);
 					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
-					}
-					else {
+					} else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnURY+1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -460,25 +433,25 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 7, 1, false);
+						navigation.travelToAdvGrid(7, 1, false);
 					} else {
-						navigation.travelToAdvGrid( 11, 1, false);
+						navigation.travelToAdvGrid(11, 1, false);
 
 					}
 
 				} else if (WiFiData.redCorner == 2) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -486,13 +459,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
 					Thread.sleep(500);
@@ -501,15 +474,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 3);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY-1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -517,24 +486,24 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 7, 7, false);
+						navigation.travelToAdvGrid(7, 7, false);
 					} else {
-						navigation.travelToAdvGrid( 11, 11, false);
+						navigation.travelToAdvGrid(11, 11, false);
 					}
 
 				} else if (WiFiData.redCorner == 3) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid( 0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -542,30 +511,26 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
 					Thread.sleep(500);
 					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 3);
-					}else {
+					} else {
 						navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgURY, true);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.tnLLX+WiFiData.tnURX), WiFiData.tnLLY-1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -573,32 +538,31 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURY -WiFiData.tnLLY);
+					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 1, 7, false);
+						navigation.travelToAdvGrid(1, 7, false);
 					} else {
-						navigation.travelToAdvGrid( 1, 11, false);
+						navigation.travelToAdvGrid(1, 11, false);
 					}
-					
+
 				}
 
 			}
-		}
-		else {
+		} else {
 			if (currentTeam.equals("green")) {
 				if (WiFiData.greenCorner == 0) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(WiFiData.tnLLX-1, 0.5*(WiFiData.tnLLY+WiFiData.tnURY), false);
+					navigation.travelToAdvGrid(WiFiData.tnLLX - 1, 0.5 * (WiFiData.tnLLY + WiFiData.tnURY), false);
 					Thread.sleep(500);
 					navigation.turnTo(90);
 					Thread.sleep(500);
@@ -606,13 +570,13 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.tnURX -WiFiData.tnLLX);
+					navigation.moveByGrid(1.5 + WiFiData.tnURX - WiFiData.tnLLX);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeXBryan();
 					Thread.sleep(500);
-					navigation.moveBy(-1*Robot.LSTOWHEEL);
+					navigation.moveBy(-1 * Robot.LSTOWHEEL);
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, false);
 					Thread.sleep(500);
@@ -620,15 +584,11 @@ public class Controller {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
 						navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, false);
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
-						Sound.beep();
+						for (int i = 0; i < 6; i++)
+							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5*(WiFiData.brLLX+WiFiData.brURX), WiFiData.brURY + 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.brLLX + WiFiData.brURX), WiFiData.brURY + 1, true);
 					Thread.sleep(500);
 					navigation.turnTo(180);
 					Thread.sleep(500);
@@ -636,17 +596,16 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5+ WiFiData.brURY -WiFiData.brLLY);
+					navigation.moveByGrid(1.5 + WiFiData.brURY - WiFiData.brLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
 					lightLocalizer.localizeYBryan();
 					Thread.sleep(500);
 					if (smallGrid) {
-						navigation.travelToAdvGrid( 1, 1, false);
-					}
-					else {
-						navigation.travelToAdvGrid( 1, 1, false);
+						navigation.travelToAdvGrid(1, 1, false);
+					} else {
+						navigation.travelToAdvGrid(1, 1, false);
 
 					}
 
@@ -654,35 +613,28 @@ public class Controller {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
 
-
 				} else if (WiFiData.greenCorner == 2) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-
 
 				} else if (WiFiData.greenCorner == 3) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
 
-
 				}
 
-			}
-			else {
+			} else {
 				if (WiFiData.redCorner == 0) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-					
 
 				} else if (WiFiData.redCorner == 1) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
 
-
 				} else if (WiFiData.redCorner == 2) {
 					startLocalization(WiFiData.redCorner);
 					Thread.sleep(500);
-
 
 				} else if (WiFiData.redCorner == 3) {
 					startLocalization(WiFiData.redCorner);
@@ -694,14 +646,12 @@ public class Controller {
 		}
 	}
 
-
-
 	/**
-	 * Returns orientation in relation to bridge width and tunnel width.
-	 * True is upwards, false is sideways field setup (in relation to full course)
+	 * Returns orientation in relation to bridge width and tunnel width. True is
+	 * upwards, false is sideways field setup (in relation to full course)
 	 */
-	public static  boolean courseIsUpwards() {
-		if (WiFiData.brURX-WiFiData.brLLX > 1) {
+	public static boolean courseIsUpwards() {
+		if (WiFiData.brURX - WiFiData.brLLX > 1) {
 			return false;
 		}
 		return true;
@@ -731,7 +681,7 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeXBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1*Robot.LSTOWHEEL, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
 		Thread.sleep(250);
 		if (corner == 0 || corner == 1) {
 			navigation.turnTo(0);
@@ -741,7 +691,7 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeYBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1*Robot.LSTOWHEEL, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
 		Sound.beepSequenceUp();
 		Thread.sleep(250);
 		cornerSet(corner);
@@ -752,16 +702,16 @@ public class Controller {
 	public static void cornerSet(int corner) {
 		switch (corner) {
 		case 0:
-			odometer.setXYT(Robot.TILESIZE*1, Robot.TILESIZE*1, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 1, Robot.TILESIZE * 1, odometer.getXYT()[2]);
 			break;
 		case 1:
-			odometer.setXYT(Robot.TILESIZE*7,Robot.TILESIZE*1, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 7, Robot.TILESIZE * 1, odometer.getXYT()[2]);
 			break;
 		case 2:
-			odometer.setXYT(Robot.TILESIZE*7,Robot.TILESIZE*7, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 7, Robot.TILESIZE * 7, odometer.getXYT()[2]);
 			break;
 		case 3:
-			odometer.setXYT(Robot.TILESIZE*1,Robot.TILESIZE*7, odometer.getXYT()[2]);
+			odometer.setXYT(Robot.TILESIZE * 1, Robot.TILESIZE * 7, odometer.getXYT()[2]);
 			break;
 		}
 	}
