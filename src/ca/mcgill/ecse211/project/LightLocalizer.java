@@ -207,9 +207,11 @@ public class LightLocalizer {
 						return;
 					}
 					if (!navigation.isNavigating()) {
+						navigation.stopRobot();
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
 					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.stopRobot();
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
 
 					}
@@ -250,6 +252,7 @@ public class LightLocalizer {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
 					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.stopRobot();
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 
 					}
@@ -272,6 +275,7 @@ public class LightLocalizer {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
 					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+						navigation.stopRobot();
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
 
 					}
