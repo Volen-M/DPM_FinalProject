@@ -39,7 +39,7 @@ public class Controller {
 	// Set to true when testing, allows for beta demo behaviour not to happen
 	private static boolean testing = false;
 	private static boolean flagSearch = false;
-	private static boolean smallGrid = true;
+	private static boolean smallGrid = false;
 
 	/**
 	 * Main method. Initial entry point of the code for this lab. Instantiates
