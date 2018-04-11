@@ -187,7 +187,7 @@ public class Controller {
 				} else if (WiFiData.greenCorner == 1) {
 					startLocalization(WiFiData.greenCorner);
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 1, true);
+					navigation.travelToAdvGrid(0.5 * (WiFiData.tnLLX + WiFiData.tnURX), WiFiData.tnLLY - 0.5, true);
 					Thread.sleep(500);
 					navigation.turnTo(0);
 					Thread.sleep(500);
@@ -195,7 +195,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5 + WiFiData.tnURY - WiFiData.tnLLY);
+					navigation.moveByGrid(0.5 + WiFiData.tnURY - WiFiData.tnLLY);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -832,7 +832,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.landingGearOn();
 					Thread.sleep(500);
-					navigation.moveByGrid(1.5 + WiFiData.brURX - WiFiData.brLLX);
+					navigation.moveByGrid(0.5 + WiFiData.brURX - WiFiData.brLLX);
 					Thread.sleep(500);
 					navigation.landingGearOff();
 					Thread.sleep(500);
@@ -850,7 +850,7 @@ public class Controller {
 							Sound.beep();
 					}
 					Thread.sleep(500);
-					navigation.travelToAdvGrid(WiFiData.tnLLX - 1, 0.5 * (WiFiData.tnLLY + WiFiData.tnURY), false);
+					navigation.travelToAdvGrid(WiFiData.tnLLX - 0.5, 0.5 * (WiFiData.tnLLY + WiFiData.tnURY), false);
 					Thread.sleep(500);
 					navigation.turnTo(90);
 					Thread.sleep(500);
@@ -1010,7 +1010,7 @@ public class Controller {
 		usLocalizer.localize(corner);
 		navigation.setAcceleration(2000);
 		Thread.sleep(250);
-		navigation.moveByGrid(0.5);
+		navigation.moveByGrid(0.4);
 		Thread.sleep(250);
 		if (corner == 0 || corner == 3) {
 			navigation.turnTo(90);
@@ -1020,7 +1020,7 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeXBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1 * Robot.LSTOWHEEL/2, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
 		Thread.sleep(250);
 		if (corner == 0 || corner == 1) {
 			navigation.turnTo(0);
@@ -1030,7 +1030,7 @@ public class Controller {
 		Thread.sleep(250);
 		lightLocalizer.localizeYBryan();
 		Thread.sleep(250);
-		navigation.moveBy(-1 * Robot.LSTOWHEEL/2, 200);
+		navigation.moveBy(-1 * Robot.LSTOWHEEL, 200);
 		Sound.beepSequenceUp();
 		Thread.sleep(250);
 		cornerSet(corner);

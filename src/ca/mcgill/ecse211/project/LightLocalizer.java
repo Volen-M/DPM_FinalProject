@@ -160,6 +160,7 @@ public class LightLocalizer {
 	public void localizeXBryan() throws OdometerExceptions, InterruptedException {
 		double oriCoord = odometer.getXYT()[0];
 		double oriTheta = odometer.getXYT()[2];
+		boolean failedTurn = false;
 		double goal = 0;
 		if (oriTheta >= 0 && oriTheta <=180) {
 			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
@@ -188,8 +189,9 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
+						failedTurn = true;
 					}
 				}
 			}
@@ -207,13 +209,11 @@ public class LightLocalizer {
 						return;
 					}
 					if (!navigation.isNavigating()) {
-						navigation.stopRobot();
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
-						navigation.stopRobot();
+					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
-
+						failedTurn = true;
 					}
 				}
 			}
@@ -223,6 +223,7 @@ public class LightLocalizer {
 	public void localizeYBryan() throws OdometerExceptions, InterruptedException {
 		double oriCoord = odometer.getXYT()[1];
 		double oriTheta = odometer.getXYT()[2];
+		boolean failedTurn = false;
 		double goal = 0;
 		if (oriTheta >= 270 || oriTheta <=90) {
 			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
@@ -251,10 +252,9 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
-						navigation.stopRobot();
+					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
-
+						failedTurn = true;
 					}
 				}
 			}
@@ -274,10 +274,9 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
-						navigation.stopRobot();
+					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
-
+						failedTurn = true;
 					}
 				}
 			}
