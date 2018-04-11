@@ -12,9 +12,8 @@
 	* 05 - Light sensor correction functional
 	* 06 - Console Inputs Functional
 	* 07 - Functional search and localize system
-	* 08 - Obstacle avoidance complete
-	* 09 - Full Course pathing Complete
-	* 10 - Finalized version (can do all trials)
+	* 08 - Full Course pathing Complete
+	* 09 - Finalized version (can do all trials)
 	
 	
 ## Version Setup
