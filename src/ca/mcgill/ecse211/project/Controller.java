@@ -91,16 +91,17 @@ public class Controller {
 	 */
 	@SuppressWarnings("static-access")
 	public static void runTests() throws OdometerExceptions, InterruptedException {
-		int test = 1;
+		int test = 0;
 		if (test == 0) {
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			startLocalization(0);
+			navigation.landingGearOn();
+			navigation.moveBy(4*Robot.TILESIZE);
+			navigation.landingGearOff();
+			
 			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			startLocalization(1);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			startLocalization(2);
-			while (Button.waitForAnyPress() != Button.ID_DOWN);
-			startLocalization(3);
+			navigation.landingGearOn();
+			navigation.moveBy(4*Robot.TILESIZE);
+			navigation.landingGearOff();
 
 		} else if (test == 1) {
 			odometer.setXYT(1 * Robot.TILESIZE, 1 * Robot.TILESIZE, 0);
