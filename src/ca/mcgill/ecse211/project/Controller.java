@@ -154,6 +154,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srLLY, true);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
@@ -578,6 +579,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
@@ -630,6 +632,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srURY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
@@ -682,6 +685,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srURX, WiFiData.srURY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
@@ -735,6 +739,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.srLLX, WiFiData.srLLY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.srLLX, WiFiData.srLLY, WiFiData.srURX, WiFiData.srURY, 1);
 					} else {
@@ -790,6 +795,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					} else {
@@ -842,6 +848,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgURY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					} else {
@@ -894,6 +901,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgURX, WiFiData.sgURY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					} else {
@@ -948,6 +956,7 @@ public class Controller {
 					Thread.sleep(500);
 					navigation.travelToAdvGrid(WiFiData.sgLLX, WiFiData.sgLLY, false);
 					Thread.sleep(500);
+					navigation.motorSearch(true);
 					if (flagSearch) {
 						searchAndLocalize.findFlag(WiFiData.sgLLX, WiFiData.sgLLY, WiFiData.sgURX, WiFiData.sgURY, 1);
 					} else {
