@@ -82,20 +82,14 @@ public class WiFiData {
 			if (TEAM_NUMBER == redTeam) {
 				Controller.setCurrentTeam("red");
 				Controller.setTargetBlock(og);
-				int[] targetSearchArea = {sgLLX, sgLLY, sgURX, sgURY};
-				Controller.setSearchAreaCoords(targetSearchArea);
 			} else if (TEAM_NUMBER == greenTeam) {
 				Controller.setCurrentTeam("green");
 				Controller.setTargetBlock(or);
-				int[] targetSearchArea = {srLLX, srLLY, srURX, srURY};
-				Controller.setSearchAreaCoords(targetSearchArea);
 			}
 
 			// ----------------------------------------------
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-
-		// Wait until user decides to end program
 	}
 }

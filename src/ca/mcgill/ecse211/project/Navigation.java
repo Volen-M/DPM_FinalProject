@@ -2,7 +2,6 @@ package ca.mcgill.ecse211.project;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.robotics.RegulatedMotor;
 
 /**
  * Class containing all robot movement related behaviors. Extends Thread.
@@ -15,6 +14,7 @@ public class Navigation extends Thread {
 
 	private Odometer odometer;
 	private LightLocalizer lightLocalizer;
+	public USLocalizer usLocalizer;
 
 	private double deltaX;
 	private double deltaY;
@@ -25,7 +25,7 @@ public class Navigation extends Thread {
 
 	private boolean navigating = false;
 
-	public USLocalizer usLoc;
+	
 
 	// private static final Port usSidePort = LocalEV3.get().getPort("S3");
 
@@ -35,18 +35,32 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 
 	/**
-	 * Navigation constructor
+	 * Navigation constructor.
+	 * Sets odometer, as well as robot speed and acceleration.
 	 */
 	public Navigation() {
 		this.odometer = Controller.getOdometerInstance();
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
 	}
-
-	public void intializeLL() {
-		lightLocalizer = Controller.getLightLocalizerInstance();
+	
+	/**
+	 * Sets localizers instances.
+	 * Called from the Controller class.
+	 */
+	public void setLocalizers() {
+		this.lightLocalizer = Controller.getLightLocalizerInstance();
+		this.usLocalizer = Controller.getUSLocalizerInstance();
 	}
 
+	/**
+	 * Travel to a point of the grid in an 'L' manner.
+	 * @param gridX x-coordinate of the destination (in grid units)
+	 * @param gridY y-coordinate of the destination (in grid units)
+	 * @param firstY travel along the y axis first if true
+	 * @throws OdometerExceptions
+	 * @throws InterruptedException
+	 */
 	public void travelToAdvGrid(double gridX, double gridY, boolean firstY) throws OdometerExceptions, InterruptedException {
 		double[] xyt = odometer.getXYT();
 		double currX = xyt[0];
@@ -62,13 +76,20 @@ public class Navigation extends Thread {
 		}
 	}
 	
+	/**
+	 * Travel to a certain x-coordinate, at the same y-coordinate
+	 * @param gridX x-coordinate of the destination (in grid units)
+	 * @param currX current x-position (in real distances)
+	 * @throws OdometerExceptions
+	 * @throws InterruptedException
+	 */
 	public void travelToAdvGridX(double gridX, double currX) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
 		if (currX < gridX*Robot.TILESIZE) {
 			turnTo(90);
 			Thread.sleep(250);
 			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
-				lightLocalizer.localizeXBryan();
+				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
@@ -86,7 +107,7 @@ public class Navigation extends Thread {
 			turnTo(270);
 			Thread.sleep(250);
 			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
-				lightLocalizer.localizeXBryan();
+				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
@@ -104,13 +125,20 @@ public class Navigation extends Thread {
 
 	}
 
+	/**
+	 * Travel to a certain y-coordinate, at the same x-coordinate
+	 * @param gridY y-coordinate of the destination (in grid units)
+	 * @param currY current y-position (in real distances)
+	 * @throws OdometerExceptions
+	 * @throws InterruptedException
+	 */
 	public void travelToAdvGridY(double gridY, double currY) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
 		if (currY < gridY*Robot.TILESIZE) {
 			turnTo(0);
 			Thread.sleep(250);
 			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
-				lightLocalizer.localizeYBryan();
+				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
@@ -129,7 +157,7 @@ public class Navigation extends Thread {
 			turnTo(180);
 			Thread.sleep(250);
 			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
-				lightLocalizer.localizeYBryan();
+				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
@@ -149,8 +177,8 @@ public class Navigation extends Thread {
 	
 /**
  * 
- * @param gridX
- * @param gridY
+ * @param gridX x-coordinate of the destination (in grid units)
+ * @param gridY y-coordinate of the destination (in grid units)
  * @deprecated Since version 06.07.00
  * @throws OdometerExceptions
  * @throws InterruptedException
@@ -164,7 +192,7 @@ public class Navigation extends Thread {
 			turnTo(0);
 			Thread.sleep(250);
 			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
-				lightLocalizer.localizeYBryan();
+				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
@@ -184,7 +212,7 @@ public class Navigation extends Thread {
 			turnTo(180);
 			Thread.sleep(250);
 			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
-				lightLocalizer.localizeYBryan();
+				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
 				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
 					if (!navigating) {
@@ -204,7 +232,7 @@ public class Navigation extends Thread {
 			turnTo(90);
 			Thread.sleep(250);
 			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
-				lightLocalizer.localizeXBryan();
+				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
@@ -223,7 +251,7 @@ public class Navigation extends Thread {
 			turnTo(270);
 			Thread.sleep(250);
 			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
-				lightLocalizer.localizeXBryan();
+				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
 				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
 					if (!navigating) {
@@ -241,10 +269,6 @@ public class Navigation extends Thread {
 		stopRobot();
 	}
 
-	public void travelToGrid(double gridX, double gridY) {
-		travelTo(gridX*Robot.TILESIZE, gridY*Robot.TILESIZE);
-	}
-
 	/**
 	 * A method to drive our vehicle to a certain Cartesian coordinate
 	 * 
@@ -253,27 +277,27 @@ public class Navigation extends Thread {
 	 * @param y
 	 *            Y-Coordinate of destination
 	 */
-	public void travelTo(double x, double y) {
-
-		currX = odometer.getXYT()[0];
-		currY = odometer.getXYT()[1];
-
-		deltaX = x - currX;
-		deltaY = y - currY;
-
-		// Calculate the angle to turn around
-		double mDegrees = Math.atan2(deltaX, deltaY) / Math.PI * 180;
-		double hypot = Math.hypot(deltaX, deltaY);
-
-		// Turn to the correct angle towards the endpoint
-		turnTo(mDegrees);
-
-		setSpeed(Robot.FORWARD_SPEED);
-		rotateByDistance(hypot, 1, 1);
-
-		// stopRobot vehicle
-		stopRobot();
-	}
+//	public void travelTo(double x, double y) {
+//
+//		currX = odometer.getXYT()[0];
+//		currY = odometer.getXYT()[1];
+//
+//		deltaX = x - currX;
+//		deltaY = y - currY;
+//
+//		// Calculate the angle to turn around
+//		double mDegrees = Math.atan2(deltaX, deltaY) / Math.PI * 180;
+//		double hypot = Math.hypot(deltaX, deltaY);
+//
+//		// Turn to the correct angle towards the endpoint
+//		turnTo(mDegrees);
+//
+//		setSpeed(Robot.FORWARD_SPEED);
+//		rotateByDistance(hypot, 1, 1);
+//
+//		// stopRobot vehicle
+//		stopRobot();
+//	}
 
 	/**
 	 * A method to turn our vehicle to a certain orientation
@@ -503,28 +527,6 @@ public class Navigation extends Thread {
 	 */
 	boolean isNavigating() throws OdometerExceptions {
 		return navigating;
-	}
-
-	/**
-	 * Travel to the entrance of the tunnel.
-	 */
-	public void travelToTunnelEntrance() {
-		// x is the halfway point between both x's, y is the lower-left y because we're
-		// coming from green (- 5 for not starting right on edge of tunnel)
-		double tunnelEntranceX = ((WiFiData.tnURX + WiFiData.tnLLX) / 2.0) * 30.48;
-		double tunnelEntranceY = (WiFiData.tnLLY) * 30.48 - 5;
-		travelTo(tunnelEntranceX, tunnelEntranceY);
-	}
-
-	/**
-	 * Travel to the entrance of the bridge.
-	 */
-	public void travelToBridgeEntrance() {
-		// x is the halfway point between both x's, y is the upper-right y because we're
-		// coming from red (+ 5 for not starting right on edge of bridge)
-		double bridgeEntranceX = ((WiFiData.brURX + WiFiData.brLLX) / 2.0) * 30.48;
-		double bridgeEntranceY = (WiFiData.brURY) * 30.48 + 5;
-		travelTo(bridgeEntranceX, bridgeEntranceY);
 	}
 
 }

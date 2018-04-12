@@ -6,8 +6,8 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
 /**
- * Class for Everything color identification related. Makes use of the Gaussian
- * distribution to find detected color.
+ * Class for everything color-identification related. Makes use of the Gaussian
+ * distribution to identify the detected color.
  * 
  * @author Bryan Jay
  * @author Volen Mihaylov
@@ -40,24 +40,26 @@ public class ColourCalibration {
 	}
 
 	/**
-	 * ColourCalibration constructor. Sets the light sensor mode and the target
-	 * flag.
-	 * 
-	 * @param flag
-	 *            int value of the target flag
+	 * ColourCalibration constructor. Sets the light sensor mode for the sensor.
 	 */
 	public ColourCalibration() {
-		lightSensor.setCurrentMode("Red"); // set the sensor floodlight to white
+		lightSensor.setCurrentMode("Red");
 	}
 	
+	/**
+	 * Set the value of the target flag.
+	 * @param flag integer representation of the target flag (0 to 3)
+	 */
 	public void setFlag(int flag) {
-		this.flag = flag;
+		if (flag >= 0 && flag <= 3) {
+			this.flag = flag;
+		}
 	}
 
 	/**
-	 * Determines if the current block is the target
+	 * Compares the current block and the flag
 	 * 
-	 * @return boolean
+	 * @return boolean current block is the same color as the flag
 	 */
 	public boolean isBlock() {
 
@@ -70,10 +72,9 @@ public class ColourCalibration {
 	}
 
 	/**
-	 * Reads sensor sample, sets currentBlock attribute if a colour is identified,
-	 * then returns whether the currentBlock is the target using isBlock()
+	 * Reads sensor sample, sets currentBlock attribute if a colour is identified.
 	 * 
-	 * @return whether the newly-identified block is the target
+	 * @return boolean whether the newly-identified block is the target
 	 */
 	public boolean colourDetection() {
 

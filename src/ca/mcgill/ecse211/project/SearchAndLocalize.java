@@ -125,7 +125,7 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(90);
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			while (odometer.getXYT()[0] <= limiter[1]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -160,7 +160,7 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(180);
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -194,7 +194,7 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(270);
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			while (odometer.getXYT()[0] >= limiter[3]) {
 				navigation.forward();
 				distToCube = fetchUS();
@@ -276,7 +276,7 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 				if (i%3==0) {
-					lightLocalizer.localizeYBryan();
+					lightLocalizer.localizeY();
 				}
 				Thread.sleep(500);
 			}
@@ -285,7 +285,7 @@ public class SearchAndLocalize {
 			Thread.sleep(500);
 			navigation.turnTo(90);
 			Thread.sleep(500);
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			startLoc = odometer.getXYT()[0];
 			for (int i =1; i<=xAmt; i++) {
 				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
@@ -295,7 +295,7 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 				if (i%3==0) {
-					lightLocalizer.localizeXBryan();
+					lightLocalizer.localizeX();
 				}
 				Thread.sleep(500);
 			}
@@ -304,7 +304,7 @@ public class SearchAndLocalize {
 			Thread.sleep(500);
 			navigation.turnTo(180);
 			Thread.sleep(500);
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			startLoc = odometer.getXYT()[1];
 			for (int i =1; i<=yAmt; i++) {
 				fix =Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
@@ -314,7 +314,7 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 				if (i%3==0 ) {
-					lightLocalizer.localizeYBryan();
+					lightLocalizer.localizeY();
 				}
 				Thread.sleep(500);
 			}
@@ -323,7 +323,7 @@ public class SearchAndLocalize {
 			Thread.sleep(500);
 			navigation.turnTo(270);
 			Thread.sleep(500);
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			startLoc = odometer.getXYT()[0];
 			for (int i =1; i<=xAmt; i++) {
 				fix = Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
@@ -333,7 +333,7 @@ public class SearchAndLocalize {
 					Sound.beep();
 				}
 				if (i%3==0) {
-					lightLocalizer.localizeXBryan();
+					lightLocalizer.localizeX();
 				}
 				Thread.sleep(500);
 			}
@@ -357,7 +357,7 @@ public class SearchAndLocalize {
 			navigation.stopRobot();
 			navigation.turnTo(180);
 
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
@@ -365,7 +365,7 @@ public class SearchAndLocalize {
 			}
 			navigation.stopRobot();
 			navigation.turnTo(270);
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			while (odometer.getXYT()[0] >= limiter[3]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
@@ -385,10 +385,10 @@ public class SearchAndLocalize {
 				}
 			}
 			navigation.stopRobot();
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			navigation.turnTo(90);
 			while (navigation.isNavigating()) {}
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			navigation.turnTo(odometer.getXYT()[2]-5);
 			odometer.setTheta(odometer.getXYT()[2]+5);
 			while (odometer.getXYT()[0] <= limiter[1]) {
@@ -402,12 +402,12 @@ public class SearchAndLocalize {
 			}
 
 			navigation.stopRobot();
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			navigation.turnTo(180);
 			navigation.turnTo(odometer.getXYT()[2]-5);
 			odometer.setTheta(odometer.getXYT()[2]+5);
 			while (navigation.isNavigating()) {}
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			while (odometer.getXYT()[1] >= limiter[2]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
@@ -418,13 +418,13 @@ public class SearchAndLocalize {
 				}
 			}
 			navigation.stopRobot();
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			navigation.turnTo(270);
-			lightLocalizer.localizeYBryan();
+			lightLocalizer.localizeY();
 			navigation.turnTo(odometer.getXYT()[2]-5);
 			odometer.setTheta(odometer.getXYT()[2]+5);
 			while (navigation.isNavigating()) {}
-			lightLocalizer.localizeXBryan();
+			lightLocalizer.localizeX();
 			while (odometer.getXYT()[0] >= limiter[3]) {
 				if (!navigation.isNavigating()) {
 					navigation.forward();
