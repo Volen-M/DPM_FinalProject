@@ -5,7 +5,7 @@ import lejos.robotics.SampleProvider;
 
 /**
  * Class that utilizes the UltraSonic Sensor to point the robot in the right
- * direction when it is in a corner position next to two walls Utilizes falling
+ * direction when it is in a corner position next to two walls. Utilizes falling
  * edge and rising edge for proper localization
  *
  * @author Volen Mihaylov
@@ -27,7 +27,7 @@ public class USLocalizer {
 	private Navigation navigation;
 
 	/**
-	 * Constructor to initialize attributes
+	 * Constructor to initialize attributes and objects.
 	 * 
 	 * @param usDistance
 	 *            SampleProvider instance
@@ -44,8 +44,8 @@ public class USLocalizer {
 
 	/**
 	 * Initializes starting coordinates according to inputed corner. corner = 0 is
-	 * bottom left corner corner = 1 is bottom right corner corner = 2 is top right
-	 * corner corner = 3 is top left corner
+	 * bottom left corner = 1 is bottom right corner = 2 is top right corner = 3 is
+	 * top left
 	 * 
 	 * @param corner
 	 *            starting corner
@@ -54,12 +54,12 @@ public class USLocalizer {
 		this.corner = corner;
 		switch (corner) {
 		case 0:
-			this.startingCoordinates[0] = 0.25*Robot.TILESIZE;
-			this.startingCoordinates[1] = 0.25*Robot.TILESIZE;
+			this.startingCoordinates[0] = 0.25 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 0.25 * Robot.TILESIZE;
 			break;
 		case 1:
 			this.startingCoordinates[0] = 11.75 * Robot.TILESIZE;
-			this.startingCoordinates[1] = 0.25*Robot.TILESIZE;
+			this.startingCoordinates[1] = 0.25 * Robot.TILESIZE;
 			break;
 		case 2:
 			this.startingCoordinates[0] = 11.75 * Robot.TILESIZE;
@@ -67,7 +67,7 @@ public class USLocalizer {
 			break;
 		case 3:
 			this.startingCoordinates[0] = 0.25 * Robot.TILESIZE;
-			this.startingCoordinates[1] =  11.75 * Robot.TILESIZE;
+			this.startingCoordinates[1] = 11.75 * Robot.TILESIZE;
 			break;
 		}
 	}
@@ -132,11 +132,11 @@ public class USLocalizer {
 
 		// rotate robot to the theta = 0.0 using turning angle and we account for small
 		// error
-		navigation.rotateByAngle(turningAngle -45, -1, 1);
+		navigation.rotateByAngle(turningAngle - 45, -1, 1);
 
 		// set theta to coordinate starting corner
-			cornerSet();
-		
+		cornerSet();
+
 	}
 
 	/**
@@ -187,15 +187,18 @@ public class USLocalizer {
 		turningAngle = deltaTheta + odometer.getXYT()[2];
 
 		// rotate robot to the theta = 0.0 and we account for small error
-		navigation.rotateByAngle(turningAngle +2-45, -1, 1);
+		navigation.rotateByAngle(turningAngle + 2 - 45, -1, 1);
 
 		// set odometer to theta to starting corner
 		cornerSet();
 
 	}
 
+	/**
+	 * Sets the starting coordinates after the localization routine.
+	 */
 	public void cornerSet() {
-		switch(corner) {
+		switch (corner) {
 		case 0:
 			odometer.setXYT(startingCoordinates[0], startingCoordinates[1], 45.0);
 			break;
@@ -210,7 +213,7 @@ public class USLocalizer {
 			break;
 		}
 	}
-	
+
 	/**
 	 * A method to get the distance from our sensor
 	 * 

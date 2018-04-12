@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.project;
 
 /**
- * 
  * Class that tracks position of the robot
  * 
  * @author Patrick Ghazal
@@ -21,8 +20,8 @@ public class Odometer extends OdometerData implements Runnable {
 	private static int checks = 0;
 
 	/**
-	 * This is the default constructor of this class.
-	 * It cannot be accessed externally.
+	 * This is the default constructor of this class. It cannot be accessed
+	 * externally.
 	 * 
 	 * @throws OdometerExceptions
 	 */
@@ -56,7 +55,8 @@ public class Odometer extends OdometerData implements Runnable {
 	 * This class is meant to return the existing Odometer Object. It is meant to be
 	 * used only if an odometer object has been created
 	 * 
-	 * @return error if no previous odometer exists
+	 * @return found odometer instance
+	 * @throws OdometerExceptions
 	 */
 	public synchronized static Odometer getOdometer() throws OdometerExceptions {
 
@@ -124,6 +124,11 @@ public class Odometer extends OdometerData implements Runnable {
 		}
 	}
 
+	/**
+	 * Determines whether the tacho counts are changing.
+	 * 
+	 * @return true if a single value has been received more than 20 times in a row
+	 */
 	private boolean hasTooManyTrues() {
 		return checks > 20;
 	}

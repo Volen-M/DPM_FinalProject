@@ -9,9 +9,9 @@ package ca.mcgill.ecse211.project;
  *
  */
 public final class Robot {
-	public static final int FORWARD_SPEED = 200; //250
+	public static final int FORWARD_SPEED = 200; // 250
 	public static final int ROTATE_SPEED = 160;
-	public static final int LOCALIZATION_SPEED = 200; //135
+	public static final int LOCALIZATION_SPEED = 200; // 135
 	public static final int GEAR_SPEED = 125;
 	public static final int ACCELERATION = 2000;
 	public static final int GEAR_ACCELERATION = 500;
@@ -65,13 +65,13 @@ public final class Robot {
 	 * Calculates distance between (x1, y1) and (x2, y2)
 	 * 
 	 * @param x1
-	 *            x-coord of the current position
+	 *            x-coordinate of the current position
 	 * @param y1
-	 *            y-coord of the current position
+	 *            y-coordinate of the current position
 	 * @param x2
-	 *            x-coord of the destination
+	 *            x-coordinate of the destination
 	 * @param y2
-	 *            y-coord of the destination
+	 *            y-coordinate of the destination
 	 * @return distance distance between current position and destination
 	 */
 	public static double calculateDistance(double x1, double y1, double x2, double y2) {

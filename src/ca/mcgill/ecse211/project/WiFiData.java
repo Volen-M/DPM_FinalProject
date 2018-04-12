@@ -34,7 +34,7 @@ public class WiFiData {
 	// End of received data
 
 	/**
-	 * Retrieve the data from the server. Sets the attributes to their values.
+	 * Retrieves the data from the server. Sets the attributes to their values.
 	 */
 	@SuppressWarnings("rawtypes")
 	public static void processData() {

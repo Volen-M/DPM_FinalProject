@@ -45,10 +45,12 @@ public class ColourCalibration {
 	public ColourCalibration() {
 		lightSensor.setCurrentMode("Red");
 	}
-	
+
 	/**
 	 * Set the value of the target flag.
-	 * @param flag integer representation of the target flag (0 to 3)
+	 * 
+	 * @param flag
+	 *            integer representation of the target flag (0 to 3)
 	 */
 	public void setFlag(int flag) {
 		if (flag >= 0 && flag <= 3) {

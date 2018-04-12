@@ -31,9 +31,8 @@ public class LightLocalizer {
 	double[] lineData;
 
 	/**
-	 * LightLocalizer constructor. 
-	 * Retrieves odometer and navigation instances.
-	 * Sets the light sensor modes.
+	 * LightLocalizer constructor. Retrieves odometer and navigation instances. Sets
+	 * the light sensor modes.
 	 */
 	public LightLocalizer() {
 
@@ -51,6 +50,7 @@ public class LightLocalizer {
 
 	/**
 	 * Localize along the x-axis, to correct the x-coordinate of the robot.
+	 * 
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
@@ -59,15 +59,14 @@ public class LightLocalizer {
 		double oriTheta = odometer.getXYT()[2];
 		boolean failedTurn = false;
 		double goal = 0;
-		if (oriTheta >= 0 && oriTheta <=180) {
-			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
-		}
-		else {
-			goal = Math.floor(((oriCoord+(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
+		if (oriTheta >= 0 && oriTheta <= 180) {
+			goal = Math.ceil(((oriCoord - (Robot.LSTOWHEEL)) / Robot.TILESIZE)) * Robot.TILESIZE + Robot.LSTOWHEEL;
+		} else {
+			goal = Math.floor(((oriCoord + (Robot.LSTOWHEEL)) / Robot.TILESIZE)) * Robot.TILESIZE - Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.FORWARD_SPEED);
-		while(true){
+		while (true) {
 			sampleLeft = fetchSampleLeft();
 			sampleRight = fetchSampleRight();
 			if (sampleLeft < 0.28) {
@@ -86,7 +85,8 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+					if (!failedTurn && Math.abs(odometer.getXYT()[2] - oriTheta) > 35
+							&& Math.abs(odometer.getXYT()[2] - oriTheta) < 325) {
 						Thread.sleep(250);
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 						failedTurn = true;
@@ -97,7 +97,7 @@ public class LightLocalizer {
 				odometer.setX(goal);
 				navigation.stopRobot();
 				Thread.sleep(250);
-				//navigation.moveBy(-1.00);
+				// navigation.moveBy(-1.00);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {
@@ -110,7 +110,8 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+					if (!failedTurn && Math.abs(odometer.getXYT()[2] - oriTheta) > 35
+							&& Math.abs(odometer.getXYT()[2] - oriTheta) < 325) {
 						Thread.sleep(250);
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
 						failedTurn = true;
@@ -122,6 +123,7 @@ public class LightLocalizer {
 
 	/**
 	 * Localize along the y-axis, to correct the y-coordinate of the robot.
+	 * 
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
@@ -130,22 +132,21 @@ public class LightLocalizer {
 		double oriTheta = odometer.getXYT()[2];
 		boolean failedTurn = false;
 		double goal = 0;
-		if (oriTheta >= 270 || oriTheta <=90) {
-			goal = Math.ceil(((oriCoord-(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE+Robot.LSTOWHEEL;
-		}
-		else {
-			goal = Math.floor(((oriCoord+(Robot.LSTOWHEEL))/Robot.TILESIZE))*Robot.TILESIZE-Robot.LSTOWHEEL;
+		if (oriTheta >= 270 || oriTheta <= 90) {
+			goal = Math.ceil(((oriCoord - (Robot.LSTOWHEEL)) / Robot.TILESIZE)) * Robot.TILESIZE + Robot.LSTOWHEEL;
+		} else {
+			goal = Math.floor(((oriCoord + (Robot.LSTOWHEEL)) / Robot.TILESIZE)) * Robot.TILESIZE - Robot.LSTOWHEEL;
 
 		}
 		navigation.forward(Robot.FORWARD_SPEED);
-		while(true){
+		while (true) {
 			sampleLeft = fetchSampleLeft();
 			sampleRight = fetchSampleRight();
 			if (sampleLeft < 0.28) {
 				odometer.setY(goal);
 				navigation.stopRobot();
 				Thread.sleep(250);
-				//				navigation.moveBy(-1.00);
+				// navigation.moveBy(-1.00);
 				while (true) {
 					sampleRight = fetchSampleRight();
 					if (sampleRight < 0.28) {
@@ -158,7 +159,8 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateRightWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+					if (!failedTurn && Math.abs(odometer.getXYT()[2] - oriTheta) > 35
+							&& Math.abs(odometer.getXYT()[2] - oriTheta) < 325) {
 						Thread.sleep(250);
 						navigation.rotateRightWheelBack(Robot.LOCALIZATION_SPEED);
 						failedTurn = true;
@@ -169,7 +171,7 @@ public class LightLocalizer {
 				odometer.setY(goal);
 				navigation.stopRobot();
 				Thread.sleep(250);
-				//				navigation.moveBy(-1.00);
+				// navigation.moveBy(-1.00);
 				while (true) {
 					sampleLeft = fetchSampleLeft();
 					if (sampleLeft < 0.28) {
@@ -182,7 +184,8 @@ public class LightLocalizer {
 					if (!navigation.isNavigating()) {
 						navigation.rotateLeftWheel(Robot.LOCALIZATION_SPEED);
 					}
-					if (!failedTurn && Math.abs(odometer.getXYT()[2]-oriTheta)> 35 && Math.abs(odometer.getXYT()[2]-oriTheta)< 325) {
+					if (!failedTurn && Math.abs(odometer.getXYT()[2] - oriTheta) > 35
+							&& Math.abs(odometer.getXYT()[2] - oriTheta) < 325) {
 						Thread.sleep(250);
 						navigation.rotateLeftWheelBack(Robot.LOCALIZATION_SPEED);
 						failedTurn = true;
@@ -192,10 +195,9 @@ public class LightLocalizer {
 		}
 	}
 
-
 	/**
-	 * Fetches the value read by the left color sensor,
-	 * for localization on the left wheel. 
+	 * Fetches the value read by the left color sensor, for localization on the left
+	 * wheel.
 	 * 
 	 * @return the value read
 	 */
@@ -206,8 +208,8 @@ public class LightLocalizer {
 	}
 
 	/**
-	 * Fetches the value read by the right color sensor,
-	 * for localization on the right wheel. 
+	 * Fetches the value read by the right color sensor, for localization on the
+	 * right wheel.
 	 * 
 	 * @return the value read
 	 */

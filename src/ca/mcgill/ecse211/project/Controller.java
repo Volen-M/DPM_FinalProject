@@ -63,7 +63,7 @@ public class Controller {
 
 		Thread odoThread = new Thread(odometer); // Start odometer thread.
 		odoThread.start();
-		
+
 		navigation = new Navigation();
 
 		// Create other necessary class instances.
@@ -985,8 +985,10 @@ public class Controller {
 	}
 
 	/**
-	 * Proceeds with the necessary beginning localization routine. 
-	 * @param corner value of the robot's starting corner (0 to 3)
+	 * Proceeds with the necessary beginning localization routine.
+	 * 
+	 * @param corner
+	 *            value of the robot's starting corner (0 to 3)
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
@@ -1025,7 +1027,9 @@ public class Controller {
 
 	/**
 	 * Set the final position after localization routine.
-	 * @param corner value of the robot's starting corner (0 to 3)
+	 * 
+	 * @param corner
+	 *            value of the robot's starting corner (0 to 3)
 	 */
 	public static void cornerSet(int corner) {
 		switch (corner) {
@@ -1071,16 +1075,18 @@ public class Controller {
 	/**
 	 * Sets the team colour for behaviour purposes. Called from the WifiData class.
 	 * 
-	 * @param colour the colour of the team as per the retrieved wifi data
+	 * @param colour
+	 *            the colour of the team as per the retrieved wifi data
 	 */
 	public static void setCurrentTeam(String colour) {
 		currentTeam = colour;
 	}
-	
+
 	/**
 	 * Sets the target block for behaviour purposes. Called from the WifiData class.
 	 * 
-	 * @param block integer value of the target block's colour
+	 * @param block
+	 *            integer value of the target block's colour
 	 */
 	public static void setTargetBlock(int block) {
 		targetBlock = block;

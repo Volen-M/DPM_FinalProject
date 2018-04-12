@@ -25,8 +25,6 @@ public class Navigation extends Thread {
 
 	private boolean navigating = false;
 
-	
-
 	// private static final Port usSidePort = LocalEV3.get().getPort("S3");
 
 	public static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
@@ -35,18 +33,17 @@ public class Navigation extends Thread {
 	public static final EV3LargeRegulatedMotor usMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
 
 	/**
-	 * Navigation constructor.
-	 * Sets odometer, as well as robot speed and acceleration.
+	 * Navigation constructor. Sets odometer, as well as robot speed and
+	 * acceleration.
 	 */
 	public Navigation() {
 		this.odometer = Controller.getOdometerInstance();
 		setAcceleration(Robot.ACCELERATION);
 		setSpeed(Robot.FORWARD_SPEED);
 	}
-	
+
 	/**
-	 * Sets localizers instances.
-	 * Called from the Controller class.
+	 * Sets localizers instances. Called from the Controller class.
 	 */
 	public void setLocalizers() {
 		this.lightLocalizer = Controller.getLightLocalizerInstance();
@@ -54,18 +51,24 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Travel to a point of the grid while localizing at each grid line by moving through one axis at a time
-	 * @param gridX x-coordinate of the destination (in grid units)
-	 * @param gridY y-coordinate of the destination (in grid units)
-	 * @param firstY travel along the y axis first if true
+	 * Travel to a point of the grid, while localizing at each grid line, by moving
+	 * along one axis at a time
+	 * 
+	 * @param gridX
+	 *            x-coordinate of the destination (in grid units)
+	 * @param gridY
+	 *            y-coordinate of the destination (in grid units)
+	 * @param firstY
+	 *            travel along the y axis first if true
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
-	public void travelToAdvGrid(double gridX, double gridY, boolean firstY) throws OdometerExceptions, InterruptedException {
+	public void travelToAdvGrid(double gridX, double gridY, boolean firstY)
+			throws OdometerExceptions, InterruptedException {
 		double[] xyt = odometer.getXYT();
 		double currX = xyt[0];
 		double currY = xyt[1];
-		if  (firstY) {
+		if (firstY) {
 			travelToAdvGridY(gridY, currY);
 			Thread.sleep(250);
 			travelToAdvGridX(gridX, currX);
@@ -75,47 +78,50 @@ public class Navigation extends Thread {
 			travelToAdvGridY(gridY, currY);
 		}
 	}
-	
+
 	/**
-	 * Travel to a certain x-coordinate, at the same y-coordinate while localizing at each grid lin
-	 * @param gridX x-coordinate of the destination (in grid units)
-	 * @param currX current x-position (in real distances)
+	 * Travel to a certain x-coordinate, at the same y-coordinate, while localizing
+	 * at each grid line
+	 * 
+	 * @param gridX
+	 *            x-coordinate of the destination (in grid units)
+	 * @param currX
+	 *            current x-position (in real distances)
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
 	private void travelToAdvGridX(double gridX, double currX) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
-		if (currX < gridX*Robot.TILESIZE) {
+		if (currX < gridX * Robot.TILESIZE) {
 			turnTo(90);
 			Thread.sleep(250);
-			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] < (gridX - 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
-				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[0] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
 			}
-			while (odometer.getXYT()[0] < gridX*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] < gridX * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
-		}
-		else if (currX > gridX*Robot.TILESIZE) {
+		} else if (currX > gridX * Robot.TILESIZE) {
 			turnTo(270);
 			Thread.sleep(250);
-			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] > (gridX + 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
-				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[0] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
 			}
-			while (odometer.getXYT()[0] > gridX*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] > gridX * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
@@ -126,141 +132,146 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Travel to a certain y-coordinate, at the same x-coordinate while localizing at each grid lin
-	 * @param gridY y-coordinate of the destination (in grid units)
-	 * @param currY current y-position (in real distances)
+	 * Travel to a certain y-coordinate, at the same x-coordinate, while localizing
+	 * at each grid line
+	 * 
+	 * @param gridY
+	 *            y-coordinate of the destination (in grid units)
+	 * @param currY
+	 *            current y-position (in real distances)
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
 	private void travelToAdvGridY(double gridY, double currY) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
-		if (currY < gridY*Robot.TILESIZE) {
+		if (currY < gridY * Robot.TILESIZE) {
 			turnTo(0);
 			Thread.sleep(250);
-			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] < (gridY - 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
-				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[1] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[1] < gridY*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] < gridY * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
-		}
-		else if (currY > gridY*Robot.TILESIZE) {
+		} else if (currY > gridY * Robot.TILESIZE) {
 			turnTo(180);
 			Thread.sleep(250);
-			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] > (gridY + 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
-				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[1] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[1] > gridY*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] > gridY * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
 		}
 		stopRobot();
-	}	
-	
-/**
- * Travel to a point of the grid while localizing at each grid line by moving through Y then X
- * @param gridX x-coordinate of the destination (in grid units)
- * @param gridY y-coordinate of the destination (in grid units)
- * @deprecated Since version 06.07.00
- * @throws OdometerExceptions
- * @throws InterruptedException
- */
+	}
+
+	/**
+	 * Travel to a point of the grid, while localizing at each grid line, by moving
+	 * along the y and x axis in that order
+	 * 
+	 * @param gridX
+	 *            x-coordinate of the destination (in grid units)
+	 * @param gridY
+	 *            y-coordinate of the destination (in grid units)
+	 * @deprecated Since version 06.07.00
+	 * @throws OdometerExceptions
+	 * @throws InterruptedException
+	 */
 	public void travelToAdv(double gridX, double gridY) throws OdometerExceptions, InterruptedException {
 		double[] xyt = odometer.getXYT();
 		double currX = xyt[0];
 		double currY = xyt[1];
 		double lineSpot = xyt[2];
-		if (currY < gridY*Robot.TILESIZE) {
+		if (currY < gridY * Robot.TILESIZE) {
 			turnTo(0);
 			Thread.sleep(250);
-			while (odometer.getXYT()[1] < (gridY-1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] < (gridY - 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
-				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[1] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[1] < gridY*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] < gridY * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
 			stopRobot();
-		}
-		else if (currY > gridY*Robot.TILESIZE) {
+		} else if (currY > gridY * Robot.TILESIZE) {
 			turnTo(180);
 			Thread.sleep(250);
-			while (odometer.getXYT()[1] > (gridY+1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] > (gridY + 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeY();
 				lineSpot = odometer.getXYT()[1];
-				while (Math.abs(odometer.getXYT()[1]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[1] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[1] > gridY*Robot.TILESIZE) {
+			while (odometer.getXYT()[1] > gridY * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
 		}
 		Thread.sleep(250);
-		if (currX < gridX*Robot.TILESIZE) {
+		if (currX < gridX * Robot.TILESIZE) {
 			turnTo(90);
 			Thread.sleep(250);
-			while (odometer.getXYT()[0] < (gridX-1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] < (gridX - 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
-				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[0] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[0] < gridX*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] < gridX * Robot.TILESIZE) {
 				if (!navigating) {
 					forward(Robot.FORWARD_SPEED);
 				}
 			}
-		}
-		else if (currX > gridX*Robot.TILESIZE) {
+		} else if (currX > gridX * Robot.TILESIZE) {
 			turnTo(270);
 			Thread.sleep(250);
-			while (odometer.getXYT()[0] > (gridX+1)*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] > (gridX + 1) * Robot.TILESIZE) {
 				lightLocalizer.localizeX();
 				lineSpot = odometer.getXYT()[0];
-				while (Math.abs(odometer.getXYT()[0]-lineSpot)<=5) {
+				while (Math.abs(odometer.getXYT()[0] - lineSpot) <= 5) {
 					if (!navigating) {
 						forward(Robot.FORWARD_SPEED);
 					}
 				}
-				//				moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
+				// moveByGrid(0.25, Robot.LOCALIZATION_SPEED);
 			}
-			while (odometer.getXYT()[0] > gridX*Robot.TILESIZE) {
+			while (odometer.getXYT()[0] > gridX * Robot.TILESIZE) {
 				if (!navigating) {
 					forward();
 				}
@@ -270,11 +281,13 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * A method to drive our vehicle to a certain Cartesian coordinate by going directly to it.
-	 * No localization is done in this method.
+	 * A method to drive our vehicle to a certain Cartesian coordinate by going
+	 * directly to it. No localization is done in this method.
 	 * 
-	 * @param x   X-Coordinate of destination
-	 * @param y   Y-Coordinate of destination
+	 * @param x
+	 *            X-Coordinate of destination
+	 * @param y
+	 *            Y-Coordinate of destination
 	 */
 	public void travelTo(double x, double y) {
 
@@ -301,7 +314,8 @@ public class Navigation extends Thread {
 	/**
 	 * A method to turn our vehicle to a certain orientation
 	 * 
-	 * @param degrees desired orientation
+	 * @param degrees
+	 *            desired orientation
 	 */
 	public void turnTo(double degrees) {
 		navigating = true;
@@ -328,55 +342,74 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Moves robot forward or back by certain amount
+	 * Moves robot forward or back by a certain distance
 	 * 
 	 * @param distance
 	 *            Distance to move by
 	 */
 	public void moveBy(double distance) {
-		setSpeed(Robot.FORWARD_SPEED);
-		if (distance >= 0) {
-			rotateByDistance(distance, 1, 1);
-		} else {
-			rotateByDistance(-1*distance, -1, -1);
-
-		}
+		moveBy(distance, Robot.FORWARD_SPEED);
 	}
 
+	/**
+	 * Moves robot forward or back by a certain distance, at a specific speed
+	 * 
+	 * @param distance
+	 *            Distance to move by (real distance)
+	 * @param speed
+	 *            Speed at which to travel
+	 */
 	public void moveBy(double distance, int speed) {
 		setSpeed(speed);
 		if (distance >= 0) {
 			rotateByDistance(distance, 1, 1);
 		} else {
-			rotateByDistance(-1*distance, -1, -1);
+			rotateByDistance(-1 * distance, -1, -1);
 
 		}
 	}
 
+	/**
+	 * Move robot forward or back by a certain distance
+	 * 
+	 * @param grids
+	 *            Distance to move by (in grid units)
+	 */
 	public void moveByGrid(double grids) {
-		moveBy(grids*Robot.TILESIZE);
+		moveBy(grids * Robot.TILESIZE);
 	}
 
+	/**
+	 * Move robot forward or back by a certain distance, at a specific speed.
+	 * 
+	 * @param grids
+	 *            Distance to move by (in grid units)
+	 * @param speed
+	 *            Speed at which to move
+	 */
 	public void moveByGrid(double grids, int speed) {
-		moveBy(grids*Robot.TILESIZE, speed);
+		moveBy(grids * Robot.TILESIZE, speed);
 	}
 
 	/**
 	 * Freely sets both wheels forward indefinitely.
 	 */
 	public void forward() {
-		navigating = true;
-		setSpeed(Robot.FORWARD_SPEED);
-		leftMotor.forward();
-		rightMotor.forward();
+		forward(Robot.FORWARD_SPEED);
 	}
 
+	/**
+	 * Freely sets both wheels forward indefinity, at a certain speed.
+	 * 
+	 * @param speed
+	 */
 	public void forward(int speed) {
 		navigating = true;
 		setSpeed(speed);
 		leftMotor.forward();
 		rightMotor.forward();
 	}
+
 	/**
 	 * Freely rotates the robot clockwise indefinitely.
 	 */
@@ -397,24 +430,49 @@ public class Navigation extends Thread {
 		rightMotor.forward();
 	}
 
+	/**
+	 * Sets the left wheel forward, at a specific speed
+	 * 
+	 * @param speed
+	 *            Speed of the left wheel
+	 */
 	public void rotateLeftWheel(int speed) {
 		navigating = true;
 		setSpeed(speed);
 		leftMotor.forward();
-
 	}
+
+	/**
+	 * Sets the left wheel backward, at a specific speed
+	 * 
+	 * @param speed
+	 *            Speed of the left wheel
+	 */
 	public void rotateLeftWheelBack(int speed) {
 		navigating = true;
 		setSpeed(speed);
 		leftMotor.backward();
 
 	}
+
+	/**
+	 * Sets the right wheel forward, at a specific speed
+	 * 
+	 * @param speed
+	 *            Speed of the right wheel
+	 */
 	public void rotateRightWheel(int speed) {
 		navigating = true;
 		setSpeed(speed);
 		rightMotor.forward();
 	}
 
+	/**
+	 * Sets the right wheel backward, at a specific speed
+	 * 
+	 * @param speed
+	 *            Speed of the right wheel.
+	 */
 	public void rotateRightWheelBack(int speed) {
 		navigating = true;
 		setSpeed(speed);
@@ -423,7 +481,6 @@ public class Navigation extends Thread {
 
 	/**
 	 * Stops both wheels.
-	 * @throws InterruptedException 
 	 */
 	public void stopRobot() {
 		rightMotor.stop(true);
@@ -432,7 +489,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Travel distance dist.
+	 * Travels a certain distance, in a certain direction.
 	 * 
 	 * @param dist
 	 *            distance to travel
@@ -469,15 +526,22 @@ public class Navigation extends Thread {
 		stopRobot();
 	}
 
+	/**
+	 * Rotate the front US Sensor for color block identification.
+	 * 
+	 * @param flagSearch
+	 *            indicates whether the robot is searching for a flag
+	 */
 	public static void motorSearch(boolean flagSearch) {
 		if (flagSearch) {
 			usMotor.rotate(-92);
-		}else {
+		} else {
 			usMotor.rotate(92);
 		}
 	}
+
 	/**
-	 * Update the robot's acceleration
+	 * Update the robot's acceleration.
 	 * 
 	 * @param acc
 	 *            desired acceleration
@@ -499,7 +563,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Lowers back wheels
+	 * Lowers back wheels for obstacle traversal.
 	 */
 	public static void landingGearOn() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
@@ -509,7 +573,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Lifts back wheels
+	 * Lifts back wheels after obstacle traversal.
 	 */
 	public static void landingGearOff() {
 		backMotor.setSpeed(Robot.GEAR_SPEED);
@@ -519,10 +583,9 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * A method to determine whether another thread has called travelTo and turnTo
-	 * methods or not
+	 * A method to determine whether another thread has called navigation methods.
 	 * 
-	 * @return navigating boolean value, true if the robot is on the move
+	 * @return boolean true if the robot is on the move
 	 */
 	boolean isNavigating() throws OdometerExceptions {
 		return navigating;
