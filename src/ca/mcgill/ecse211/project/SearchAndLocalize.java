@@ -69,31 +69,33 @@ public class SearchAndLocalize {
 			limiter[2] = ll_x * Robot.TILESIZE - Robot.TILESIZE * 0.5;
 			break;
 		}
-		
+
 	}
 	public int findFlag(double ll_x, double ll_y,double ur_x, double ur_y, int cornerOfZone) throws OdometerExceptions, InterruptedException { // Int return is where robot ended, so 0=North, 1=East, 2=South, 3=West
 		limiterSet( ur_x, ur_y, ll_x, ll_y, cornerOfZone);
-		double xDist;
-		double yDist;
-		double distToCube;
-		boolean checkCube;
+		double xDist = 0;
+		double yDist = 0;
+		double distToCube = 0;
+		boolean checkCube = true;
+		double fix = 0;
 		Area tempArea;
 		navigation.setSpeed(Robot.FORWARD_SPEED);
 		if (corner == 0 || corner == 2) {
-			yDist = Math.abs(limiter[1] - limiter[3]);
-			xDist = Math.abs(limiter[0] - limiter[2]);
+			yDist = Math.abs(limiter[1] - limiter[3])/2 - 4;
+			xDist = Math.abs(limiter[0] - limiter[2])/2 - 4;
 		} else {
-			xDist = Math.abs(limiter[1] - limiter[3]);
-			yDist = Math.abs(limiter[0] - limiter[2]);
+			xDist = Math.abs(limiter[1] - limiter[3])/2 -4;
+			yDist = Math.abs(limiter[0] - limiter[2])/2 -4;
 		}
 
 		if (corner == 0) {
-			yDist = Math.abs(limiter[1] - limiter[3]);
-			xDist = Math.abs(limiter[0] - limiter[2]);
-
-			while (odometer.getXYT()[1] <= limiter[0]) {
-				navigation.forward();
-				distToCube = fetchUS();
+			int xAmt = (int) (Math.abs(limiter[1]-limiter[3])*3/Robot.TILESIZE);
+			int yAmt = (int) (Math.abs(limiter[0]-limiter[2])*3/Robot.TILESIZE);
+			double startLoc = odometer.getXYT()[1];
+			for (int i =1; i<=yAmt; i++) {
+				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
+				navigation.moveBy(fix);
+				distToCube = fetchUSfiltered();
 				if (distToCube < xDist) {
 					checkCube = true;
 					tempArea = new Area(limiter[3] + distToCube, odometer.getXYT()[1], 0);
@@ -109,7 +111,7 @@ public class SearchAndLocalize {
 						navigation.turnTo(90);
 						navigation.moveBy(distToCube - constant);
 						if (colourCalib.colourDetection()) {
-							for (int i = 0; i < 3; i++) {
+							for (int j = 0; j < 3; j++) {
 								Sound.beep();
 							}
 							navigation.moveBy(-1 * distToCube);
@@ -121,15 +123,23 @@ public class SearchAndLocalize {
 						}
 					}
 				}
-
+				if (i%3==0) {
+					lightLocalizer.localizeY();
+				}
+				Thread.sleep(500);
 			}
-			navigation.stopRobot();
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
 			navigation.turnTo(90);
+			Thread.sleep(500);
 			lightLocalizer.localizeX();
-			while (odometer.getXYT()[0] <= limiter[1]) {
-				navigation.forward();
-				distToCube = fetchUS();
-				if (distToCube < xDist) {
+			startLoc = odometer.getXYT()[0];
+			for (int i =1; i<=xAmt; i++) {
+				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
+				navigation.moveBy(fix);
+				distToCube = fetchUSfiltered();
+				if (distToCube < yDist) {
 					checkCube = true;
 					tempArea = new Area(odometer.getXYT()[0], limiter[0] - distToCube, 1);
 					for (Area area : foundCubes) {
@@ -144,7 +154,7 @@ public class SearchAndLocalize {
 						navigation.turnTo(180);
 						navigation.moveBy(distToCube - constant);
 						if (colourCalib.colourDetection()) {
-							for (int i = 0; i < 3; i++) {
+							for (int j = 0; j < 3; j++) {
 								Sound.beep();
 							}
 							navigation.moveBy(-1 * distToCube);
@@ -156,14 +166,22 @@ public class SearchAndLocalize {
 						}
 					}
 				}
-
+				if (i%3==0) {
+					lightLocalizer.localizeX();
+				}
+				Thread.sleep(500);
 			}
-			navigation.stopRobot();
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
 			navigation.turnTo(180);
+			Thread.sleep(500);
 			lightLocalizer.localizeY();
-			while (odometer.getXYT()[1] >= limiter[2]) {
-				navigation.forward();
-				distToCube = fetchUS();
+			startLoc = odometer.getXYT()[1];
+			for (int i =1; i<=yAmt; i++) {
+				fix =Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
+				navigation.moveBy(fix);
+				distToCube = fetchUSfiltered();
 				if (distToCube < xDist) {
 					checkCube = true;
 					tempArea = new Area(limiter[1] - distToCube, odometer.getXYT()[1], 2);
@@ -179,7 +197,7 @@ public class SearchAndLocalize {
 						navigation.turnTo(270);
 						navigation.moveBy(distToCube - constant);
 						if (colourCalib.colourDetection()) {
-							for (int i = 0; i < 3; i++) {
+							for (int j = 0; j < 3; j++) {
 								Sound.beep();
 							}
 							navigation.moveBy(-1 * distToCube);
@@ -191,14 +209,23 @@ public class SearchAndLocalize {
 						}
 					}
 				}
+				if (i%3==0 ) {
+					lightLocalizer.localizeY();
+				}
+				Thread.sleep(500);
 			}
-			navigation.stopRobot();
+			Controller.logger();
+			navigation.moveBy(-1*Robot.LSTOWHEEL);
+			Thread.sleep(500);
 			navigation.turnTo(270);
+			Thread.sleep(500);
 			lightLocalizer.localizeX();
-			while (odometer.getXYT()[0] >= limiter[3]) {
-				navigation.forward();
-				distToCube = fetchUS();
-				if (distToCube < xDist) {
+			startLoc = odometer.getXYT()[0];
+			for (int i =1; i<=xAmt; i++) {
+				fix = Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
+				navigation.moveBy(fix);
+				distToCube = fetchUSfiltered();
+				if (distToCube < yDist) {
 					checkCube = true;
 					tempArea = new Area(odometer.getXYT()[0], limiter[2] + distToCube, 3);
 					for (Area area : foundCubes) {
@@ -213,7 +240,7 @@ public class SearchAndLocalize {
 						navigation.turnTo(0);
 						navigation.moveBy(distToCube - constant);
 						if (colourCalib.colourDetection()) {
-							for (int i = 0; i < 3; i++) {
+							for (int j = 0; j < 3; j++) {
 								Sound.beep();
 							}
 							navigation.moveBy(-1 * distToCube);
@@ -225,9 +252,12 @@ public class SearchAndLocalize {
 						}
 					}
 				}
-
+				if (i%3==0) {
+					lightLocalizer.localizeX();
+				}
+				Thread.sleep(500);
 			}
-
+			Controller.logger();
 			for (int i = 0; i < 6; i++) {
 				Sound.beep();
 			}
@@ -271,7 +301,7 @@ public class SearchAndLocalize {
 			for (int i =1; i<=yAmt; i++) {
 				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
 				navigation.moveBy(fix);
-				distToCube = fetchUS2();
+				distToCube = fetchUSfiltered();
 				if (distToCube < xDist) {
 					Sound.beep();
 				}
@@ -290,7 +320,7 @@ public class SearchAndLocalize {
 			for (int i =1; i<=xAmt; i++) {
 				fix = Math.abs(i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
 				navigation.moveBy(fix);
-				distToCube = fetchUS2();
+				distToCube = fetchUSfiltered();
 				if (distToCube < yDist) {
 					Sound.beep();
 				}
@@ -309,7 +339,7 @@ public class SearchAndLocalize {
 			for (int i =1; i<=yAmt; i++) {
 				fix =Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[1]);
 				navigation.moveBy(fix);
-				distToCube = fetchUS2();
+				distToCube = fetchUSfiltered();
 				if (distToCube < xDist) {
 					Sound.beep();
 				}
@@ -328,7 +358,7 @@ public class SearchAndLocalize {
 			for (int i =1; i<=xAmt; i++) {
 				fix = Math.abs(-i*Robot.TILESIZE/3+startLoc-odometer.getXYT()[0]);
 				navigation.moveBy(fix);
-				distToCube = fetchUS2();
+				distToCube = fetchUSfiltered();
 				if (distToCube < yDist) {
 					Sound.beep();
 				}
@@ -445,11 +475,11 @@ public class SearchAndLocalize {
 	}
 
 	/**
-	 * A method to get the distance from our sensor
+	 * A method to get the distance from our sensor with a filter
 	 * 
 	 * @return
 	 */
-	public int fetchUS2() {
+	public int fetchUSfiltered() {
 		float[] data = new float[5];
 		float distance;
 		for (int i = 0; i < data.length; i++) {

@@ -54,7 +54,7 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Travel to a point of the grid in an 'L' manner.
+	 * Travel to a point of the grid while localizing at each grid line by moving through one axis at a time
 	 * @param gridX x-coordinate of the destination (in grid units)
 	 * @param gridY y-coordinate of the destination (in grid units)
 	 * @param firstY travel along the y axis first if true
@@ -77,13 +77,13 @@ public class Navigation extends Thread {
 	}
 	
 	/**
-	 * Travel to a certain x-coordinate, at the same y-coordinate
+	 * Travel to a certain x-coordinate, at the same y-coordinate while localizing at each grid lin
 	 * @param gridX x-coordinate of the destination (in grid units)
 	 * @param currX current x-position (in real distances)
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
-	public void travelToAdvGridX(double gridX, double currX) throws OdometerExceptions, InterruptedException {
+	private void travelToAdvGridX(double gridX, double currX) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
 		if (currX < gridX*Robot.TILESIZE) {
 			turnTo(90);
@@ -126,13 +126,13 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * Travel to a certain y-coordinate, at the same x-coordinate
+	 * Travel to a certain y-coordinate, at the same x-coordinate while localizing at each grid lin
 	 * @param gridY y-coordinate of the destination (in grid units)
 	 * @param currY current y-position (in real distances)
 	 * @throws OdometerExceptions
 	 * @throws InterruptedException
 	 */
-	public void travelToAdvGridY(double gridY, double currY) throws OdometerExceptions, InterruptedException {
+	private void travelToAdvGridY(double gridY, double currY) throws OdometerExceptions, InterruptedException {
 		double lineSpot = 0;
 		if (currY < gridY*Robot.TILESIZE) {
 			turnTo(0);
@@ -176,7 +176,7 @@ public class Navigation extends Thread {
 	}	
 	
 /**
- * 
+ * Travel to a point of the grid while localizing at each grid line by moving through Y then X
  * @param gridX x-coordinate of the destination (in grid units)
  * @param gridY y-coordinate of the destination (in grid units)
  * @deprecated Since version 06.07.00
@@ -270,34 +270,33 @@ public class Navigation extends Thread {
 	}
 
 	/**
-	 * A method to drive our vehicle to a certain Cartesian coordinate
+	 * A method to drive our vehicle to a certain Cartesian coordinate by going directly to it.
+	 * No localization is done in this method.
 	 * 
-	 * @param x
-	 *            X-Coordinate of destination
-	 * @param y
-	 *            Y-Coordinate of destination
+	 * @param x   X-Coordinate of destination
+	 * @param y   Y-Coordinate of destination
 	 */
-//	public void travelTo(double x, double y) {
-//
-//		currX = odometer.getXYT()[0];
-//		currY = odometer.getXYT()[1];
-//
-//		deltaX = x - currX;
-//		deltaY = y - currY;
-//
-//		// Calculate the angle to turn around
-//		double mDegrees = Math.atan2(deltaX, deltaY) / Math.PI * 180;
-//		double hypot = Math.hypot(deltaX, deltaY);
-//
-//		// Turn to the correct angle towards the endpoint
-//		turnTo(mDegrees);
-//
-//		setSpeed(Robot.FORWARD_SPEED);
-//		rotateByDistance(hypot, 1, 1);
-//
-//		// stopRobot vehicle
-//		stopRobot();
-//	}
+	public void travelTo(double x, double y) {
+
+		currX = odometer.getXYT()[0];
+		currY = odometer.getXYT()[1];
+
+		deltaX = x - currX;
+		deltaY = y - currY;
+
+		// Calculate the angle to turn around
+		double mDegrees = Math.atan2(deltaX, deltaY) / Math.PI * 180;
+		double hypot = Math.hypot(deltaX, deltaY);
+
+		// Turn to the correct angle towards the endpoint
+		turnTo(mDegrees);
+
+		setSpeed(Robot.FORWARD_SPEED);
+		rotateByDistance(hypot, 1, 1);
+
+		// stopRobot vehicle
+		stopRobot();
+	}
 
 	/**
 	 * A method to turn our vehicle to a certain orientation
