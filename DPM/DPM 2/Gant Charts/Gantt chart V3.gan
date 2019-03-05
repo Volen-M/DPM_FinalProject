@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-03-12" view-index="0" gantt-divider-location="976" resource-divider-location="616" version="2.8.6" locale="en_CA">
+    <description/>
+    <view zooming-state="default:1" id="gantt-chart">
+        <field id="tpd3" name="Name" width="454" order="0"/>
+        <field id="tpc1" name="Duration" width="152" order="1"/>
+        <field id="tpd13" name="Resources" width="174" order="2"/>
+        <field id="tpd10" name="ID" width="177" order="3"/>
+        <option id="color.recent"><![CDATA[#ffffff #ff0000 #33ffff #33ff00 #f4f4f4 #333333 #ccffcc]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="361" order="0"/>
+        <field id="tpc0" name="Role" width="251" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+            <taskproperty id="tpc0" name="ID" type="custom" valuetype="int"/>
+            <taskproperty id="tpc1" name="Duration" type="custom" valuetype="int" defaultvalue="1"/>
+        </taskproperties>
+        <task id="0" name="Project Begins" color="#8cb6ce" meeting="false" start="2018-02-19" duration="2" complete="100" thirdDate="2018-02-19" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[-Setting up Github repo
+-Facebook group chat
+-Setting up a slack channel
+-Setting up DropBox
+-Setting up Gant chart
+-Organize meetings with TA and Prof
+
+
+Red - Hardware
+Light Blue - Software
+Green - Testing
+White - Documentation
+Team - Blue
+]]></notes>
+            <depend id="6" type="2" difference="0" hardness="Rubber"/>
+            <depend id="140" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="1"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="140" name="Established Budget and Time sheet" color="#8cb6ce" meeting="false" start="2018-02-21" duration="1" complete="100" thirdDate="2018-02-21" thirdDate-constraint="0" expand="true">
+            <depend id="31" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="38"/>
+        </task>
+        <task id="31" name="Create Preliminary Gant chart" color="#8cb6ce" meeting="false" start="2018-02-22" duration="1" complete="100" thirdDate="2018-02-22" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="6"/>
+        </task>
+        <task id="3" name="Create Templates for 4 doc" color="#ffffff" meeting="false" start="2018-02-19" duration="1" complete="100" thirdDate="2018-02-19" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Created Templates of the Systems , Capabilities, Constraints, Requirements]]></notes>
+            <depend id="9" type="2" difference="0" hardness="Rubber"/>
+            <depend id="128" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="2"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="128" name="Completed Initial version of 4 documents" color="#ffffff" meeting="false" start="2018-02-20" duration="3" complete="100" thirdDate="2018-02-20" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Completed Initial Versions of the Systems , Capabilities, Constraints, Requirements]]></notes>
+            <depend id="9" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="37"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="6" name="Preliminary desgin and sketches" color="#ff0000" meeting="false" start="2018-02-21" duration="2" complete="100" thirdDate="2018-02-21" thirdDate-constraint="0" expand="true">
+            <depend id="9" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="3"/>
+        </task>
+        <task id="35" name="Complete Lab 5" color="#8cb6ce" meeting="false" start="2018-02-22" duration="3" complete="100" thirdDate="2018-02-22" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="4"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="9" name="Improve 4 required docs" color="#ffffff" meeting="false" start="2018-02-23" duration="2" complete="100" thirdDate="2018-02-23" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[-]]></notes>
+            <depend id="13" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="5"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="162" name="TA Meeting 1" color="#8cb6ce" meeting="false" start="2018-02-26" duration="1" complete="100" thirdDate="2018-02-26" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Synching with our Mentor/TA
+Getting advice
+Asking questions about design process and competition configuration]]></notes>
+        </task>
+        <task id="13" name="Hardware Design Proposal" color="#ffffff" meeting="false" start="2018-02-25" duration="3" complete="100" thirdDate="2018-02-25" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Created document containing our deign proposals ]]></notes>
+            <depend id="24" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="7"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="19" name="Software Design Proposal" color="#f4f4f4" meeting="false" start="2018-02-26" duration="3" complete="100" thirdDate="2018-02-26" thirdDate-constraint="0" expand="true">
+            <depend id="24" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="8"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="15" name="Testing Design Proposal" color="#ffffff" meeting="false" start="2018-02-26" duration="3" complete="100" thirdDate="2018-02-24" thirdDate-constraint="0" expand="true">
+            <depend id="24" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="9"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="24" name="Prepare for first meeting" color="#8cb6ce" meeting="false" start="2018-03-01" duration="1" complete="100" thirdDate="2018-03-01" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Created Powerpoint and Update timesheet
+- Split up parts]]></notes>
+            <depend id="23" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="11"/>
+        </task>
+        <task id="23" name="First Design team meeting" color="#8cb6ce" meeting="true" start="2018-03-02" duration="0" complete="100" thirdDate="2018-03-02" thirdDate-constraint="0" expand="true">
+            <depend id="39" type="2" difference="0" hardness="Rubber"/>
+            <depend id="286" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="22"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="286" name="March Break" color="#8cb6ce" meeting="true" start="2018-03-02" duration="0" complete="0" thirdDate="2018-02-02" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="603" name="Versionning alll existing documents" color="#ffffff" meeting="false" start="2018-03-09" duration="1" complete="100" thirdDate="2018-03-09" thirdDate-constraint="0" expand="true"/>
+        <task id="39" name="Hardware Design Testing" color="#33ff00" meeting="false" start="2018-03-09" duration="1" complete="100" thirdDate="2018-03-09" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Tested Different Hardware Designs to determine which is to handle our solution 
+- Concluded in using regular wheels]]></notes>
+            <depend id="36" type="2" difference="0" hardness="Strong"/>
+            <depend id="43" type="2" difference="0" hardness="Rubber"/>
+            <depend id="46" type="2" difference="0" hardness="Strong"/>
+            <depend id="365" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="33"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="365" name="Hardware Testing Documentation" color="#ffffff" meeting="false" start="2018-03-10" duration="1" complete="100" thirdDate="2018-03-10" thirdDate-constraint="0" expand="true"/>
+        <task id="358" name="TA Meeting 2" color="#8cb6ce" meeting="true" start="2018-03-12" duration="0" complete="0" thirdDate="2018-02-27" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Discussed our progress 
+- Addressed questions and concerns about testing documents and certain documentation]]></notes>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="43" name="Construct physical Models &amp; Prototype Components" color="#ff0000" meeting="false" start="2018-03-11" duration="2" complete="100" thirdDate="2018-03-11" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="12"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="36" name="Preliminary draft of flow Chart" color="#33ffff" meeting="false" start="2018-03-10" duration="2" complete="100" thirdDate="2018-03-10" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Calling flow chart
+- Determining threading]]></notes>
+            <depend id="288" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="0"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="46" name="Software Class Diagram Chart" color="#33ffff" meeting="false" start="2018-03-10" duration="1" complete="100" thirdDate="2018-03-10" thirdDate-constraint="0" expand="true">
+            <depend id="53" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="13"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="53" name="Prepare API Docs" color="#33ffff" meeting="false" start="2018-03-11" duration="2" complete="100" thirdDate="2018-03-11" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="14"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="304" name="Sensor Testing" color="#33ff00" meeting="false" start="2018-03-12" duration="1" complete="100" thirdDate="2018-03-12" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Tested Accuracy and Determined which sensors were most suitable]]></notes>
+            <depend id="305" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="305" name="Motor Testing" color="#33ff00" meeting="false" start="2018-03-13" duration="1" complete="100" thirdDate="2018-03-13" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Tested Accuracy of the motors with the odometry
+- Determined which motors were bestNXT vs EV3]]></notes>
+            <depend id="362" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="362" name="Update Testing Documentation for Sensor Tests" color="#ffffff" meeting="false" start="2018-03-14" duration="2" complete="100" thirdDate="2018-03-14" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="288" name="Prepare for meeting" color="#8cb6ce" meeting="false" start="2018-03-12" duration="2" complete="100" thirdDate="2018-03-13" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Created Powerpoint and Update timesheet
+- Split up parts
+
+
+- Documentation updated and peer reviews docs]]></notes>
+            <depend id="261" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="261" name="Second Design Team Meeting" color="#8cb6ce" meeting="true" start="2018-03-14" duration="0" complete="0" thirdDate="2018-02-18" thirdDate-constraint="0" expand="true">
+            <depend id="384" type="2" difference="0" hardness="Strong"/>
+            <depend id="672" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="384" name="Improve Hardware design" color="#ff0000" meeting="false" start="2018-03-14" duration="2" complete="100" thirdDate="2018-03-14" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Added landing gear in the back to traverse bridge]]></notes>
+            <depend id="403" type="2" difference="0" hardness="Strong"/>
+            <depend id="699" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="699" name="Update Hardware Documentation" color="#ffffff" meeting="false" start="2018-03-16" duration="1" complete="100" thirdDate="2018-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="672" name="Prepare Software Class Shells and layout (GIT)" color="#33ffff" meeting="false" start="2018-03-14" duration="1" complete="100" thirdDate="2018-03-14" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[- Implemented Lab 5 code and made improvements on certain aspects
+- started git repo and readme]]></notes>
+            <depend id="396" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="396" name="Implement Robot class" color="#33ffff" meeting="false" start="2018-03-15" duration="1" complete="100" thirdDate="2018-03-15" thirdDate-constraint="0" expand="true">
+            <depend id="407" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="403" name="Wheel radius and Track testing" color="#33ff00" meeting="false" start="2018-03-16" duration="1" complete="100" thirdDate="2018-03-16" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[A track of 12.7 was determined to be best]]></notes>
+        </task>
+        <task id="407" name="Update Test Documentation" color="#ffffff" meeting="false" start="2018-03-16" duration="2" complete="100" thirdDate="2018-03-16" thirdDate-constraint="0" expand="true">
+            <depend id="538" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="538" name="Implement the controller classs" color="#33ffff" meeting="false" start="2018-03-18" duration="1" complete="100" thirdDate="2018-03-18" thirdDate-constraint="0" expand="true">
+            <depend id="388" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="388" name="Navigation Development" color="#33ffff" meeting="false" start="2018-03-19" duration="2" complete="0" thirdDate="2018-03-19" thirdDate-constraint="0" expand="true">
+            <depend id="421" type="2" difference="0" hardness="Strong"/>
+            <depend id="422" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="421" name="Navigation Testing" color="#33ff00" meeting="false" start="2018-03-21" duration="1" complete="0" thirdDate="2018-03-21" thirdDate-constraint="0" expand="true"/>
+        <task id="422" name="Navigation Documentation" color="#ffffff" meeting="false" start="2018-03-21" duration="1" complete="0" thirdDate="2018-03-21" thirdDate-constraint="0" expand="true">
+            <depend id="315" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="55" name="Prepare for deign team Meeting" color="#8cb6ce" meeting="false" start="2018-03-22" duration="1" complete="100" thirdDate="2018-03-22" thirdDate-constraint="0" expand="true">
+            <depend id="41" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="16"/>
+        </task>
+        <task id="41" name="Third Desgin Team Meeting" color="#8cb6ce" meeting="true" start="2018-03-23" duration="0" complete="0" thirdDate="2018-03-23" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="17"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="315" name="Localization algorithm" color="#33ffff" meeting="false" start="2018-03-22" duration="2" complete="0" thirdDate="2018-03-22" thirdDate-constraint="0" expand="true">
+            <depend id="380" type="2" difference="0" hardness="Strong"/>
+            <depend id="416" type="2" difference="0" hardness="Strong"/>
+            <depend id="418" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="416" name="Localization Testing" color="#33ff00" meeting="false" start="2018-03-24" duration="1" complete="0" thirdDate="2018-03-24" thirdDate-constraint="0" expand="true"/>
+        <task id="418" name="Localization Documentation" color="#ffffff" meeting="false" start="2018-03-24" duration="1" complete="0" thirdDate="2018-03-24" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="380" name="Implement Wifi capabilities" color="#33ffff" meeting="false" start="2018-03-24" duration="1" complete="0" thirdDate="2018-03-24" thirdDate-constraint="0" expand="true">
+            <depend id="447" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="447" name="Localization Debugging and Improvements" color="#33ffff" meeting="false" start="2018-03-25" duration="1" complete="0" thirdDate="2018-03-25" thirdDate-constraint="0" expand="true">
+            <depend id="82" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="82" name="Software Tweaking and Improvements" color="#33ffff" meeting="false" start="2018-03-26" duration="1" complete="0" thirdDate="2018-03-26" thirdDate-constraint="0" expand="true">
+            <depend id="87" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="20"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="87" name="End to End Testing for Beta Demo" color="#33ff00" meeting="false" start="2018-03-27" duration="1" complete="0" thirdDate="2018-03-27" thirdDate-constraint="0" expand="true">
+            <depend id="67" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="23"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="510" name="Prepare for the Demo" color="#8cb6ce" meeting="false" start="2018-03-27" duration="1" complete="0" thirdDate="2018-03-27" thirdDate-constraint="0" expand="true">
+            <depend id="67" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="67" name="Beta Demo" color="#ccffcc" meeting="true" start="2018-03-28" duration="0" complete="0" thirdDate="2018-03-27" thirdDate-constraint="0" expand="true">
+            <depend id="90" type="2" difference="0" hardness="Strong"/>
+            <depend id="428" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="24"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="428" name="Search and Localize Development" color="#33ffff" meeting="false" start="2018-03-28" duration="2" complete="0" thirdDate="2018-03-28" thirdDate-constraint="0" expand="true">
+            <depend id="438" type="2" difference="0" hardness="Strong"/>
+            <depend id="440" type="2" difference="0" hardness="Strong"/>
+            <depend id="550" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="438" name="Search and Localize Testing" color="#33ff00" meeting="false" start="2018-03-30" duration="1" complete="0" thirdDate="2018-03-30" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="440" name="Search and Localize Documentation" color="#ffffff" meeting="false" start="2018-03-30" duration="1" complete="0" thirdDate="2018-03-30" thirdDate-constraint="0" expand="true"/>
+        <task id="550" name="Robot avoidance" color="#33ffff" meeting="false" start="2018-03-30" duration="1" complete="0" thirdDate="2018-03-30" thirdDate-constraint="0" expand="true"/>
+        <task id="90" name="Review Demo results and recalibrate" color="#8cb6ce" meeting="false" start="2018-03-28" duration="1" complete="0" thirdDate="2018-03-28" thirdDate-constraint="0" expand="true">
+            <depend id="94" type="2" difference="0" hardness="Rubber"/>
+            <depend id="562" type="2" difference="0" hardness="Strong"/>
+            <depend id="565" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="26"/>
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="562" name="Hardware Adjustments" color="#ff0000" meeting="false" start="2018-03-29" duration="1" complete="0" thirdDate="2018-03-29" thirdDate-constraint="0" expand="true">
+            <depend id="682" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="682" name="Created the LDD Design for Hardware" color="#ff0000" meeting="false" start="2018-03-30" duration="2" complete="0" thirdDate="2018-03-30" thirdDate-constraint="0" expand="true">
+            <depend id="685" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="685" name="Complete hardware documentation" color="#ffffff" meeting="false" start="2018-04-01" duration="1" complete="0" thirdDate="2018-03-20" thirdDate-constraint="0" expand="true"/>
+        <task id="565" name="Software Improvements &amp; Tweaks" color="#33ffff" meeting="false" start="2018-03-29" duration="2" complete="0" thirdDate="2018-03-29" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="94" name="Testing Individual Software Components" color="#33ff00" meeting="false" start="2018-03-30" duration="2" complete="0" thirdDate="2018-03-29" thirdDate-constraint="0" expand="true">
+            <depend id="584" type="2" difference="0" hardness="Strong"/>
+            <depend id="594" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="28"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="593" name="Update testing document for features" color="#ffffff" meeting="false" start="2018-03-30" duration="2" complete="0" thirdDate="2018-03-30" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="584" name="End to End testing" color="#33ff00" meeting="false" start="2018-04-01" duration="3" complete="0" thirdDate="2018-04-01" thirdDate-constraint="0" expand="true">
+            <depend id="588" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="594" name="Documentation for Full tests" color="#ffffff" meeting="false" start="2018-04-01" duration="3" complete="0" thirdDate="2018-04-01" thirdDate-constraint="0" expand="true">
+            <depend id="689" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc1" value="3"/>
+        </task>
+        <task id="689" name="Conplete Software documentation" color="#ffffff" meeting="false" start="2018-04-04" duration="1" complete="0" thirdDate="2018-03-20" thirdDate-constraint="0" expand="true"/>
+        <task id="579" name="Prepare for Design team meeting" color="#8cb6ce" meeting="false" start="2018-04-03" duration="1" complete="0" thirdDate="2018-03-28" thirdDate-constraint="0" expand="true">
+            <depend id="63" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="63" name="Fourth Design Team Meeting" color="#8cb6ce" meeting="true" start="2018-04-04" duration="0" complete="0" thirdDate="2018-04-04" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="30"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="588" name="Software Adjustments" color="#33ffff" meeting="false" start="2018-04-04" duration="1" complete="0" thirdDate="2018-04-04" thirdDate-constraint="0" expand="true">
+            <depend id="103" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="103" name="Final Testing &amp; integration" color="#33ff00" meeting="false" start="2018-04-05" duration="4" complete="0" thirdDate="2018-04-05" thirdDate-constraint="0" expand="true">
+            <depend id="106" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="31"/>
+            <customproperty taskproperty-id="tpc1" value="5"/>
+        </task>
+        <task id="99" name="Design &amp; develop poster" color="#ffffff" meeting="false" start="2018-03-31" duration="7" complete="0" thirdDate="2018-03-31" thirdDate-constraint="0" expand="true">
+            <depend id="693" type="2" difference="0" hardness="Strong"/>
+            <customproperty taskproperty-id="tpc0" value="29"/>
+            <customproperty taskproperty-id="tpc1" value="7"/>
+        </task>
+        <task id="693" name="Documentation Review" color="#ffffff" meeting="false" start="2018-04-07" duration="1" complete="0" thirdDate="2018-03-20" thirdDate-constraint="0" expand="true">
+            <customproperty taskproperty-id="tpc1" value="1"/>
+        </task>
+        <task id="106" name="Prepare for Presentation and demo" color="#8cb6ce" meeting="false" start="2018-04-09" duration="2" complete="0" thirdDate="2018-04-04" thirdDate-constraint="0" expand="true">
+            <depend id="65" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="32"/>
+            <customproperty taskproperty-id="tpc1" value="2"/>
+        </task>
+        <task id="65" name="Demo" color="#333333" meeting="true" start="2018-04-11" duration="0" complete="0" thirdDate="2018-04-06" thirdDate-constraint="0" expand="true">
+            <depend id="111" type="2" difference="0" hardness="Rubber"/>
+            <customproperty taskproperty-id="tpc0" value="35"/>
+            <customproperty taskproperty-id="tpc1" value="0"/>
+        </task>
+        <task id="111" name="Finalize documents" meeting="false" start="2018-04-11" duration="1" complete="0" expand="true">
+            <customproperty taskproperty-id="tpc0" value="36"/>
+        </task>
+    </tasks>
+    <resources>
+        <custom-property-definition id="tpc0" name="Role" type="text"/>
+        <resource id="0" name="Bryan Jay" function="Default:1" contacts="" phone="">
+            <custom-property definition-id="tpc0" value="Project Manager"/>
+        </resource>
+        <resource id="1" name="Patrick " function="SoftwareDevelopment:2" contacts="" phone="">
+            <custom-property definition-id="tpc0" value="Software "/>
+        </resource>
+        <resource id="2" name="Luka Jurisic" function="SoftwareDevelopment:3" contacts="" phone=""/>
+        <resource id="3" name="Enan" function="Default:0" contacts="" phone=""/>
+        <resource id="4" name="Tianyi" function="SoftwareDevelopment:4" contacts="" phone=""/>
+        <resource id="5" name="Volen" function="SoftwareDevelopment:2" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="140" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="31" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="162" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="39" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="288" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="43" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="672" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="55" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="315" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="416" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="447" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="510" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="438" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="162" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="19" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="36" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="46" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="396" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="315" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="380" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="428" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="128" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="9" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="162" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="13" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="23" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="365" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="19" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="603" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="288" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="100.0"/>
+        <allocation task-id="407" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="422" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="418" resource-id="2" function="SoftwareDevelopment:3" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="128" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="9" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="162" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="13" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="39" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="43" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="365" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="384" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="87" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="438" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="440" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="682" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="699" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="9" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="162" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="39" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="43" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="304" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="305" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="362" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="403" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="407" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="421" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="422" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="416" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="418" resource-id="4" function="SoftwareDevelopment:4" responsible="false" load="100.0"/>
+        <allocation task-id="87" resource-id="4" function="SoftwareDevelopment:4" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="128" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="162" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="13" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="19" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="23" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="43" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="53" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="396" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="672" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="388" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="538" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="315" resource-id="5" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="447" resource-id="5" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>

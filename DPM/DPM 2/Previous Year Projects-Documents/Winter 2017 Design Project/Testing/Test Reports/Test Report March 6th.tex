@@ -1,0 +1,54 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\title{ECSE 211 Group 2 \\ Test Report}
+\author{Ali Sharif}
+\date{\today}
+\begin{document}
+	\maketitle
+	
+	\section{Test 1}
+		\paragraph{Hardware Version:}Mark II -- Arm length is 60 centimeters.
+		\paragraph{Software Version:}Modified Lab 5 Code -- Modified to make it easier to adjust the swing time between launches. Otherwise the code is identical. 
+		
+		\paragraph{Procedure:} We will adjust the swing time and fire the ball to determine the best swing time for the motor.
+		\paragraph{Results:} In each trial the ball fell short of the target.
+		
+		\begin{center}
+			\begin{tabular}{|c|c|}
+				\hline 
+				Swing Time /ms & Successful? \\ 
+				\hline 
+				500 & N \\ 
+				\hline 
+				550 & N \\ 
+				\hline 
+				600 & N \\ 
+				\hline 
+				650 & N \\ 
+				\hline 
+			\end{tabular}
+		\end{center}
+		
+		\paragraph{Notes:} The battery voltage was 7.8 Volts
+
+	\newpage
+	\section{Test 2}
+		\paragraph{Hardware Version:}Mark II -- Arm length is 50 centimeters.
+		\paragraph{Software Version:}Modified Lab 5 Code -- Identical to Test 1
+		
+		\paragraph{Procedure:} We will adjust the swing time and fire the ball to determine the best swing time for the motor.
+		\paragraph{Expected Results:} We expect to see the ball enter the target.
+		\paragraph{Results:} Our initial swing time selection of 500 milliseconds fired the ball perfectly into the target. Out of the 10 trials conducted, the ball passed through the target seven times.
+		\paragraph{Notes:} The battery voltage was 7.6 Volts
+		
+	\section{Test 3}
+		\paragraph{Hardware Version:}Mark II -- Identical to Test 2.
+		\paragraph{Software Version:}Modified Lab 4 -- The navigation class was modified to move the robot more quickly. Otherwise the code is identical.
+		
+		\paragraph{Procedure:} The robot will be placed on the field and made to cross two gaps. A 1 \& 5 millimeter gap.
+		\paragraph{Expected Results:} The back wheel of the robot will fail to cross gap and get stuck.
+		\paragraph{Results:} The robot managed to pass over both gaps without problems.
+		
+		\paragraph{Notes:} The battery voltage was 7.8 Volts
+	
+\end{document}

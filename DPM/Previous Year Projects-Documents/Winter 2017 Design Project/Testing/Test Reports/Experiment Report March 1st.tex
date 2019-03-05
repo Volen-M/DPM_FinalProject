@@ -1,0 +1,36 @@
+\documentclass[a4]{article}
+
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+
+% Title Page
+\title{ECSE 211 Group 2 \\ Experiment Report}
+\author{Ali Sharif}
+\date{March 1, 2017}
+
+\begin{document}
+\maketitle
+
+The LeJOS library provides two motor classes for controlling the EV3 motors, RegulatedMotor and UnregulatedMotor. This experiment was conducted with the hopes of discovering which motor performed better for use in the ball launcher.
+
+\section{Experiment 1}
+
+\paragraph{Hardware Version:}Mark I
+\paragraph{Software Version:}Lab 5 Code
+\paragraph{Procedure:}The robot will be made to fire a ball from a distance of 7.7 tiles using the regulated motor class first and then the unregulated class. Five trial runs will be conducted.
+\paragraph{Results:}The results showed that the Regulated class performed better than the Unregulated class. The Unregulated motor class, unlike the Regulated class, did not manage to hit the target. The results of the test are purely qualitative. There is no data.
+
+\section{Experiment 2}
+\paragraph{Hardware Version:}Mark I
+\paragraph{Software Version:}Lab 5 Code
+\paragraph{Procedure:} Using the results of Experiment 1, we will remove the robot's catapult's lip and repeat the above experiment.
+\paragraph{Results:}The results of this experiment showed that Unregulated class performed equally to the Regulated class.
+
+\section{Experiment 3}
+\paragraph{Hardware Version:}Mark I
+\paragraph{Software Version:}Lab 5 Code
+\paragraph{Procedure:} Repeat Experiments 1 \& 2 using greater arm lengths for the catapult.
+\paragraph{Results:}This experiment brought to light a completely different issue regarding the catapult's arm and frame. The larger length made both the arm and frame highly susceptible to rotational torsion. The torsion would cause the arm to sway to the left or right during its upswing and throw the ball off to the side. Holding down the frame to minimize the frame's torsion we observed that Regulated motor class suffered greatly using larger arm lengths. Hence, we will use the Unregulated motor class for the time being.
+
+\end{document}

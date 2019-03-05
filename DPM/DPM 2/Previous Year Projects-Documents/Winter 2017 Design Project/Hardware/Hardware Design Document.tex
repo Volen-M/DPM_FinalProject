@@ -1,0 +1,189 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{gensymb}
+\usepackage[toc,page]{appendix}
+
+\begin{document}
+
+
+
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+\begin{titlepage}
+	\centering
+	\vspace{1cm}
+	{\scshape\LARGE McGill University \par}
+	\vspace{1cm}
+	{\scshape\Large ECSE 211: Final design project\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Hardware Design Document\par}
+	\vspace{2cm}
+	{\Large\itshape Philippe Papineau\par}
+	\vfill
+	supervised by\par
+	 \textsc{David A. Lowther}
+
+	\vfill
+
+% Bottom of the page
+	{\large \today\par}
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+\section{Review of Lab 5 and new designs}
+We did a complete review of the 3 designs from Lab 5.  The easiest design to create is the catapult.  This is why every design without exception consisted of a catapult.  However, we have come up with three new launching mechanism ideas (see also the drawings /// and figures ///):
+\begin{itemize}
+\item Crossbow: Using a large rubber band, we could build a crossbow structure. 
+ 
+\textbf{Why we discarded it initially:}  The issue with this design is its complexity. Making a structure to accommodate rubber bands is tricky.  To rewind the rubber band, with need a gear mechanism and another mechanism for the trigger.  If we use only one brick, this means that we have only two motors to do everything.  
+\item Catapult: Simplest design, and the more reliable.  It consists of the catapult used in lab 5, but with a bigger heigh.  The downside of this mechanism is that the ball has almost no speed in x.  To gain enough speed, the catapult needs to be at more than 30 cm above the ground.  This adds a lot of instability to the structure.  The tower also adds a significant weight and stress on the chassis.
+ 
+\textbf{Why we chose it:} The design is the most simple.  It has fewer moving parts and needs only one motor to activate.  This leaves one port free for a reloading mechanism.
+\item Double motor catapult: Same as the catapult, but with second motor at the end to provide more torque.
+
+\textbf{Why we discarded it:} Making a structure to support the torsion created by two motors is extremely complex.  The force added from the second motor would likely destroy the tower.
+\end{itemize}
+
+
+\newpage
+\section{Presentation of the creation process}
+\subsection{Spiral process}
+To create our robot, we used an iterative process best represented by a spiral: as soon as a mechanism is created, it is tested.  This way, each module (launcher, chassis, defence mechanism...) is tested thoroughly before we add it to the main prototype.
+\subsection{Modular design}
+This also explains why we chose a modular design for the robot.  Task separation is easier.  As an example, Philippe worked on the chassis while Romain worked on the crossbow design.  Each was able to perform individual test on their design and make changes accordingly.  At the end, they assembled the two modules like Meccano model and tested the prototype as a whole.
+\subsection{Pictures}
+We tried to take as much pictures as possible, even though we were continuously changing parts.  The biggest mistake was for Mark II: we made an enormous amount of changes from Mark I, but we only have one picture of it.  Every picture was put in the appendices for this document.  Additional information was added in caption.
+\subsection{Videos}
+For testing, adding to the testing document and the appendices, we have filmed certain tests (launching mechanism, localization)
+to further document the process.
+
+
+\newpage
+\section{Mark I}
+This is the first prototype built.  It was presented to Prof. Lowther on the 08/03/2017.  It has several features:
+\begin{itemize}
+\item Catapult (attack mechanism): The firing mechanism is a long single-motor catapult.  The extremely long arm is long enough to give the ball a high speed, but short enough so the torque of the motor can move it easily and with speed.  To get the maximum speed out of the motor, we used a unregulated class.  As input, we can only use milliseconds (no degrees). 
+\item The wheelbase is large to accommodate the brick and prevent the robot from turning over.  However, because if this feature, we must pay attention to the weight distribution: if too much weight is put on the wheels, the axles will bend.
+\item 3 metal balls in the back to support most of the weight of the robot.
+\item 2 bricks: Allows for more sensors and motors.  The software team has not decided if we will keep two bricks or just one.  The difficulty of using two bricks is the communication between them.  If the bluetooth does work properly, we will have communication issues between the two bricks and the whole system will not work.    
+\item Strong triangular structure with cross members to support the strength of the arm.   
+\item Primitive ball collecting system: On the side of the robot, we made a rail by connecting black rods.  When a ball is dropped, the rail collects them.  The first ball in the queue sits above a medium motor connected to a L bracket.  When the catapult is ready for reloading, the motor turns 90\degree and slowly push the ball in the catapult cup.
+\item Cardboard wall (defence mechanism): We want to keep the defence mechanism as simple as possible.  For that reason, we don't want to use motors or mechanical device.   Keeping this in mind, we took an big piece of cardboard from a recycling bin and stick it  directly on the side of the robot.  It will fully cover the target and we don't need a complex mechanism to lift it.  
+\end{itemize}
+
+\newpage
+\section{Mark II (February 26 to March 8)}
+\subsection{Changes and testing for the first time  }
+At first, we felt the robot was too unstable to add height to the tower.  This is why we changed the back of the robot from one ball to two on each side (see sketch ).  However, we then saw something very wrong: the wheels were now /////.  This was due to the change in the weight distribution.  Nevertheless, we decided to keep the two balls, but move them right below the motors for the wheel.
+
+After solving the instability, we added a superstructure which moved up the catapult at least 20 cm.  The structure was extremely solid and stable.  It was perfect to support the torque of the catapult. 
+
+During testing, we increased the arm of the catapult by 5 cm to test if the ball launch would be more powerful.  However, we realized that beyond a certain length, the motor was not powerful enough to lift it.  After that test (/////), we decided to keep the length at about 35 cm.
+
+Next we tested the distance covered by the Mark II launch mechanism.  Keeping in mind its enormous dimensions, we postulate it would be at least 9 tiles.  From test ///, we discovered it was in fact close to 11 tiles.
+
+However, we notice that the connection points from the chassis to the tower were not enough: the tower was able to move from side to side.
+
+\subsection{The downside of using large structure}  
+The superstructure, because of its height and its weight, added tremendous stress on the main chassis.  Because we only use to connection points, the tower was moving when firing.  We decided to investigate two options:
+\begin{itemize}
+\item We can change the firing mechanism.  The catapult need a lot of potential energy for long distance firing.  Rubber bands, for example, can deliver a great deal of power quicker.
+
+\item We can change the main chassis, while keeping the tower and the catapult.  It is the easiest solution, since it enables us to keep a mechanism that was tested and works.
+\end{itemize}
+
+\newpage
+
+\section{From Mark II to Mark III: testing of new lauch mechanism (March 8 to March 17)}
+\subsection{Presentation of the spinning wheels mechanism}
+We decided to first consider other launch mechanism that were not in the initial brainstorming.  The main design that we come up with was the spinning wheels.  It consists of two wheels each linked to a gear mechanism connected to large EV3 motors.  Because of the gear ratio of 6 to 1 (2 set of big and small gears connected together), the wheel would spin a lot faster than the motor, at the expense of torque.  
+
+This mechanism is allowing the ball to get a great amount of speed in a short amount of time.    
+
+\subsection{Testing results and problems encountered}
+The build of this system was relatively quick.  We set the acceleration of the motor to be slow, to prevent the gears from grinding.
+
+Our first test was simply to push the ball between the wheels.  The result was disappointing: the ball went for about 2 tiles with a medium speed and almost no height.  We explained this failure with the very short contact point between the wheels and the ball.  
+
+We tried 2 solutions to correct this problem.  First, we put another set of gears in the transmission to increase the speed.  This moved the ratio up by a factor of 1.5 (9 to 1).  We sound realized the torque was too much for the motor to handled.  The gears were not moving and when they did, they were rubbing together.
+
+
+We then tried another approach: keep 2 sets of gears, but put more wheels and link them with rubber bands.  This way, the ball will be in contact with the spinning structures for at least 10 cm. 
+
+In theory the idea looked great.  Put in practice, this created a lot of problems.  The motors had difficulties spinning.  The rubber bands kept slipping off the wheels. 
+
+\subsection{Why we discarded this system}
+At the end of the test, we discarded the entire system.  It was consider too unreliable, difficult to maintain and not powerful enough.   
+
+\subsection{Crossbow}
+\subsubsection{Advantages of rubber bands and crossbow}
+Like we said earlier, rubber bands can deliver a lot of power in a short amount of time.  However, they need a strong mechanism to stretch them and release them quickly.  
+
+The crossbow is a really flexible design.  We can easily adjust the angle of launching.  Because the chassis is modular, we will always be able to go back to a catapult design if something goes wrong. 
+
+\subsubsection{Construction of the system}
+We started the construction of the crossbow by creating a large frame capable of sustaining the enormous tension of the rubber band.  To hold the ball, we first created a platform sliding on two rails.  While testing, we saw there was too much friction because of the rails TEST NUMBER .  
+
+We changed the rails for a direct contact with the ball, so no energy was lost to friction.  During test NUMBER, we  found the optimal position for the rubber, which about the middle of the ball.  Too high or too low and the ball was sliding off.   
+
+We build a ratchet system to prevent the rubber band from unwinding.  A piece connected to the axle could turned clockwise but was stopped from turning counter-clockwise with a 4-hole piece.
+
+To disengage the motor, we built a clutch system   
+
+A winding mechanism was also improve to put tension on the rubber bands.  It consisted of a small piece of string attached to a rotating shaft.  During testing (see test NUMBER), we noticed that during the release, the rubber band was forced to move the string and the shaft.  This created an enormous energy lost.
+
+To prevent this from happening, we needed to somehow to unwind the string from the shaft, while keeping the rubber band in his stretch position.  In the first place, we added a trigger to immobilize it.  Then, we put the motor in reverse to free the shaft.
+
+
+\subsubsection{Prototype of March 21, 2017}
+For the demo, we are using the crossbow design.  The reloading mechanism is partially done: there is no system to move the ball to the firing chamber.  
+The trigger is automated with a large EV3 motor.  Like before, a ratchet mechanism allows it to go only in  one direction.  However, the winding of the rubber band still needs to be done manually.
+
+To summarize, the main issue (trigger mechanism) was solved for the demo on Friday.  However, the automatized systems (reloading, moving the ball from the dispenser...) are not completed.  They will be the focus of next week hardware design.  
+
+For more details on March 24 demo, please refer to the testing document.
+
+
+
+
+
+\newpage
+\section{Mark III: Downsize robot with crossbow}
+For the third version of the robot, we built a extremely solid base.  Numerous cross members linked the two drive trains.  Four pillars supports the tower. In test NUMBER, we squeezed the chassis in every direction to simulate extreme operating conditions.  It barely flexed.  The stability is less important because there is no tower to get the crossbow higher. 
+
+The firing mechanism of Mark III is the crossbow.  This is a huge shift from all our previous designs.  Like mention in the previous section, only the basic functionalities worked.     
+
+
+\section{Mark IV: Final design before the competition}
+This robot is the continuation of Mark III, with now a fully functional reloading mechanism.  
+\subsection{Reloading mechanism}
+See Romain's construction reports in Appendix B
+\subsection{Ball collecting mechanism}
+See Romain's construction reports in Appendix B
+\subsection{Defence mechanism}
+The defence mechanism is straightforward: a rectangular piece of cardboard is placed on the side of the robot.  The robot will position itself right in front of the target.
+
+\newpage
+
+\begin{appendices}
+See Word Document \textit{Hardware Design Document (APPENDICES)} 
+\end{appendices}
+
+
+\end{document}
